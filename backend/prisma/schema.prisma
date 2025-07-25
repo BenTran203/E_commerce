@@ -1,0 +1,666 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+/**
+ * TIMELESS E-COMMERCE DATABASE SCHEMA
+ * 
+ * This schema defines the complete database structure for the e-commerce platform.
+ * It includes all entities needed for a multi-vendor e-commerce application.
+ * 
+ * LEARNING OBJECTIVES:
+ * - Understand database relationships (1:1, 1:N, N:M)
+ * - Learn about database constraints and indexes
+ * - Implement multi-vendor architecture
+ * - Design for scalability and performance
+ * 
+ * IMPLEMENTATION STEPS:
+ * 1. Run `npx prisma generate` to generate the Prisma client
+ * 2. Run `npx prisma migrate dev --name init` to create initial migration
+ * 3. Run `npx prisma db seed` to populate with sample data
+ */
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===============================
+// USER MANAGEMENT
+// ===============================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  avatar    String?
+  phone     String?
+  
+  // Role-based access control
+  role      UserRole @default(CUSTOMER)
+  
+  // Account status
+  isActive        Boolean @default(true)
+  isEmailVerified Boolean @default(false)
+  emailVerifiedAt DateTime?
+  lastLoginAt     DateTime?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relationships
+  addresses     Address[]
+  orders        Order[]
+  reviews       Review[]
+  cartItems     CartItem[]
+  wishlistItems WishlistItem[]
+  notifications Notification[]
+  
+  // Vendor relationship (if user is a vendor)
+  vendor        Vendor?
+  
+  // Support messages
+  supportMessages SupportMessage[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  CUSTOMER
+  VENDOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Address {
+  id         String  @id @default(cuid())
+  firstName  String
+  lastName   String
+  company    String?
+  address1   String
+  address2   String?
+  city       String
+  state      String
+  country    String
+  postalCode String
+  phone      String?
+  isDefault  Boolean @default(false)
+  
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Orders using this address
+  ordersAsShipping Order[] @relation("ShippingAddress")
+  ordersAsBilling  Order[] @relation("BillingAddress")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("addresses")
+}
+
+// ===============================
+// VENDOR MANAGEMENT (Multi-vendor)
+// ===============================
+
+model Vendor {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  logo        String?
+  banner      String?
+  website     String?
+  phone       String?
+  
+  // Business information
+  businessName        String?
+  businessRegistration String?
+  taxNumber          String?
+  
+  // Status and verification
+  isActive    Boolean @default(false)
+  isVerified  Boolean @default(false)
+  verifiedAt  DateTime?
+  
+  // Performance metrics
+  rating       Float   @default(0)
+  reviewCount  Int     @default(0)
+  totalSales   Float   @default(0)
+  totalOrders  Int     @default(0)
+  
+  // Commission (percentage taken by platform)
+  commission Float @default(15.0)
+  
+  // Relationships
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  products   Product[]
+  orderItems OrderItem[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("vendors")
+}
+
+// ===============================
+// PRODUCT CATALOG
+// ===============================
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  image       String?
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+  
+  // Hierarchical categories
+  parentId String?
+  parent   Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+  
+  // Relationships
+  products Product[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("categories")
+}
+
+model Brand {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  slug        String  @unique
+  description String?
+  logo        String?
+  website     String?
+  isActive    Boolean @default(true)
+  
+  // Relationships
+  products Product[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("brands")
+}
+
+model Product {
+  id            String  @id @default(cuid())
+  name          String
+  slug          String  @unique
+  description   String
+  shortDescription String?
+  
+  // Pricing
+  price         Float
+  originalPrice Float?
+  costPrice     Float?
+  
+  // Inventory
+  stock         Int     @default(0)
+  lowStockThreshold Int @default(10)
+  trackInventory Boolean @default(true)
+  
+  // Product details
+  sku           String  @unique
+  weight        Float?
+  dimensions    Json?   // {length, width, height}
+  
+  // SEO and marketing
+  metaTitle       String?
+  metaDescription String?
+  tags            String[]
+  
+  // Product status
+  isActive    Boolean @default(true)
+  isOnSale    Boolean @default(false)
+  isFeatured  Boolean @default(false)
+  isDigital   Boolean @default(false)
+  
+  // Performance metrics
+  rating      Float @default(0)
+  reviewCount Int   @default(0)
+  viewCount   Int   @default(0)
+  salesCount  Int   @default(0)
+  
+  // Relationships
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+  
+  brandId String?
+  brand   Brand?  @relation(fields: [brandId], references: [id])
+  
+  vendorId String
+  vendor   Vendor @relation(fields: [vendorId], references: [id])
+  
+  images          ProductImage[]
+  variants        ProductVariant[]
+  specifications  ProductSpecification[]
+  reviews         Review[]
+  cartItems       CartItem[]
+  orderItems      OrderItem[]
+  wishlistItems   WishlistItem[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("products")
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  alt       String?
+  isPrimary Boolean @default(false)
+  sortOrder Int     @default(0)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@map("product_images")
+}
+
+model ProductVariant {
+  id       String @id @default(cuid())
+  name     String
+  value    String
+  type     VariantType
+  price    Float?
+  stock    Int?
+  sku      String?
+  isActive Boolean @default(true)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([productId, type, value])
+  @@map("product_variants")
+}
+
+enum VariantType {
+  SIZE
+  COLOR
+  MATERIAL
+  STYLE
+}
+
+model ProductSpecification {
+  id    String @id @default(cuid())
+  name  String
+  value String
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@map("product_specifications")
+}
+
+// ===============================
+// SHOPPING CART
+// ===============================
+
+model CartItem {
+  id       String @id @default(cuid())
+  quantity Int    @default(1)
+  
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  // Product variant (size, color, etc.)
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, productId, variantId])
+  @@map("cart_items")
+}
+
+// ===============================
+// ORDER MANAGEMENT
+// ===============================
+
+model Order {
+  id          String @id @default(cuid())
+  orderNumber String @unique
+  
+  // Order status
+  status        OrderStatus   @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  
+  // Pricing
+  subtotal     Float
+  tax          Float   @default(0)
+  shipping     Float   @default(0)
+  discount     Float   @default(0)
+  total        Float
+  currency     String  @default("USD")
+  
+  // Customer information
+  customerEmail String
+  customerPhone String?
+  
+  // Shipping information
+  shippingMethod String?
+  trackingNumber String?
+  shippedAt      DateTime?
+  deliveredAt    DateTime?
+  
+  // Notes
+  customerNotes String?
+  adminNotes    String?
+  
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  
+  shippingAddressId String
+  shippingAddress   Address @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+  
+  billingAddressId String
+  billingAddress   Address @relation("BillingAddress", fields: [billingAddressId], references: [id])
+  
+  items    OrderItem[]
+  payments Payment[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  PARTIALLY_PAID
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+model OrderItem {
+  id       String @id @default(cuid())
+  quantity Int
+  price    Float  // Price at time of order
+  total    Float  // quantity * price
+  
+  // Product information (snapshot at time of order)
+  productName  String
+  productImage String?
+  productSku   String?
+  
+  // Relationships
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  
+  vendorId String
+  vendor   Vendor @relation(fields: [vendorId], references: [id])
+  
+  createdAt DateTime @default(now())
+  
+  @@map("order_items")
+}
+
+// ===============================
+// PAYMENT PROCESSING
+// ===============================
+
+model Payment {
+  id              String        @id @default(cuid())
+  amount          Float
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   PaymentMethod
+  
+  // External payment IDs
+  stripePaymentId String?
+  stripeChargeId  String?
+  
+  // Payment details
+  last4           String?
+  brand           String?
+  expiryMonth     Int?
+  expiryYear      Int?
+  
+  // Failure information
+  failureReason String?
+  failureCode   String?
+  
+  // Relationships
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("payments")
+}
+
+enum PaymentMethod {
+  CARD
+  PAYPAL
+  APPLE_PAY
+  GOOGLE_PAY
+  BANK_TRANSFER
+}
+
+// ===============================
+// REVIEWS & RATINGS
+// ===============================
+
+model Review {
+  id          String  @id @default(cuid())
+  rating      Int     // 1-5 stars
+  title       String?
+  comment     String?
+  images      String[] // Review images
+  
+  // Review status
+  isVerified     Boolean @default(false) // Verified purchase
+  isRecommended  Boolean @default(false)
+  helpfulVotes   Int     @default(0)
+  
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, productId])
+  @@map("reviews")
+}
+
+// ===============================
+// WISHLIST
+// ===============================
+
+model WishlistItem {
+  id String @id @default(cuid())
+  
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, productId])
+  @@map("wishlist_items")
+}
+
+// ===============================
+// NOTIFICATIONS
+// ===============================
+
+model Notification {
+  id      String           @id @default(cuid())
+  type    NotificationType
+  title   String
+  message String
+  isRead  Boolean          @default(false)
+  
+  // Optional action URL
+  actionUrl String?
+  
+  // Additional data (JSON)
+  metadata Json?
+  
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@map("notifications")
+}
+
+enum NotificationType {
+  ORDER_CONFIRMATION
+  ORDER_SHIPPED
+  ORDER_DELIVERED
+  PRODUCT_BACK_IN_STOCK
+  PRICE_DROP
+  PROMOTIONAL
+  SYSTEM
+}
+
+// ===============================
+// SUPPORT & AI CHATBOT
+// ===============================
+
+model SupportMessage {
+  id      String            @id @default(cuid())
+  message String
+  type    SupportMessageType
+  isRead  Boolean           @default(false)
+  
+  // AI metadata
+  intent     String?
+  confidence Float?
+  
+  // Relationships
+  userId String?
+  user   User?  @relation(fields: [userId], references: [id])
+  
+  sessionId String
+  session   SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@map("support_messages")
+}
+
+enum SupportMessageType {
+  USER
+  BOT
+  AGENT
+}
+
+model SupportSession {
+  id       String  @id @default(cuid())
+  isActive Boolean @default(true)
+  
+  // Session metadata
+  userAgent String?
+  ipAddress String?
+  
+  messages SupportMessage[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("support_sessions")
+}
+
+// ===============================
+// ANALYTICS & TRACKING
+// ===============================
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  userAgent String?
+  ipAddress String?
+  referer   String?
+  
+  userId String?
+  
+  createdAt DateTime @default(now())
+  
+  @@map("page_views")
+}
+
+model SearchQuery {
+  id     String @id @default(cuid())
+  query  String
+  results Int   @default(0)
+  
+  userId String?
+  
+  createdAt DateTime @default(now())
+  
+  @@map("search_queries")
+}
+
+/**
+ * IMPLEMENTATION NOTES:
+ * 
+ * 1. **Indexes**: Add indexes for frequently queried fields
+ * 2. **Constraints**: Set up proper foreign key constraints
+ * 3. **Triggers**: Consider database triggers for audit logs
+ * 4. **Views**: Create database views for complex queries
+ * 5. **Partitioning**: Consider partitioning large tables (orders, analytics)
+ * 
+ * NEXT STEPS:
+ * 1. Run `npx prisma generate`
+ * 2. Run `npx prisma migrate dev --name init`
+ * 3. Create seed data (prisma/seed.ts)
+ * 4. Set up database connection in your app
+ * 5. Implement CRUD operations for each model
+ */ 
