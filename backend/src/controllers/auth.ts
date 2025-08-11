@@ -27,9 +27,9 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import { PrismaClient } from '@prisma/client'
 import { generateToken, generateRefreshToken, verifyRefreshToken } from '@/middleware/auth'
-// import { sendEmail } from '@/services/email' // Implement this service
+import { sendEmail } from '@/services/email' // Implement this service
 // import { validateRegistration, validateLogin } from '@/utils/validation' // Implement validation
-
+import {registerValidator} from '@/middleware/validator'
 const prisma = new PrismaClient()
 
 /**
@@ -44,20 +44,13 @@ export const register = async (req: Request, res: Response) => {
     const { email, password, firstName, lastName, role = 'CUSTOMER' } = req.body
 
     // TODO: Implement validation
-    // const validation = validateRegistration(req.body)
-    // if (!validation.isValid) {
-    //   return res.status(400).json({
-    //     status: 'error',
-    //     message: 'Validation failed',
-    //     errors: validation.errors
-    //   })
-    // }
 
-    // Basic validation (implement proper validation later)
-    if (!email || !password || !firstName || !lastName) {
+    const validate = registerValidator.safeParse(req.body)
+    if (!validate.success) {
       return res.status(400).json({
         status: 'error',
-        message: 'Email, password, first name, and last name are required'
+        message: 'Validation has failed, check your validation method for register',
+        errors: validate.error.errors
       })
     }
 
@@ -65,23 +58,22 @@ export const register = async (req: Request, res: Response) => {
     const existingUser = await prisma.user.findUnique({
       where: { email: email.toLowerCase() }
     })
-
+    
     if (existingUser) {
       return res.status(409).json({
         status: 'error',
-        message: 'User with this email already exists'
+        message: 'This email has already exists'
       })
     }
 
     // Hash password
-    const saltRounds = 12
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPass = await bcrypt.hash(password, 15)
 
     // Create user
     const user = await prisma.user.create({
       data: {
         email: email.toLowerCase(),
-        password: hashedPassword,
+        password: hashedPass,
         firstName,
         lastName,
         role
@@ -102,16 +94,16 @@ export const register = async (req: Request, res: Response) => {
     const accessToken = generateToken(user.id)
     const refreshToken = generateRefreshToken(user.id)
 
-    // TODO: Send verification email
-    // await sendEmail({
-    //   to: user.email,
-    //   subject: 'Welcome to Timeless - Verify Your Email',
-    //   template: 'email-verification',
-    //   data: {
-    //     firstName: user.firstName,
-    //     verificationUrl: `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`
-    //   }
-    // })
+    // TODO: Send verification email not finish
+    await sendEmail({
+      to: user.email,
+      subject: 'Welcome to Timeless - Verify Your Email',
+      template: 'email-verification',
+      data: {
+        firstName: user.firstName,
+        verificationUrl: `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`
+      }
+    })
 
     res.status(201).json({
       status: 'success',
@@ -235,7 +227,7 @@ export const login = async (req: Request, res: Response) => {
       message: 'Internal server error during login'
     })
   }
-}
+}  
 
 /**
  * REFRESH TOKEN
