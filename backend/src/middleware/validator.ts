@@ -1,3 +1,4 @@
+//Create validateLogin function
 import * as z from "zod";
 
 export const registerValidator = z.object({
@@ -11,3 +12,13 @@ export const registerValidator = z.object({
     lastName: z.string().min(2),
     role: z.enum(['CUSTOMER', 'ADMIN']).optional()
 })
+
+export const loginValidator = z.object({
+    email: z.string().email(),
+    password: z.string().min(6, 'atleast 6 character')
+        .regex(/[A-Z]/, 'must have an uppercase')
+        .regex(/[a-z]/, 'must have a lowercase')
+        .regex(/[0-9]/, 'must contain a number')
+        .regex(/[^a-zA-Z0-9]/, 'must contain a special character'),
+})
+

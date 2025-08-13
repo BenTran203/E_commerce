@@ -29,7 +29,7 @@ import { PrismaClient } from '@prisma/client'
 import { generateToken, generateRefreshToken, verifyRefreshToken } from '@/middleware/auth'
 import { sendEmail } from '@/services/email' // Implement this service
 // import { validateRegistration, validateLogin } from '@/utils/validation' // Implement validation
-import {registerValidator} from '@/middleware/validator'
+import {registerValidator, loginValidator} from '@/middleware/validator'
 const prisma = new PrismaClient()
 
 /**
@@ -73,6 +73,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: {
         email: email.toLowerCase(),
+        emailRaw:
         password: hashedPass,
         firstName,
         lastName,
