@@ -8,8 +8,8 @@
 
 - [X] Set up PostgreSQL database
 - [X] Run Prisma migrations (`npx prisma migrate dev`)
-- [ ] Create database seed file (`prisma/seed.ts`)
-- [ ] Seed database with sample data
+- [X] Create database seed file (`prisma/seed.ts`)
+- [X] Seed database with sample data
 - [ ] Set up Redis for sessions/caching (optional)
 
 #### **Authentication System**
