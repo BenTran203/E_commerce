@@ -22,7 +22,7 @@ const Categories: React.FC = () => {
       slug: 'essentials',
       image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=800&fit=crop',
       description: 'Timeless basics that form the foundation of every wardrobe',
-      itemCount: 42,
+      itemCount: 0,
     },
     {
       id: '2',
@@ -30,7 +30,7 @@ const Categories: React.FC = () => {
       slug: 'outerwear',
       image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=800&fit=crop',
       description: 'Sophisticated layers for every season and occasion',
-      itemCount: 28,
+      itemCount: 0,
     },
     {
       id: '3',
@@ -38,7 +38,7 @@ const Categories: React.FC = () => {
       slug: 'formal',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop',
       description: 'Elegant pieces for professional and special occasions',
-      itemCount: 35,
+      itemCount: 0,
     },
     {
       id: '4',
@@ -46,7 +46,7 @@ const Categories: React.FC = () => {
       slug: 'accessories',
       image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=800&fit=crop',
       description: 'Carefully curated accessories to complete your look',
-      itemCount: 24,
+      itemCount: 0,
     },
   ]
 
@@ -116,10 +116,10 @@ const Categories: React.FC = () => {
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                   
-                  {/* Hover Icon */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                    <div className="bg-white p-2 shadow-luxury">
-                      <ArrowRight size={20} className="text-primary-900" />
+                  {/* Hover text */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                    <div className="text-primary-600 p-2 shadow-luxury bg-white/80 rounded">
+                      <span>Look for more</span>
                     </div>
                   </div>
                 </div>

@@ -48,7 +48,9 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Discover curated collections of premium clothing that transcend seasonal trends. 
-            Each piece is carefully selected to embody sophistication and lasting style.
+            Each piece is carefully selected to embody sophistication and lasting style. <br />
+          <span className="text-sm font-medium">Discover More</span>
+
           </motion.p>
 
           {/* CTA Buttons */}
@@ -70,23 +72,6 @@ const Hero: React.FC = () => {
               </Button>
             </Link>
           </motion.div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-        >
-          <div className="flex flex-col items-center space-y-2 text-primary-600">
-            <span className="text-sm font-medium">Discover More</span>
-            <motion.div 
-              className="w-px h-12 bg-primary-400"
-              animate={{ scaleY: [1, 1.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </div>
         </motion.div>
       </div>
 
