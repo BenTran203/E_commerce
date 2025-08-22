@@ -196,34 +196,34 @@ app.get('/api', (req: Request, res: Response) => {
 app.use('*', (req: Request, res: Response) => {
   res.status(404).json({
     status: 'error',
-    message: \`Route \${req.originalUrl} not found\`,
+    message: '`\Route \${req.originalUrl} not found\`',
   })
 })
 
-// Global error handler
+// // Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Error:', err)
 
-  // Set default error values
+//   // Set default error values
   let error = { ...err }
   error.message = err.message
 
-  // Log error for debugging
+//   // Log error for debugging
   console.error('Error Stack:', err.stack)
 
-  // Mongoose bad ObjectId
+//   // Mongoose bad ObjectId
   if (err.name === 'CastError') {
     const message = 'Resource not found'
     error = { message, statusCode: 404 }
   }
 
-  // Mongoose duplicate key
+//   // Mongoose duplicate key
   if (err.code === 11000) {
     const message = 'Duplicate field value entered'
     error = { message, statusCode: 400 }
   }
 
-  // Mongoose validation error
+//   // Mongoose validation error
   if (err.name === 'ValidationError') {
     const message = Object.values(err.errors).map((val: any) => val.message).join(', ')
     error = { message, statusCode: 400 }
@@ -236,16 +236,16 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-/**
- * SERVER STARTUP
- */
+// /**
+//  * SERVER STARTUP
+//  */
 const PORT = process.env.PORT || 3001
 
 const server = app.listen(PORT, () => {
-  console.log(\`🚀 Timeless API server running on port \${PORT}\`)
-  console.log(\`📖 Environment: \${process.env.NODE_ENV || 'development'}\`)
-  console.log(\`🔗 Health check: http://localhost:\${PORT}/health\`)
-  console.log(\`📚 API docs: http://localhost:\${PORT}/api\`)
+  console.log(`Timeless API running on ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
+  console.log(`Health check: http://localhost:${PORT}/health`)
+  console.log(`API docs: http://localhost:${PORT}/api`)
 })
 
 // Handle unhandled promise rejections

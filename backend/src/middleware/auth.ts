@@ -24,6 +24,7 @@ import { PrismaClient, UserRole } from '@prisma/client'
 // Initialize Prisma client
 const prisma = new PrismaClient()
 
+
 // Extend Express Request type to include user
 declare global {
   namespace Express {
@@ -298,8 +299,8 @@ export const authorizeVendor = (checkOwnership = false) => {
  * Generate JWT token for user
  */
 export const generateToken = (userId: string): string => {
-  const jwtSecret = process.env.JWT_SECRET
-  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '7d'
+  const jwtSecret = process.env.JWT_SECRET!
+  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '1h'
   
   if (!jwtSecret) {
     throw new Error('JWT_SECRET environment variable is not set')
@@ -307,8 +308,8 @@ export const generateToken = (userId: string): string => {
 
   return jwt.sign(
     { userId },
-    jwtSecret,
-    { expiresIn: jwtExpiresIn }
+    jwtSecret as string ,
+    { expiresIn: jwtExpiresIn}
   )
 }
 
