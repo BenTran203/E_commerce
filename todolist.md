@@ -68,8 +68,8 @@
 
 #### **Authentication Pages**
 
-- [ ] Create `src/app/auth/login/page.tsx`
-- [ ] Create `src/app/auth/register/page.tsx`
+- [x] Create `src/app/auth/login/page.tsx`
+- [x] Create `src/app/auth/register/page.tsx`
 - [ ] Create `src/app/auth/forgot-password/page.tsx`
 - [ ] Create `src/app/auth/reset-password/page.tsx`
 - [ ] Create `src/app/auth/verify-email/page.tsx`
