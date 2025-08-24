@@ -1,7 +1,10 @@
 'use client'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+    const router = useRouter();
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
@@ -41,6 +44,12 @@ export default function Register() {
                         />
                     </div>
                     <button
+                        onClick={() => router.push('/auth')}
+                        className="mt-4 text-sm w-full text-gray-500 hover:underline"
+                    >
+                        Already a member? Log In
+                    </button>
+                    <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
                     >
@@ -50,7 +59,7 @@ export default function Register() {
 
                 {/* Social Sign Up Options */}
                 <div className="mt-6">
-                    <p className="text-center text-sm text-gray-500">Or sign up with</p>
+                    <p className="text-center text-sm text-gray-500">sign up with</p>
                     <div className="flex justify-center space-x-4 mt-4">
                         <button
                             onClick={() => signIn('google')}

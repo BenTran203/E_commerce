@@ -157,14 +157,14 @@ const Header: React.FC = () => {
                     ) : (
                       <div className="py-2">
                         <Link
-                          href="/auth/login"
+                          href="/auth"
                           className="block px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
                           Sign In
                         </Link>
                         <Link
-                          href="/auth/register"
+                          href="/auth?register=true"
                           className="block px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
