@@ -28,46 +28,36 @@ import bcrypt from 'bcryptjs'
 import { PrismaClient } from '@prisma/client'
 import { generateToken, generateRefreshToken, verifyRefreshToken } from '@/middleware/auth'
 import { sendEmail } from '@/services/email' // Implement this service
-// import { validateRegistration, validateLogin } from '@/utils/validation' // Implement validation
 import {registerValidator, loginValidator} from '@/middleware/validator'
 const prisma = new PrismaClient()
 
-/**
- * USER REGISTRATION
- * 
- * POST /api/auth/register
- * 
- * Register a new user account
- */
+/*Register a new user account*/
 export const register = async (req: Request, res: Response) => {
   try {
-    const { email, password, firstName, lastName, role = 'CUSTOMER' } = req.body
-
-    // TODO: Implement validation
-
-    const validate = registerValidator.safeParse(req.body)
+    const { email, password, firstName, lastName, role = 'CUSTOMER' } = req.body;
+    const validate = registerValidator.safeParse(req.body);
     if (!validate.success) {
       return res.status(400).json({
         status: 'error',
         message: 'Validation has failed, check your validation method for register',
         errors: validate.error.errors
       })
-    }
+    };
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: email.toLowerCase() }
-    })
+    });
     
     if (existingUser) {
       return res.status(409).json({
         status: 'error',
         message: 'This email has already exists'
       })
-    }
+    };
 
     // Hash password
-    const hashedPass = await bcrypt.hash(password, 15)
+    const hashedPass = await bcrypt.hash(password, 15);
 
     // Create user
     const user = await prisma.user.create({
@@ -89,11 +79,11 @@ export const register = async (req: Request, res: Response) => {
         isEmailVerified: true,
         createdAt: true
       }
-    })
+    });
 
     // Generate tokens
-    const accessToken = generateToken(user.id)
-    const refreshToken = generateRefreshToken(user.id)
+    const accessToken = generateToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
 
     // TODO: Send verification email not finish
     await sendEmail({
@@ -102,7 +92,7 @@ export const register = async (req: Request, res: Response) => {
       template: 'email-verification',
       data: {
         firstName: user.firstName,
-        verificationUrl: `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`
+        verificationUrl: `${process.env.FRONTEND_URL}/verify-email?token=${verifyRefreshToken}`
       }
     })
 
