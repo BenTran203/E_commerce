@@ -25,6 +25,10 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import { connectRedis } from './utils/redis';
+import authRoutes from './routes/auth'
+
+
 
 // Import route modules (implement these step by step)
 // import authRoutes from '@/routes/auth'
@@ -44,7 +48,7 @@ import dotenv from 'dotenv'
 
 // Load environment variables
 dotenv.config()
-
+connectRedis();
 /**
  * CREATE EXPRESS APPLICATION
  */
@@ -158,8 +162,9 @@ app.get('/api', (req: Request, res: Response) => {
  * Each route module should handle a specific domain of functionality
  */
 
-// Authentication routes - implement first
-// app.use('/api/auth', authRoutes)
+// Authentication routes
+app.use('/api/auth', authRoutes)
+
 
 // User management routes
 // app.use('/api/users', authenticate, userRoutes)

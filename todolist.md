@@ -10,11 +10,11 @@
 - [X] Run Prisma migrations (`npx prisma migrate dev`)
 - [X] Create database seed file (`prisma/seed.ts`)
 - [X] Seed database with sample data
-- [ ] Set up Redis for sessions/caching (optional)
+- [X] Set up Redis for sessions/caching (optional)
 
 #### **Authentication System**
 
-- [ ] Complete authentication routes (`backend/src/routes/auth.ts`)
+- [X] Complete authentication routes (`backend/src/routes/auth.ts`)
 - [ ] Implement email verification system
 - [ ] Set up password reset functionality
 - [ ] Add refresh token mechanism
@@ -68,8 +68,8 @@
 
 #### **Authentication Pages**
 
-- [x] Create `src/app/auth/login/page.tsx`
-- [x] Create `src/app/auth/register/page.tsx`
+- [X] Create `src/app/auth/login/page.tsx`
+- [X] Create `src/app/auth/register/page.tsx`
 - [ ] Create `src/app/auth/forgot-password/page.tsx`
 - [ ] Create `src/app/auth/reset-password/page.tsx`
 - [ ] Create `src/app/auth/verify-email/page.tsx`
