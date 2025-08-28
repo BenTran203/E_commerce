@@ -34,9 +34,9 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Timeless
-            <span className="block font-normal text-3xl md:text-4xl lg:text-5xl mt-2 text-primary-700">
-              Elegance Redefined
+            Timeless <br></br>
+            <span className="block font-normal text-3xl md:text-4xl lg:text-5xl mt-3 text-primary-800">
+            Elegance Redefined
             </span>
           </motion.h1>
 

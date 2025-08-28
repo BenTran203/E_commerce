@@ -44,7 +44,8 @@ export default function Register() {
                         />
                     </div>
                     <button
-                        onClick={() => router.push('/auth')}
+                        type = "button"
+                        onClick={e => { e.preventDefault(); router.push('/auth', {scroll: false})}}
                         className="mt-4 text-sm w-full text-gray-500 hover:underline"
                     >
                         Already a member? Log In
