@@ -18,7 +18,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, {SignOptions} from 'jsonwebtoken'
 import { PrismaClient, UserRole } from '@prisma/client'
 
 // Initialize Prisma client
@@ -216,7 +216,11 @@ export const optionalAuth = async (
       }
     } catch (jwtError) {
       // Invalid token, continue without user
-      console.log('Optional auth failed:', jwtError.message)
+      if (jwtError && typeof jwtError === 'object' && 'message' in jwtError) {
+        console.log('Optional auth failed:', (jwtError as { message: string }).message)
+      } else {
+        console.log('Optional auth failed:', jwtError)
+      }
     }
 
     next()
@@ -291,45 +295,40 @@ export const authorizeVendor = (checkOwnership = false) => {
   }
 }
 
-/**
- * JWT UTILITY FUNCTIONS
- */
 
 /**
  * Generate JWT token for user
  */
+type JwtExpires = NonNullable<SignOptions['expiresIn']>;
+
+//Use Type guards Narrowing for a Wide String
+const isJwtStringValue = (v: string): v is Extract<JwtExpires, string> =>
+  /^\d+(ms|s|m|h|d|w|y)$/.test(v);
+
+const parseExpiresIn = (v?: string): SignOptions['expiresIn'] => {
+  if (!v) return '1h'; // default
+  const n = Number(v);
+  if (Number.isFinite(n)) return n;              // allow numeric seconds
+  if (isJwtStringValue(v)) return v;             // allow "15m", "7d", etc.
+  throw new Error('Invalid JWT_EXPIRES_IN. Use a number or formats like "15m", "7d".');
+};
+
 export const generateToken = (userId: string): string => {
-  const jwtSecret = process.env.JWT_SECRET!
-  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || '1h'
-  
-  if (!jwtSecret) {
-    throw new Error('JWT_SECRET environment variable is not set')
-  }
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) throw new Error('JWT_SECRET environment variable is not set');
 
-  return jwt.sign(
-    { userId },
-    jwtSecret as string ,
-    { expiresIn: jwtExpiresIn}
-  )
-}
+  const expiresIn = parseExpiresIn(process.env.JWT_EXPIRES_IN);
 
-/**
- * Generate refresh token (longer expiration)
- */
+  return jwt.sign({ userId }, jwtSecret, { expiresIn });
+};
+
 export const generateRefreshToken = (userId: string): string => {
-  const jwtSecret = process.env.JWT_SECRET
-  
-  if (!jwtSecret) {
-    throw new Error('JWT_SECRET environment variable is not set')
-  }
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) throw new Error('JWT_SECRET environment variable is not set');
 
-  return jwt.sign(
-    { userId, type: 'refresh' },
-    jwtSecret,
-    { expiresIn: '30d' }
-  )
-}
-
+  // literal stays narrow and is fine
+  return jwt.sign({ userId, type: 'refresh' }, jwtSecret, { expiresIn: '30d' });
+};
 /**
  * Verify refresh token
  */

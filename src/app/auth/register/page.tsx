@@ -1,9 +1,54 @@
 'use client'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Register() {
-    const router = useRouter();
+    const router = useRouter()
+    const [form, setForm] = useState({ username: '', email: '', password: ''})
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({ ...form, [e.target.id]: e.target.value})
+    }
+
+    const handleSubmit = async(e:React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+
+        try {
+            //Adjust the enpoint if different with backend
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(form),
+            })
+        if (!res.ok) {
+            const data = await res.json()
+            setError(data.message || 'Registration failed')
+            setLoading(false)
+            return
+        }
+         //  Use next-auth credentials provider to log in
+            const loginRes = await signIn('credentials', {
+                redirect: false,
+                email: form.email,
+                password: form.password,
+            })
+            if (loginRes?.ok) {
+                //Add a main route here
+                router.push('/') 
+            } else {
+                setError('Login failed after registration')
+            }
+        } catch (error) {
+            setError('Error at handle submit')
+        }
+        setLoading(false)
+    }
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
