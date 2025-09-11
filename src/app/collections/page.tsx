@@ -1,0 +1,285 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { ArrowRight, Star } from 'lucide-react'
+import Button from '@/components/ui/Button'
+
+interface Collection {
+  id: string
+  name: string
+  description: string
+  slug: string
+  image: string
+  productCount: number
+  featured: boolean
+}
+
+const collections: Collection[] = [
+  {
+    id: '1',
+    name: 'Casual Everyday',
+    description: 'Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look.',
+    slug: 'casual-everyday',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&auto=format&fit=crop',
+    productCount: 3,
+    featured: true
+  },
+  {
+    id: '2',
+    name: 'Formal Excellence',
+    description: 'Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection with premium materials.',
+    slug: 'formal-excellence',
+    image: 'https://images.unsplash.com/photo-1598808503746-f34c53b9323e?w=800&auto=format&fit=crop',
+    productCount: 2,
+    featured: true
+  },
+  {
+    id: '3',
+    name: 'Premium Accessories',
+    description: 'Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement and last a lifetime.',
+    slug: 'premium-accessories',
+    image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&auto=format&fit=crop',
+    productCount: 1,
+    featured: false
+  },
+  {
+    id: '4',
+    name: 'Winter Warmth',
+    description: 'Stay warm and stylish during the colder months. Our winter collection features cozy layers, premium wool, and weather-resistant outerwear.',
+    slug: 'winter-warmth',
+    image: 'https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=800&auto=format&fit=crop',
+    productCount: 1,
+    featured: true
+  },
+  {
+    id: '5',
+    name: 'Street Style Culture',
+    description: 'Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics for the streets.',
+    slug: 'street-style-culture',
+    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&auto=format&fit=crop',
+    productCount: 1,
+    featured: false
+  },
+  {
+    id: '6',
+    name: 'Summer Breeze',
+    description: 'Light, breathable pieces perfect for warm weather. From flowing dresses to linen shirts, embrace the sunshine in comfort and style.',
+    slug: 'summer-breeze',
+    image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
+    productCount: 1,
+    featured: true
+  },
+]
+
+export default function CollectionsPage() {
+  const featuredCollections = collections.filter(c => c.featured)
+  const allCollections = collections
+
+  return (
+    <div className="min-h-screen bg-luxury-cream">
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(250, 249, 246, 0.8), rgba(250, 249, 246, 0.8)), url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=1080&fit=crop")'
+          }}
+        />
+        
+        <div className="relative container-luxury text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-6xl font-serif text-primary-900 mb-6"
+          >
+            Our Collections
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-lg md:text-xl text-primary-600 max-w-3xl mx-auto leading-relaxed"
+          >
+            Discover our carefully curated collections that blend timeless elegance with contemporary style. 
+            Each collection tells a unique story, crafted for the modern individual who appreciates quality and authenticity.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Featured Collections */}
+      <section className="py-16">
+        <div className="container-luxury">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
+              Featured Collections
+            </h2>
+            <p className="text-primary-600 max-w-2xl mx-auto">
+              Our most popular and seasonally relevant collections, handpicked for their exceptional design and quality
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {featuredCollections.map((collection, index) => (
+              <motion.div
+                key={collection.id}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                </div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-sm font-medium">Featured</span>
+                  </div>
+                  <h3 className="text-2xl font-serif mb-2">{collection.name}</h3>
+                  <p className="text-white/90 text-sm mb-4 line-clamp-2">
+                    {collection.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white/80">
+                      {collection.productCount} items
+                    </span>
+                    <Link href={`/shop?collection=${collection.slug}`}>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
+                      >
+                        Explore
+                        <ArrowRight size={16} className="ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* All Collections Grid */}
+      <section className="py-16 bg-white/50">
+        <div className="container-luxury">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
+              All Collections
+            </h2>
+            <p className="text-primary-600 max-w-2xl mx-auto">
+              Explore our complete range of collections, each designed to cater to different styles and occasions
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allCollections.map((collection, index) => (
+              <motion.div
+                key={collection.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  {collection.featured && (
+                    <div className="absolute top-3 right-3 bg-primary-900 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Featured
+                    </div>
+                  )}
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-serif text-primary-900 mb-2">
+                    {collection.name}
+                  </h3>
+                  <p className="text-primary-600 text-sm mb-4 line-clamp-3">
+                    {collection.description}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm text-primary-500">
+                      {collection.productCount} items
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-xs text-primary-400">Popular</span>
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={12}
+                            className={`${
+                              i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-200'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link href={`/shop?collection=${collection.slug}`}>
+                    <Button className="w-full group">
+                      Explore Collection
+                      <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="py-16">
+        <div className="container-luxury">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-primary-900 rounded-2xl p-8 md:p-12 text-center text-white"
+          >
+            <h2 className="text-3xl md:text-4xl font-serif mb-4">
+              Stay Updated
+            </h2>
+            <p className="text-primary-100 mb-6 max-w-2xl mx-auto">
+              Be the first to know about new collections, exclusive offers, and style inspiration. 
+              Join our community of fashion enthusiasts.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 rounded-lg text-primary-900 focus:outline-none focus:ring-2 focus:ring-white/50"
+              />
+              <Button variant="secondary" className="bg-white text-primary-900 hover:bg-primary-50">
+                Subscribe
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  )
+}

@@ -17,8 +17,10 @@ import {
 } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useAuth } from '@/hooks/useAuth'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { cn } from '@/utils'
 import Button from '@/components/ui/Button'
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -26,13 +28,14 @@ const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const { itemCount, toggle: toggleCart } = useCart()
   const { user, isAuthenticated, signOut } = useAuth()
+  const { t } = useLanguage()
   const router = useRouter()
 
   const navigationItems = [
-    { name: 'Shop', href: '/shop' },
-    { name: 'Collections', href: '/collections' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+    { name: t('nav.shop'), href: '/shop' },
+    { name: t('nav.collections'), href: '/collections' },
+    { name: t('nav.about'), href: '/about' },
+    { name: t('nav.contact'), href: '/contact' },
   ]
 
   const handleSearch = (e: React.FormEvent) => {
@@ -86,6 +89,9 @@ const Header: React.FC = () => {
                 <Heart size={20} />
               </Link>
             )}
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
 
             {/* Cart */}
             <button
