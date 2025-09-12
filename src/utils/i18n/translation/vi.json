@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "shop": "Cửa Hàng",
+    "collections": "Bộ Sưu Tập",
+    "about": "Giới Thiệu",
+    "contact": "Liên Hệ"
+  },
+  "language": {
+    "switch": "Đổi Ngôn Ngữ"
+  },
+  "hero": {
+    "title": "Timeless",
+    "subtitle": "Định Nghĩa Lại Sự Thanh Lịch",
+    "description": "Khám phá các bộ sưu tập thời trang cao cấp được tuyển chọn kỹ lưỡng, vượt qua xu hướng theo mùa. Mỗi sản phẩm được lựa chọn cẩn thận để thể hiện sự tinh tế và phong cách bền vững.",
+    "discover": "Khám Phá Thêm",
+    "cta": {
+      "explore": "Khám Phá Bộ Sưu Tập",
+      "story": "Câu Chuyện Của Chúng Tôi"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Cập Nhật Xu Hướng",
+      "description": "Đăng ký nhận thông tin về ưu đãi độc quyền, bí quyết phong cách và các bộ sưu tập mới.",
+      "placeholder": "Nhập email của bạn",
+      "button": "Đăng Ký"
+    },
+    "brand": {
+      "description": "Tạo nên những thiết kế vượt thời gian định hình nên sự thanh lịch hiện đại. Trang phục cao cấp cho những cá nhân tinh tế."
+    },
+    "sections": {
+      "shop": {
+        "title": "Cửa Hàng",
+        "newArrivals": "Hàng Mới Về",
+        "bestSellers": "Bán Chạy Nhất",
+        "sale": "Khuyến Mãi",
+        "giftCards": "Thẻ Quà Tặng"
+      },
+      "customerCare": {
+        "title": "Chăm Sóc Khách Hàng",
+        "contact": "Liên Hệ",
+        "sizeGuide": "Hướng Dẫn Chọn Size",
+        "shipping": "Vận Chuyển & Đổi Trả",
+        "faq": "Câu Hỏi Thường Gặp"
+      },
+      "company": {
+        "title": "Công Ty",
+        "about": "Về Chúng Tôi",
+        "careers": "Tuyển Dụng",
+        "press": "Báo Chí",
+        "sustainability": "Phát Triển Bền Vững"
+      },
+      "legal": {
+        "title": "Pháp Lý",
+        "privacy": "Chính Sách Bảo Mật",
+        "terms": "Điều Khoản Dịch Vụ",
+        "cookies": "Chính Sách Cookie",
+        "accessibility": "Khả Năng Tiếp Cận"
+      }
+    },
+    "bottom": {
+      "rights": "© {year} Timeless. Bảo lưu mọi quyền.",
+      "secure": "Thanh Toán An Toàn",
+      "shipping": "Miễn Phí Vận Chuyển Trên $100",
+      "returns": "Đổi Trả Trong 30 Ngày"
+    }
+  }
+}

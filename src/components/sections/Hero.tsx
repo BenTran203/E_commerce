@@ -5,8 +5,10 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { useTranslation } from 'react-i18next'
 
 const Hero: React.FC = () => {
+  const { t } = useTranslation()
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-luxury-cream">
       {/* Background Image */}
@@ -34,9 +36,9 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Timeless <br></br>
+            {t('hero.title')} <br></br>
             <span className="block font-normal text-3xl md:text-4xl lg:text-5xl mt-3 text-primary-800">
-            Elegance Redefined
+              {t('hero.subtitle')}
             </span>
           </motion.h1>
 
@@ -47,10 +49,8 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Discover curated collections of premium clothing that transcend seasonal trends. 
-            Each piece is carefully selected to embody sophistication and lasting style. <br />
-          <span className="text-sm font-medium">Discover More</span>
-
+            {t('hero.description')} <br />
+            <span className="text-sm font-medium">{t('hero.discover')}</span>
           </motion.p>
 
           {/* CTA Buttons */}
@@ -62,13 +62,13 @@ const Hero: React.FC = () => {
           >
             <Link href="/shop">
               <Button size="lg" className="min-w-[200px] group">
-                Explore Collection
+                {t('hero.cta.explore')}
                 <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link href="/about">
               <Button variant="secondary" size="lg" className="min-w-[200px]">
-                Our Story
+                {t('hero.cta.story')}
               </Button>
             </Link>
           </motion.div>

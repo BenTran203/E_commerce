@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "shop": "Shop",
+    "collections": "Collections",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "language": {
+    "switch": "Switch Language"
+  },
+  "hero": {
+    "title": "Timeless",
+    "subtitle": "Elegance Redefined",
+    "description": "Discover curated collections of premium clothing that transcend seasonal trends. Each piece is carefully selected to embody sophistication and lasting style.",
+    "discover": "Discover More",
+    "cta": {
+      "explore": "Explore Collection",
+      "story": "Our Story"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Stay in the Know",
+      "description": "Subscribe to our newsletter for exclusive offers, style tips, and early access to new collections.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    },
+    "brand": {
+      "description": "Crafting timeless pieces that define modern elegance. Premium clothing for the discerning individual."
+    },
+    "sections": {
+      "shop": {
+        "title": "Shop",
+        "newArrivals": "New Arrivals",
+        "bestSellers": "Best Sellers",
+        "sale": "Sale",
+        "giftCards": "Gift Cards"
+      },
+      "customerCare": {
+        "title": "Customer Care",
+        "contact": "Contact Us",
+        "sizeGuide": "Size Guide",
+        "shipping": "Shipping & Returns",
+        "faq": "FAQ"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About Us",
+        "careers": "Careers",
+        "press": "Press",
+        "sustainability": "Sustainability"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "cookies": "Cookie Policy",
+        "accessibility": "Accessibility"
+      }
+    },
+    "bottom": {
+      "rights": "© {year} Timeless. All rights reserved.",
+      "secure": "Secure Payments",
+      "shipping": "Free Shipping Over $100",
+      "returns": "30-Day Returns"
+    }
+  }
+}

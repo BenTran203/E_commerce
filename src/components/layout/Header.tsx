@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useAuth } from '@/hooks/useAuth'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/utils'
 import Button from '@/components/ui/Button'
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const { itemCount, toggle: toggleCart } = useCart()
   const { user, isAuthenticated, signOut } = useAuth()
-  const { t } = useLanguage()
+  const { t } = useTranslation()
   const router = useRouter()
 
   const navigationItems = [

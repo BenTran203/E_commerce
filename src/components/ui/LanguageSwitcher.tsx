@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, ChevronDown } from 'lucide-react'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -11,10 +11,10 @@ const languages = [
 ]
 
 export default function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage()
+  const { i18n, t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
-  const currentLanguage = languages.find(lang => lang.code === language)
+  const currentLanguage = languages.find(lang => lang.code === (i18n.language as 'en' | 'vi'))
 
   return (
     <div className="relative">
@@ -54,16 +54,16 @@ export default function LanguageSwitcher() {
                 <button
                   key={lang.code}
                   onClick={() => {
-                    setLanguage(lang.code as 'en' | 'vi')
+                    i18n.changeLanguage(lang.code)
                     setIsOpen(false)
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-primary-50 transition-colors ${
-                    language === lang.code ? 'bg-primary-50 text-primary-900' : 'text-primary-700'
+                    i18n.language === lang.code ? 'bg-primary-50 text-primary-900' : 'text-primary-700'
                   }`}
                 >
                   <span className="text-lg">{lang.flag}</span>
                   <span className="font-medium">{lang.name}</span>
-                  {language === lang.code && (
+                  {i18n.language === lang.code && (
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
