@@ -1015,7 +1015,7 @@
       "image": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop",
       "productIds": ["5", "13"],
       "isActive": true
-    },
+    }
   ],
   "categories": [
     { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
@@ -1023,7 +1023,7 @@
     { "id": "3", "name": "Formal", "slug": "formal", "isActive": true },
     { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
     { "id": "5", "name": "Summer", "slug": "summer", "isActive": true },
-    { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true },
+    { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true }
   ],
   "brands": [
     { "id": "1", "name": "Timeless", "slug": "timeless", "isActive": true },
