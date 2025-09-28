@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState  } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -27,29 +27,25 @@ const FeaturedProducts: React.FC = () => {
         setCurrentIndex((prevIndex) => 
           prevIndex + 1 >= featuredProducts.length ? 0 : prevIndex + 1
         )
-      }, 3000)
+      }, 5000)
       return () => clearInterval(timer)
     }
   }, [featuredProducts.length])
 
   // Get current visible products
   const visibleProducts = featuredProducts.slice(currentIndex, currentIndex + productsToShow)
+  const edgeVariants = {
+  initial: (edge: 'left' | 'right' | 'middle') =>
+    edge === 'right' ? { x: 40, opacity: 0 } : {},        // only the new right card slides in
+  animate: { x: 0, opacity: 1, transition: { duration: 0.25, type: 'tween' } },
+  exit: (edge: 'left' | 'right' | 'middle') =>
+    edge === 'left' ? { x: -40, opacity: 0, transition: { duration: 0.18, type: 'tween' } } : {}
+}
 
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
+    const slideVariants = {
+    initial: { x: 40, opacity: 0 },
+    animate: { x: 0, opacity: 1, transition: { type: 'tween', duration: 0.25 } },
+    exit: { x: -40, opacity: 0, transition: { type: 'tween', duration: 0.15 } }
   }
 
   if (isLoading) {
@@ -87,24 +83,24 @@ const FeaturedProducts: React.FC = () => {
         </motion.div>
 
         {/* Products Grid with Animation */}
-        <div className="relative">
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div 
-              key={currentIndex}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-              }}
-            >
-              {visibleProducts.map((product) => (
+        <div className="relative overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <AnimatePresence initial={false} mode="popLayout">
+            {visibleProducts.map((product, idx) => {
+              const isFirst = idx === 0;
+              const isLast = idx === visibleProducts.length - 1;
+              const edge: 'left' | 'right' | 'middle' =
+                isFirst ? 'left' : isLast ? 'right' : 'middle';
+              return (
                 <motion.div
                   key={product.id}
                   className="group"
+                  layout="position"
+                  variants={edgeVariants}
+                  custom={edge}
+                  initial={isLast ? 'initial' : false}
+                  animate="animate"
+                  exit={isFirst ? 'exit' : undefined}
                 >
                   <div className="card-luxury p-0 overflow-hidden">
                     {/* Product Image */}
@@ -115,7 +111,7 @@ const FeaturedProducts: React.FC = () => {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      
+
                       {/* Sale Badge */}
                       {product.isOnSale && product.salePercentage && (
                         <div className="absolute top-4 left-4 bg-primary-900 text-white px-3 py-1 text-sm font-medium">
@@ -128,7 +124,7 @@ const FeaturedProducts: React.FC = () => {
                         <button className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow">
                           <Heart size={18} className="text-primary-700 hover:text-red-500 transition-colors" />
                         </button>
-                        <button 
+                        <button
                           onClick={() => addItem(product)}
                           className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow"
                         >
@@ -153,7 +149,7 @@ const FeaturedProducts: React.FC = () => {
                           {product.name}
                         </h3>
                       </Link>
-                      
+
                       <p className="text-sm text-primary-600 mb-3 line-clamp-2">
                         {product.description}
                       </p>
@@ -214,8 +210,8 @@ const FeaturedProducts: React.FC = () => {
                     </div>
                   </div>
                 </motion.div>
-              ))}
-            </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
 
@@ -248,6 +244,7 @@ const FeaturedProducts: React.FC = () => {
             </Button>
           </Link>
         </motion.div>
+      </div>
       </div>
     </section>
   )

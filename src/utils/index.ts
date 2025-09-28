@@ -113,7 +113,7 @@ export function generateId(length: number = 8): string {
 export function parseSearchParams(searchParams: URLSearchParams): Record<string, string | string[]> {
   const params: Record<string, string | string[]> = {}
   
-  for (const [key, value] of searchParams.entries()) {
+  Array.from(searchParams.entries()).forEach(([key, value]) => {
     if (params[key]) {
       if (Array.isArray(params[key])) {
         (params[key] as string[]).push(value)
@@ -123,7 +123,7 @@ export function parseSearchParams(searchParams: URLSearchParams): Record<string,
     } else {
       params[key] = value
     }
-  }
+  })
   
   return params
 }
@@ -136,7 +136,7 @@ export function deepMerge<T extends Record<string, any>>(target: T, source: Part
   
   for (const key in source) {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-      result[key] = deepMerge(result[key] || {}, source[key]!)
+      result[key] = deepMerge(result[key] || {} as T[typeof key], source[key]!)
     } else {
       result[key] = source[key]!
     }

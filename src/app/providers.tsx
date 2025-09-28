@@ -2,9 +2,10 @@
 
 import { ReactNode, useEffect } from 'react'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Toaster } from 'react-hot-toast'
-import { store } from '@/store'
+import { store, persistor } from '@/store'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '@/i18n/client'
 import { useTranslation } from 'react-i18next'
@@ -26,23 +27,25 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <HtmlLangSync />
-          {children}
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#faf9f6',
-                color: '#202124',
-                border: '1px solid #e8eaed',
-                borderRadius: '0px',
-                fontFamily: 'Inter, sans-serif',
-              },
-            }}
-          />
-        </QueryClientProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <HtmlLangSync />
+            {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: '#faf9f6',
+                  color: '#202124',
+                  border: '1px solid #e8eaed',
+                  borderRadius: '0px',
+                  fontFamily: 'Inter, sans-serif',
+                },
+              }}
+            />
+          </QueryClientProvider>
+        </PersistGate>
       </Provider>
     </I18nextProvider>
   )

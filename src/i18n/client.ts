@@ -9,6 +9,10 @@ import vi from '@/utils/i18n/translation/vi.json'
 const isProd = process.env.NODE_ENV === 'production'
 
 // Initialize i18next once (client-side)
+// Prefer saved language for first render to avoid changing language after mount
+const savedLanguage = typeof window !== 'undefined' ? window.localStorage.getItem('i18nextLng') : null
+const initialLang = (savedLanguage || 'en')
+
 if (!i18n.isInitialized) {
   i18n
     .use(LocizeBackend)
@@ -18,9 +22,8 @@ if (!i18n.isInitialized) {
       supportedLngs: ['en', 'vi'],
       ns: ['translation'],
       defaultNS: 'translation',
-      // Render server and first client paint in English to avoid hydration mismatch,
-      // then change language on mount (HtmlLangSync).
-      lng: 'en',
+      // Use saved language synchronously when available to avoid re-render
+      lng: initialLang,
       // Auto-create missing keys in Locize during development
       saveMissing: !isProd,
       resources: {

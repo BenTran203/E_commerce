@@ -1,3 +1,5 @@
+"use client"
+
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@/store'
 import {
@@ -34,7 +36,7 @@ const productsAPI = {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       }))
-      .slice(0, 8) as Product[]
+      .slice(0, 10) as Product[]
   },
 
   getProductById: async (id: string): Promise<Product | null> => {

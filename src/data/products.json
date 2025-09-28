@@ -329,7 +329,7 @@
       "images": [
         {
           "id": "8",
-          "url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop",
+          "url": "https://images.unsplash.com/photo-1603219527847-24c87f552a77?w=500&auto=format&fit=crop",
           "alt": "Minimalist Leather Bag",
           "isPrimary": true,
           "order": 1
@@ -434,7 +434,7 @@
       "images": [
         {
           "id": "10",
-          "url": "https://images.unsplash.com/photo-1544376664-80b17f09d399?w=500&auto=format&fit=crop",
+          "url": "https://images.unsplash.com/photo-1601244005535-a48d21d951ac?q=80&w=385&auto=format&fit=crop",
           "alt": "Winter Wool Scarf",
           "isPrimary": true,
           "order": 1
@@ -477,14 +477,14 @@
     },
     {
       "id": "11",
-      "name": "Formal White Dress Shirt",
-      "description": "Classic white dress shirt with French cuffs and spread collar. Essential for formal occasions.",
+      "name": "Formal White  Shirt",
+      "description": "Classic white shirt with French cuffs and spread collar. Essential for formal occasions.",
       "price": 79.99,
       "originalPrice": 99.99,
       "images": [
         {
           "id": "11",
-          "url": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&auto=format&fit=crop",
+          "url": "https://images.unsplash.com/photo-1621773881532-fe65715b5137?w=500&auto=format&fit=crop",
           "alt": "Formal White Dress Shirt",
           "isPrimary": true,
           "order": 1
