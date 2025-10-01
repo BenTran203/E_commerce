@@ -54,14 +54,9 @@ export function Providers({ children }: ProvidersProps) {
 function HtmlLangSync() {
   const { i18n } = useTranslation()
   useEffect(() => {
+    // LanguageDetector plugin handles the detection and persistence
     if (typeof document !== 'undefined') {
-      // Prefer saved language, then navigator, else 'en'
-      const saved = typeof window !== 'undefined' ? localStorage.getItem('i18nextLng') : null
-      const preferred = (saved || navigator.language || 'en').split('-')[0]
-      if (i18n.language !== preferred) {
-        i18n.changeLanguage(preferred)
-      }
-      document.documentElement.lang = (i18n.language || preferred).split('-')[0]
+      document.documentElement.lang = i18n.language.split('-')[0]
     }
   }, [i18n.language])
   return null
