@@ -134,7 +134,7 @@ const FeaturedProducts: React.FC = () => {
 
                       {/* Quick Shop Overlay */}
                       <div className="absolute inset-x-0 bottom-0 bg-white bg-opacity-95 backdrop-blur-sm p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <Link href={`/products/${product.id}`}>
+                        <Link href={`/product/${product.id}`}>
                           <Button variant="secondary" size="sm" fullWidth>
                             Quick View
                           </Button>
@@ -144,7 +144,7 @@ const FeaturedProducts: React.FC = () => {
 
                     {/* Product Info */}
                     <div className="p-6">
-                      <Link href={`/products/${product.id}`}>
+                      <Link href={`/product/${product.id}`}>
                         <h3 className="font-semibold text-primary-900 mb-2 hover:text-primary-700 transition-colors line-clamp-2">
                           {product.name}
                         </h3>

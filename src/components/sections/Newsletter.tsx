@@ -7,6 +7,8 @@ import { isValidEmail } from '@/utils'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import toast from 'react-hot-toast'
+import { withTranslation } from '@/utils/i18n/withTranslation'
+import type { WithTranslationProps } from '@/utils/i18n/withTranslation'
 
 const Newsletter: React.FC = () => {
   const [email, setEmail] = useState('')

@@ -32,10 +32,10 @@ const Header: React.FC = () => {
   const router = useRouter()
 
   const navigationItems = [
-    { name: t('nav.shop'), href: '/shop' },
-    { name: t('nav.collections'), href: '/collections' },
-    { name: t('nav.about'), href: '/about' },
-    { name: t('nav.contact'), href: '/contact' },
+    { name: t('nav.shop'), href: '/pages/shop' },
+    { name: t('nav.collections'), href: '/pages/collections' },
+    { name: t('nav.about'), href: '/pages/about' },
+    { name: t('nav.contact'), href: '/pages/contact' },
   ]
 
   const handleSearch = (e: React.FormEvent) => {
@@ -94,8 +94,8 @@ const Header: React.FC = () => {
             <LanguageSwitcher />
 
             {/* Cart */}
-            <button
-              onClick={toggleCart}
+            <Link
+              href="/cart"
               className="relative p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
               aria-label="Shopping cart"
             >
@@ -105,7 +105,7 @@ const Header: React.FC = () => {
                   {itemCount}
                 </span>
               )}
-            </button>
+            </Link>
 
             {/* User Menu */}
             <div className="relative">

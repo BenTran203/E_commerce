@@ -61,36 +61,6 @@ function buildFooterSections(t: TFunction): FooterSection[] {
   ]
 }
 
-function NewsletterSection({ t }: { t: TFunction }) {
-  return (
-    <div className="border-b border-primary-700">
-      <div className="container-luxury py-16">
-        <div className="max-w-2xl mx-auto text-center">
-          <h3 className="text-2xl font-serif font-semibold mb-4">
-            {t('footer.newsletter.title')}
-          </h3>
-          <p className="text-primary-300 mb-8">
-            {t('footer.newsletter.description')}
-          </p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder={t('footer.newsletter.placeholder')}
-              className="flex-1 px-4 py-3 bg-transparent border border-primary-600 rounded-none text-white placeholder-primary-400 focus:outline-none focus:border-primary-400 transition-colors"
-              required
-            />
-            <button
-              type="submit"
-              className="px-8 py-3 bg-white text-primary-900 font-medium hover:bg-primary-100 transition-colors duration-300"
-            >
-              {t('footer.newsletter.button')}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function BrandSection({ t, links }: { t: TFunction; links: SocialLink[] }) {
   return (
@@ -173,8 +143,6 @@ const Footer = ({ t }: FooterProps) => {
 
   return (
     <footer className="bg-primary-900 text-white">
-      <NewsletterSection t={t} />
-
       <div className="container-luxury py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <BrandSection t={t} links={SOCIAL_LINKS} />

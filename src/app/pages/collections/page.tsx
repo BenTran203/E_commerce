@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Star } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import productsData from '@/data/products.json'
 
 interface Collection {
   id: string
@@ -11,66 +12,17 @@ interface Collection {
   description: string
   slug: string
   image: string
-  productCount: number
-  featured: boolean
+  productIds: string[]
+  isActive: boolean
 }
 
-const collections: Collection[] = [
-  {
-    id: '1',
-    name: 'Casual Everyday',
-    description: 'Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look.',
-    slug: 'casual-everyday',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&auto=format&fit=crop',
-    productCount: 3,
-    featured: true
-  },
-  {
-    id: '2',
-    name: 'Formal Excellence',
-    description: 'Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection with premium materials.',
-    slug: 'formal-excellence',
-    image: 'https://images.unsplash.com/photo-1598808503746-f34c53b9323e?w=800&auto=format&fit=crop',
-    productCount: 2,
-    featured: true
-  },
-  {
-    id: '3',
-    name: 'Premium Accessories',
-    description: 'Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement and last a lifetime.',
-    slug: 'premium-accessories',
-    image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800&auto=format&fit=crop',
-    productCount: 1,
-    featured: false
-  },
-  {
-    id: '4',
-    name: 'Winter Warmth',
-    description: 'Stay warm and stylish during the colder months. Our winter collection features cozy layers, premium wool, and weather-resistant outerwear.',
-    slug: 'winter-warmth',
-    image: 'https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=800&auto=format&fit=crop',
-    productCount: 1,
-    featured: true
-  },
-  {
-    id: '5',
-    name: 'Street Style Culture',
-    description: 'Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics for the streets.',
-    slug: 'street-style-culture',
-    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&auto=format&fit=crop',
-    productCount: 1,
-    featured: false
-  },
-  {
-    id: '6',
-    name: 'Summer Breeze',
-    description: 'Light, breathable pieces perfect for warm weather. From flowing dresses to linen shirts, embrace the sunshine in comfort and style.',
-    slug: 'summer-breeze',
-    image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
-    productCount: 1,
-    featured: true
-  },
-]
+// Transform collections data and add featured flag based on product count
+const collections: (Collection & { productCount: number; featured: boolean })[] = 
+  productsData.collections.map((collection) => ({
+    ...collection,
+    productCount: collection.productIds.length,
+    featured: collection.productIds.length >= 3 // Collections with 3+ items are featured
+  }))
 
 export default function CollectionsPage() {
   const featuredCollections = collections.filter(c => c.featured)

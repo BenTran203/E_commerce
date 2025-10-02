@@ -19,12 +19,84 @@ import { Product, ProductFilters } from '@/types'
 import { useQuery } from 'react-query'
 
 const productsAPI = {
-  getProducts: async (p0: { filters: ProductFilters; searchQuery: string; sortBy: "name" | "price-low" | "price-high" | "newest"; page: number }): Promise<Product[]> => {
-    return productsData.products.map(product => ({
+  getProducts: async ({ filters, searchQuery, sortBy, page }: { filters: ProductFilters; searchQuery: string; sortBy: "name" | "price-low" | "price-high" | "newest"; page: number }): Promise<Product[]> => {
+    let filteredProducts = productsData.products.map(product => ({
       ...product,
-      createdAt: new Date().toISOString(), // Add default createdAt
-      updatedAt: new Date().toISOString(), // Add default updatedAt
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     })) as Product[]
+
+    // Apply search query
+    if (searchQuery && searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase().trim()
+      filteredProducts = filteredProducts.filter(product => {
+        const searchableText = [
+          product.name,
+          product.description,
+          product.brand.name,
+          product.category.name,
+          ...product.tags,
+          product.sku
+        ].join(' ').toLowerCase()
+        
+        return searchableText.includes(query)
+      })
+    }
+
+    // Apply category filter
+    if (filters.categories && filters.categories.length > 0) {
+      filteredProducts = filteredProducts.filter(product =>
+        filters.categories!.includes(product.category.id)
+      )
+    }
+
+    // Apply brand filter
+    if (filters.brands && filters.brands.length > 0) {
+      filteredProducts = filteredProducts.filter(product =>
+        filters.brands!.includes(product.brand.name)
+      )
+    }
+
+    // Apply price range filter
+    if (filters.priceRange) {
+      filteredProducts = filteredProducts.filter(product =>
+        product.price >= filters.priceRange![0] &&
+        product.price <= filters.priceRange![1]
+      )
+    }
+
+    // Apply color filter
+    if (filters.colors && filters.colors.length > 0) {
+      filteredProducts = filteredProducts.filter(product =>
+        product.colors.some(color => filters.colors!.includes(color.name))
+      )
+    }
+
+    // Apply size filter
+    if (filters.sizes && filters.sizes.length > 0) {
+      filteredProducts = filteredProducts.filter(product =>
+        product.sizes.some(size => filters.sizes!.includes(size.value))
+      )
+    }
+
+    // Apply sorting
+    switch (sortBy) {
+      case 'price-low':
+        filteredProducts.sort((a, b) => a.price - b.price)
+        break
+      case 'price-high':
+        filteredProducts.sort((a, b) => b.price - a.price)
+        break
+      case 'name':
+        filteredProducts.sort((a, b) => a.name.localeCompare(b.name))
+        break
+      case 'newest':
+      default:
+        // Keep default order (newest first)
+        break
+    }
+
+    return filteredProducts
   },
 
   getFeaturedProducts: async (): Promise<Product[]> => {

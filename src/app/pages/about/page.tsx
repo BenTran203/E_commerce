@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Heart, Award, Users, Sparkles, Globe, Leaf } from 'lucide-react'
 import Button from '@/components/ui/Button'
-
+import Link from 'next/link'
 const stats = [
   { label: 'Happy Customers', value: '50K+', icon: Users },
   { label: 'Products Sold', value: '200K+', icon: Award },
@@ -126,7 +126,7 @@ export default function AboutPage() {
                 We&apos;re not just selling clothing; we&apos;re preserving traditions and 
                 celebrating the art of fine fashion.
               </p>
-              <Button size="lg">Explore Our Collections</Button>
+              <Button size="lg"> <Link href="/pages/collections">Explore Our Collections</Link> </Button>
             </motion.div>
             
             <motion.div
@@ -136,7 +136,7 @@ export default function AboutPage() {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=600&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1502355984-b735cb2550ce?q=80&w=1169&auto=format&fit=crop&"
                 alt="Timeless craftsmanship"
                 className="w-full rounded-2xl shadow-lg"
               />

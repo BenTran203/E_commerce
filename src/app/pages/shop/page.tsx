@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Filter, Grid3X3, List, ChevronDown, X } from 'lucide-react'
 import { useProducts } from '@/hooks/useProducts'
@@ -29,6 +29,7 @@ export default function ShopPage() {
 
   const { addItem } = useCart()
   const searchParams = useSearchParams()
+  const router = useRouter()
   
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [showFilters, setShowFilters] = useState(false)
@@ -101,9 +102,18 @@ export default function ShopPage() {
     }
   }, [searchParams])
 
+  // Instant search with debouncing
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      fetchProducts()
+    }, 300) // 300ms delay for smooth instant search
+
+    return () => clearTimeout(debounceTimer)
+  }, [searchQuery])
+
   const handleSearch = (query: string) => {
     updateSearchQuery(query)
-    fetchProducts()
+    // fetchProducts is now called automatically via useEffect
   }
 
   const handleSort = (sortOption: string) => {
@@ -425,11 +435,14 @@ export default function ShopPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className={`bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-shadow ${
+                      className={`bg-white rounded-xl shadow-sm overflow-hidden group hover:shadow-lg transition-shadow cursor-pointer ${
                         viewMode === 'list' ? 'flex' : ''
                       }`}
                     >
-                      <div className={`relative ${viewMode === 'list' ? 'w-48' : 'aspect-square'}`}>
+                      <div 
+                        className={`relative ${viewMode === 'list' ? 'w-48' : 'aspect-square'}`}
+                        onClick={() => router.push(`/product/${product.id}`)}
+                      >
                         <img
                           src={product.images[0]?.url}
                           alt={product.name}
@@ -443,7 +456,12 @@ export default function ShopPage() {
                       </div>
                       
                       <div className={`p-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
-                        <h3 className="font-medium text-primary-900 mb-2">{product.name}</h3>
+                        <h3 
+                          className="font-medium text-primary-900 mb-2 hover:text-primary-700 cursor-pointer"
+                          onClick={() => router.push(`/product/${product.id}`)}
+                        >
+                          {product.name}
+                        </h3>
                         <p className="text-primary-600 text-sm mb-3 line-clamp-2">{product.description}</p>
                         
                         <div className="flex items-center justify-between mb-3">
@@ -463,13 +481,29 @@ export default function ShopPage() {
                           </div>
                         </div>
 
-                        <Button
-                          onClick={() => handleAddToCart(product)}
-                          className="w-full"
-                          size="sm"
-                        >
-                          Add to Cart
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              router.push(`/product/${product.id}`)
+                            }}
+                            className="flex-1"
+                            size="sm"
+                            variant="secondary"
+                          >
+                            View Details
+                          </Button>
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleAddToCart(product)
+                            }}
+                            className="flex-1"
+                            size="sm"
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
