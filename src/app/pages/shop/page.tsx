@@ -111,17 +111,8 @@ export default function ShopPage() {
     return () => clearTimeout(debounceTimer)
   }, [searchQuery])
 
-  const handleSearch = (query: string) => {
-    updateSearchQuery(query)
-    // fetchProducts is now called automatically via useEffect
-  }
-
-  const handleSort = (sortOption: string) => {
-    updateSortBy(sortOption as any)
-    fetchProducts()
-  }
-
-  const handleFilterChange = () => {
+  // Auto-apply filters when they change
+  useEffect(() => {
     const newFilters: Partial<ProductFilters> = {
       categories: selectedCategories,
       brands: selectedBrands,
@@ -131,6 +122,23 @@ export default function ShopPage() {
     }
     updateFilters(newFilters)
     fetchProducts()
+  }, [selectedCategories, selectedBrands, priceRange, selectedColors, selectedSizes])
+
+  // Auto-fetch when sort changes
+  useEffect(() => {
+    if (sortBy) {
+      fetchProducts()
+    }
+  }, [sortBy])
+
+  const handleSearch = (query: string) => {
+    updateSearchQuery(query)
+    // fetchProducts is now called automatically via useEffect
+  }
+
+  const handleSort = (sortOption: string) => {
+    updateSortBy(sortOption as any)
+    // fetchProducts is now called automatically via useEffect
   }
 
   const clearAllFilters = () => {
@@ -140,7 +148,7 @@ export default function ShopPage() {
     setSelectedSizes([])
     setPriceRange([0, 500])
     resetFilters()
-    fetchProducts()
+    // fetchProducts is now called automatically via useEffect
   }
 
   const handleAddToCart = (product: Product) => {
@@ -240,10 +248,15 @@ export default function ShopPage() {
             <Button
               variant="secondary"
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 relative"
             >
               <Filter size={16} />
               Filters
+              {(selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length > 0 || priceRange[1] < 500) && (
+                <span className="absolute -top-2 -right-2 bg-primary-900 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length + (priceRange[1] < 500 ? 1 : 0)}
+                </span>
+              )}
             </Button>
           </motion.div>
         </div>
@@ -259,7 +272,14 @@ export default function ShopPage() {
                 className="w-80 bg-white rounded-xl shadow-sm p-6 h-fit"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-medium text-primary-900">Filters</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-lg font-medium text-primary-900">Filters</h3>
+                    {(selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length > 0 || priceRange[1] < 500) && (
+                      <span className="bg-primary-900 text-white text-xs px-2 py-1 rounded-full">
+                        {selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length + (priceRange[1] < 500 ? 1 : 0)}
+                      </span>
+                    )}
+                  </div>
                   <button
                     onClick={() => setShowFilters(false)}
                     className="text-primary-400 hover:text-primary-600"
@@ -387,19 +407,16 @@ export default function ShopPage() {
                 </div>
 
                 {/* Filter Actions */}
-                <div className="space-y-2">
-                  <Button
-                    onClick={handleFilterChange}
-                    className="w-full"
-                  >
-                    Apply Filters
-                  </Button>
+                <div className="space-y-3">
+                  <div className="text-xs text-primary-500 text-center bg-primary-50 py-2 px-3 rounded-lg">
+                    ✨ Filters apply instantly
+                  </div>
                   <Button
                     variant="secondary"
                     onClick={clearAllFilters}
                     className="w-full"
                   >
-                    Clear All
+                    Clear All Filters
                   </Button>
                 </div>
               </motion.div>
@@ -408,6 +425,29 @@ export default function ShopPage() {
 
           {/* Products Grid */}
           <div className="flex-1">
+            {/* Results Count */}
+            {!isLoading && (
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm text-primary-600">
+                  {products.length === 0 ? (
+                    <span>No products found</span>
+                  ) : (
+                    <span>
+                      Showing <strong>{products.length}</strong> product{products.length !== 1 ? 's' : ''}
+                    </span>
+                  )}
+                </p>
+                {products.length === 0 && (selectedCategories.length > 0 || selectedBrands.length > 0 || selectedColors.length > 0 || selectedSizes.length > 0 || priceRange[1] < 500) && (
+                  <button
+                    onClick={clearAllFilters}
+                    className="text-sm text-primary-600 hover:text-primary-900 underline"
+                  >
+                    Clear all filters
+                  </button>
+                )}
+              </div>
+            )}
+            
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
@@ -417,6 +457,19 @@ export default function ShopPage() {
                     <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                   </div>
                 ))}
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-16 bg-white rounded-xl">
+                <div className="mb-4">
+                  <Filter className="w-16 h-16 mx-auto text-primary-300" />
+                </div>
+                <h3 className="text-xl font-medium text-primary-900 mb-2">No products found</h3>
+                <p className="text-primary-600 mb-6">
+                  Try adjusting your filters or search query to find what you're looking for
+                </p>
+                <Button onClick={clearAllFilters}>
+                  Clear All Filters
+                </Button>
               </div>
             ) : (
               <>
