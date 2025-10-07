@@ -9,8 +9,11 @@ import { useProducts } from '@/hooks/useProducts'
 import { useCart } from '@/hooks/useCart'
 import { formatCurrency } from '@/utils'
 import Button from '@/components/ui/Button'
+import { useTranslation } from 'react-i18next'
+import { getProductName, getProductDescription } from '@/utils/productTranslation'
 
 const FeaturedProducts: React.FC = () => {
+  const { t } = useTranslation()
   const { featuredProducts, fetchFeaturedProducts, isLoading } = useProducts()
   const { addItem } = useCart()
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -75,10 +78,10 @@ const FeaturedProducts: React.FC = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-primary-900 mb-4">
-            Featured Collection
+            {t('featured.title')}
           </h2>
           <p className="text-lg text-primary-600 max-w-2xl mx-auto">
-            Handpicked pieces that embody our commitment to quality, style, and timeless appeal.
+            {t('featured.description')}
           </p>
         </motion.div>
 
@@ -136,7 +139,7 @@ const FeaturedProducts: React.FC = () => {
                       <div className="absolute inset-x-0 bottom-0 bg-white bg-opacity-95 backdrop-blur-sm p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                         <Link href={`/product/${product.id}`}>
                           <Button variant="secondary" size="sm" fullWidth>
-                            Quick View
+                            {t('featured.quickView')}
                           </Button>
                         </Link>
                       </div>
@@ -146,12 +149,12 @@ const FeaturedProducts: React.FC = () => {
                     <div className="p-6">
                       <Link href={`/product/${product.id}`}>
                         <h3 className="font-semibold text-primary-900 mb-2 hover:text-primary-700 transition-colors line-clamp-2">
-                          {product.name}
+                          {getProductName(product.id, product.name, t)}
                         </h3>
                       </Link>
 
                       <p className="text-sm text-primary-600 mb-3 line-clamp-2">
-                        {product.description}
+                        {getProductDescription(product.id, product.description, t)}
                       </p>
 
                       {/* Rating */}
@@ -170,7 +173,7 @@ const FeaturedProducts: React.FC = () => {
                           ))}
                         </div>
                         <span className="text-sm text-primary-600">
-                          ({product.reviewCount})
+                          ({product.reviewCount} {t('featured.reviews')})
                         </span>
                       </div>
 
@@ -189,7 +192,7 @@ const FeaturedProducts: React.FC = () => {
                       {/* Available Colors */}
                       {product.colors.length > 0 && (
                         <div className="flex items-center space-x-2">
-                          <span className="text-xs text-primary-600">Colors:</span>
+                          <span className="text-xs text-primary-600">{t('featured.colors')}:</span>
                           <div className="flex space-x-1">
                             {product.colors.slice(0, 4).map((color) => (
                               <div
@@ -240,7 +243,7 @@ const FeaturedProducts: React.FC = () => {
         >
           <Link href="/shop">
             <Button variant="secondary" size="lg">
-              View All Products
+              {t('featured.viewAll')}
             </Button>
           </Link>
         </motion.div>

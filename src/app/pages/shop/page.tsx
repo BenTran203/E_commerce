@@ -9,8 +9,11 @@ import { useCart } from '@/hooks/useCart'
 import { Product, ProductFilters } from '@/types'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { useTranslation } from 'react-i18next'
+import { getProductName, getProductDescription, getCategoryName, getBrandName } from '@/utils/productTranslation'
 
 export default function ShopPage() {
+  const { t } = useTranslation()
   const {
     products,
     isLoading,
@@ -181,10 +184,10 @@ export default function ShopPage() {
           ) : (
             <>
               <h1 className="text-4xl md:text-5xl font-serif text-primary-900 mb-4">
-                Our Collection
+                {t('shop.title')}
               </h1>
               <p className="text-lg text-primary-600 max-w-2xl mx-auto">
-                Discover our carefully curated selection of premium fashion pieces
+                {t('shop.description')}
               </p>
             </>
           )}
@@ -200,7 +203,7 @@ export default function ShopPage() {
           >
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary-400" size={20} />
             <Input
-              placeholder="Search products..."
+              placeholder={t('shop.search')}
               value={searchQuery}
               onChange={handleSearch}
               className="pl-10"
@@ -236,10 +239,10 @@ export default function ShopPage() {
                 onChange={(e) => handleSort(e.target.value)}
                 className="appearance-none bg-white border border-primary-200 rounded-lg px-4 py-2 pr-8 text-primary-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="newest">Newest</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name">Name A-Z</option>
+                <option value="newest">{t('shop.sortBy.newest')}</option>
+                <option value="price-low">{t('shop.sortBy.priceLow')}</option>
+                <option value="price-high">{t('shop.sortBy.priceHigh')}</option>
+                <option value="name">{t('shop.sortBy.name')}</option>
               </select>
               <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-primary-400" size={16} />
             </div>
@@ -251,7 +254,7 @@ export default function ShopPage() {
               className="flex items-center gap-2 relative"
             >
               <Filter size={16} />
-              Filters
+              {t('shop.filters')}
               {(selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length > 0 || priceRange[1] < 500) && (
                 <span className="absolute -top-2 -right-2 bg-primary-900 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length + (priceRange[1] < 500 ? 1 : 0)}
@@ -273,7 +276,7 @@ export default function ShopPage() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-medium text-primary-900">Filters</h3>
+                    <h3 className="text-lg font-medium text-primary-900">{t('shop.filters')}</h3>
                     {(selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length > 0 || priceRange[1] < 500) && (
                       <span className="bg-primary-900 text-white text-xs px-2 py-1 rounded-full">
                         {selectedCategories.length + selectedBrands.length + selectedColors.length + selectedSizes.length + (priceRange[1] < 500 ? 1 : 0)}
@@ -290,7 +293,7 @@ export default function ShopPage() {
 
                 {/* Price Range */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-primary-800 mb-3">Price Range</h4>
+                  <h4 className="font-medium text-primary-800 mb-3">{t('shop.priceRange')}</h4>
                   <div className="space-y-2">
                     <input
                       type="range"
@@ -309,7 +312,7 @@ export default function ShopPage() {
 
                 {/* Categories */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-primary-800 mb-3">Categories</h4>
+                  <h4 className="font-medium text-primary-800 mb-3">{t('nav.collections')}</h4>
                   <div className="space-y-2">
                     {categories.map((category) => (
                       <label key={category.id} className="flex items-center">
@@ -333,7 +336,7 @@ export default function ShopPage() {
 
                 {/* Brands */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-primary-800 mb-3">Brands</h4>
+                  <h4 className="font-medium text-primary-800 mb-3">{t('shop.brands')}</h4>
                   <div className="space-y-2">
                     {brands.map((brand) => (
                       <label key={brand} className="flex items-center">
@@ -357,7 +360,7 @@ export default function ShopPage() {
 
                 {/* Colors */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-primary-800 mb-3">Colors</h4>
+                  <h4 className="font-medium text-primary-800 mb-3">{t('shop.colors')}</h4>
                   <div className="flex flex-wrap gap-2">
                     {colors.map((color) => (
                       <button
@@ -382,7 +385,7 @@ export default function ShopPage() {
 
                 {/* Sizes */}
                 <div className="mb-6">
-                  <h4 className="font-medium text-primary-800 mb-3">Sizes</h4>
+                  <h4 className="font-medium text-primary-800 mb-3">{t('shop.sizes')}</h4>
                   <div className="flex flex-wrap gap-2">
                     {sizes.map((size) => (
                       <button
@@ -409,14 +412,14 @@ export default function ShopPage() {
                 {/* Filter Actions */}
                 <div className="space-y-3">
                   <div className="text-xs text-primary-500 text-center bg-primary-50 py-2 px-3 rounded-lg">
-                    ✨ Filters apply instantly
+                    {t('shop.applyInstantly')}
                   </div>
                   <Button
                     variant="secondary"
                     onClick={clearAllFilters}
                     className="w-full"
                   >
-                    Clear All Filters
+                    {t('shop.clearFilters')}
                   </Button>
                 </div>
               </motion.div>
@@ -430,10 +433,10 @@ export default function ShopPage() {
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm text-primary-600">
                   {products.length === 0 ? (
-                    <span>No products found</span>
+                    <span>{t('shop.noProducts')}</span>
                   ) : (
                     <span>
-                      Showing <strong>{products.length}</strong> product{products.length !== 1 ? 's' : ''}
+                      {t('shop.showing')} <strong>{products.length}</strong> {products.length !== 1 ? t('shop.products') : t('shop.product')}
                     </span>
                   )}
                 </p>
@@ -442,7 +445,7 @@ export default function ShopPage() {
                     onClick={clearAllFilters}
                     className="text-sm text-primary-600 hover:text-primary-900 underline"
                   >
-                    Clear all filters
+                    {t('shop.clearFilters')}
                   </button>
                 )}
               </div>
@@ -463,12 +466,12 @@ export default function ShopPage() {
                 <div className="mb-4">
                   <Filter className="w-16 h-16 mx-auto text-primary-300" />
                 </div>
-                <h3 className="text-xl font-medium text-primary-900 mb-2">No products found</h3>
+                <h3 className="text-xl font-medium text-primary-900 mb-2">{t('shop.noProducts')}</h3>
                 <p className="text-primary-600 mb-6">
-                  Try adjusting your filters or search query to find what you're looking for
+                  {t('shop.noProductsDesc')}
                 </p>
                 <Button onClick={clearAllFilters}>
-                  Clear All Filters
+                  {t('shop.clearFilters')}
                 </Button>
               </div>
             ) : (
@@ -513,9 +516,11 @@ export default function ShopPage() {
                           className="font-medium text-primary-900 mb-2 hover:text-primary-700 cursor-pointer"
                           onClick={() => router.push(`/product/${product.id}`)}
                         >
-                          {product.name}
+                          {getProductName(product.id, product.name, t)}
                         </h3>
-                        <p className="text-primary-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+                        <p className="text-primary-600 text-sm mb-3 line-clamp-2">
+                          {getProductDescription(product.id, product.description, t)}
+                        </p>
                         
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
@@ -544,7 +549,7 @@ export default function ShopPage() {
                             size="sm"
                             variant="secondary"
                           >
-                            View Details
+                            {t('shop.viewDetails')}
                           </Button>
                           <Button
                             onClick={(e) => {
@@ -554,7 +559,7 @@ export default function ShopPage() {
                             className="flex-1"
                             size="sm"
                           >
-                            Add to Cart
+                            {t('shop.addToCart')}
                           </Button>
                         </div>
                       </div>
@@ -570,7 +575,7 @@ export default function ShopPage() {
                       onClick={() => changePage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
-                      Previous
+                      {t('shop.pagination.previous')}
                     </Button>
                     
                     <div className="flex gap-1">
@@ -594,7 +599,7 @@ export default function ShopPage() {
                       onClick={() => changePage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >
-                      Next
+                      {t('shop.pagination.next')}
                     </Button>
                   </div>
                 )}

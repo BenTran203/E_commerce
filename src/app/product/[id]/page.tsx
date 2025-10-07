@@ -19,46 +19,15 @@ import {
 import Button from '@/components/ui/Button'
 import { useCart } from '@/hooks/useCart'
 import productsData from '@/data/products.json'
-
-interface Product {
-  id: string
-  name: string
-  description: string
-  price: number
-  originalPrice?: number
-  images: Array<{
-    id: string
-    url: string
-    alt: string
-    isPrimary: boolean
-    order: number
-  }>
-  category: { id: string; name: string; slug: string }
-  brand: { id: string; name: string; slug: string }
-  sizes: Array<{ id: string; name: string; value: string; category: string }>
-  colors: Array<{ id: string; name: string; hex: string }>
-  materials: Array<{ id: string; name: string; properties: string[] }>
-  care: string[]
-  features: string[]
-  stock: number
-  isOnSale: boolean
-  salePercentage?: number
-  rating: number
-  reviewCount: number
-  sku: string
-  tags: string[]
-  vendor: {
-    id: string
-    name: string
-    rating: number
-    reviewCount: number
-  }
-}
+import { Product } from '@/types'
+import { useTranslation } from 'react-i18next'
+import { getProductName, getProductDescription, getCategoryName, getBrandName } from '@/utils/productTranslation'
 
 export default function ProductDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { addItem } = useCart()
+  const { t } = useTranslation()
   
   const [product, setProduct] = useState<Product | null>(null)
   const [selectedColor, setSelectedColor] = useState<string>('')
@@ -110,18 +79,7 @@ export default function ProductDetailPage() {
     const selectedColorObj = product.colors.find(c => c.id === selectedColor)
     const selectedSizeObj = product.sizes.find(s => s.id === selectedSize)
 
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
-      image: product.images[0]?.url || '',
-      color: selectedColorObj?.name,
-      size: selectedSizeObj?.value
-    })
-
-    // Optional: Show success message or redirect
-    alert(`Added ${quantity} ${product.name} to cart!`)
+    addItem(product, quantity, selectedSizeObj?.value, selectedColorObj?.name)
   }
 
   const nextImage = () => {
@@ -159,10 +117,10 @@ export default function ProductDetailPage() {
             onClick={() => router.push(`/shop?category=${product.category.slug}`)} 
             className="hover:text-primary-900"
           >
-            {product.category.name}
+            {getCategoryName(product.category.slug, product.category.name, t)}
           </button>
           <span>/</span>
-          <span className="text-primary-900">{product.name}</span>
+          <span className="text-primary-900">{getProductName(product.id, product.name, t)}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
@@ -233,12 +191,14 @@ export default function ProductDetailPage() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-primary-600 text-sm">{product.brand.name}</span>
+                <span className="text-primary-600 text-sm">
+                  {getBrandName(product.brand.slug, product.brand.name, t)}
+                </span>
                 <span className="text-primary-300">•</span>
                 <span className="text-primary-600 text-sm">SKU: {product.sku}</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-                {product.name}
+                {getProductName(product.id, product.name, t)}
               </h1>
 
               {/* Rating */}
@@ -274,7 +234,7 @@ export default function ProductDetailPage() {
               </div>
 
               <p className="text-primary-600 leading-relaxed mb-6">
-                {product.description}
+                {getProductDescription(product.id, product.description, t)}
               </p>
             </div>
 
@@ -456,7 +416,7 @@ export default function ProductDetailPage() {
                     Product Details
                   </h3>
                   <p className="text-primary-600 leading-relaxed mb-6">
-                    {product.description}
+                    {getProductDescription(product.id, product.description, t)}
                   </p>
                 </div>
 

@@ -18,6 +18,288 @@
       "story": "Our Story"
     }
   },
+  "categories": {
+    "title": "Shop by Category",
+    "description": "Explore our carefully curated collections, each designed to complement your unique style and lifestyle.",
+    "viewAll": "View All Products",
+    "lookMore": "Look for more",
+    "items": "items",
+    "categories": {
+      "unique": {
+        "name": "Unique",
+        "description": "Timeless unique items that form the foundation for every wardrobe"
+      },
+      "outerwear": {
+        "name": "Outerwear",
+        "description": "Sophisticated layers for every season and occasion"
+      },
+      "formal": {
+        "name": "Formal",
+        "description": "Elegant pieces for professional and special occasions"
+      },
+      "accessories": {
+        "name": "Accessories",
+        "description": "Carefully curated accessories to complete your look"
+      }
+    }
+  },
+  "featured": {
+    "title": "Featured Collection",
+    "description": "Handpicked pieces that embody our commitment to quality, style, and timeless appeal.",
+    "quickView": "Quick View",
+    "colors": "Colors",
+    "viewAll": "View All Products",
+    "reviews": "reviews"
+  },
+  "newsletter": {
+    "title": "Stay Inspired",
+    "description": "Join our community of style enthusiasts. Get exclusive access to new collections, styling tips, and special offers delivered directly to your inbox.",
+    "benefits": {
+      "earlyAccess": {
+        "title": "Early Access",
+        "description": "Be first to shop new arrivals and limited collections"
+      },
+      "exclusiveOffers": {
+        "title": "Exclusive Offers",
+        "description": "Receive subscriber-only discounts and special promotions"
+      },
+      "styleGuide": {
+        "title": "Style Guide",
+        "description": "Expert styling tips and seasonal trend insights"
+      }
+    },
+    "placeholder": "Enter your email address",
+    "subscribe": "Subscribe Now",
+    "subscribing": "Subscribing...",
+    "success": {
+      "title": "Welcome to Timeless!",
+      "message": "You've been successfully subscribed to our newsletter.",
+      "another": "Subscribe another email"
+    },
+    "disclaimer": "By subscribing, you agree to receive marketing emails from Timeless. You can unsubscribe at any time. View our",
+    "privacy": "Privacy Policy"
+  },
+  "shop": {
+    "title": "Our Collection",
+    "description": "Discover our carefully curated selection of premium fashion pieces",
+    "search": "Search products...",
+    "filters": "Filters",
+    "showing": "Showing",
+    "products": "products",
+    "product": "product",
+    "noProducts": "No products found",
+    "noProductsDesc": "Try adjusting your filters or search query to find what you're looking for",
+    "clearFilters": "Clear All Filters",
+    "viewDetails": "View Details",
+    "addToCart": "Add to Cart",
+    "priceRange": "Price Range",
+    "brands": "Brands",
+    "colors": "Colors",
+    "sizes": "Sizes",
+    "applyInstantly": "✨ Filters apply instantly",
+    "sortBy": {
+      "newest": "Newest",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "name": "Name A-Z"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "collections": {
+    "title": "Our Collections",
+    "description": "Discover our carefully curated collections that blend timeless elegance with contemporary style. Each collection tells a unique story, crafted for the modern individual who appreciates quality and authenticity.",
+    "featured": {
+      "title": "Featured Collections",
+      "description": "Our most popular and seasonally relevant collections, handpicked for their exceptional design and quality",
+      "badge": "Featured"
+    },
+    "all": {
+      "title": "All Collections",
+      "description": "Explore our complete range of collections, each designed to cater to different styles and occasions"
+    },
+    "explore": "Explore",
+    "exploreCollection": "Explore Collection",
+    "items": "items",
+    "popular": "Popular",
+    "newsletter": {
+      "title": "Stay Updated",
+      "description": "Be the first to know about new collections, exclusive offers, and style inspiration. Join our community of fashion enthusiasts.",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Our Story",
+      "description": "Born from a passion for timeless elegance and authentic craftsmanship, Timeless represents more than fashion—it's a celebration of heritage, quality, and the art of thoughtful design."
+    },
+    "mission": {
+      "title": "Crafting Timeless Elegance",
+      "description1": "At Timeless, we believe that true style transcends seasonal trends. Our mission is to curate and create pieces that embody lasting elegance, superior quality, and authentic craftsmanship.",
+      "description2": "Each item in our collection tells a story—of skilled artisans, premium materials, and a commitment to excellence that spans generations. We're not just selling clothing; we're preserving traditions and celebrating the art of fine fashion.",
+      "cta": "Explore Our Collections",
+      "badge": {
+        "title": "Made with Love",
+        "since": "Since 2014"
+      }
+    },
+    "impact": {
+      "title": "Our Impact",
+      "description": "Numbers that reflect our commitment to excellence and the trust our customers place in us",
+      "stats": {
+        "customers": "Happy Customers",
+        "products": "Products Sold",
+        "countries": "Countries",
+        "years": "Years of Excellence"
+      }
+    },
+    "values": {
+      "title": "Our Values",
+      "description": "The principles that guide every decision we make and every product we create",
+      "passion": {
+        "title": "Passion for Quality",
+        "description": "Every piece in our collection is carefully selected for its exceptional quality, craftsmanship, and attention to detail."
+      },
+      "sustainable": {
+        "title": "Sustainable Fashion",
+        "description": "We believe in responsible fashion that respects both people and the planet, choosing eco-friendly materials and ethical practices."
+      },
+      "customer": {
+        "title": "Customer Focused",
+        "description": "Our customers are at the heart of everything we do. We strive to exceed expectations and build lasting relationships."
+      },
+      "global": {
+        "title": "Global Community",
+        "description": "Celebrating diversity and connecting fashion lovers worldwide through shared appreciation for timeless style."
+      }
+    },
+    "journey": {
+      "title": "Our Journey",
+      "description": "From humble beginnings to global recognition—the milestones that shaped our story",
+      "timeline": {
+        "2014": {
+          "title": "The Beginning",
+          "description": "Founded with a vision to make premium fashion accessible to everyone, starting from a small studio in Vietnam."
+        },
+        "2016": {
+          "title": "First Collection",
+          "description": "Launched our signature Vietnamese Heritage collection, blending traditional craftsmanship with modern design."
+        },
+        "2018": {
+          "title": "International Expansion",
+          "description": "Expanded to serve customers across Asia, bringing our unique aesthetic to a broader audience."
+        },
+        "2020": {
+          "title": "Digital Transformation",
+          "description": "Embraced e-commerce and digital innovation, making our collections available worldwide."
+        },
+        "2022": {
+          "title": "Sustainable Initiative",
+          "description": "Launched our sustainability program, partnering with eco-friendly suppliers and supporting local artisans."
+        },
+        "2024": {
+          "title": "Today",
+          "description": "Continuing to evolve and innovate while staying true to our core values of quality, authenticity, and style."
+        }
+      }
+    },
+    "team": {
+      "title": "The Team Behind Timeless",
+      "description": "Meet the passionate individuals who bring our vision to life every day"
+    },
+    "cta": {
+      "title": "Join Our Story",
+      "description": "Become part of the Timeless community and discover fashion that celebrates authenticity, quality, and timeless style.",
+      "shop": "Shop Collections",
+      "contact": "Contact Us"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Get in Touch",
+      "description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+    },
+    "info": {
+      "email": {
+        "title": "Email Us",
+        "description": "Send us an email and we'll respond within 24 hours",
+        "value": "hello@timeless.com"
+      },
+      "phone": {
+        "title": "Call Us",
+        "description": "Mon-Fri from 8am to 6pm (GMT+7)",
+        "value": "+84 123 456 789"
+      },
+      "visit": {
+        "title": "Visit Us",
+        "description": "Come visit our flagship store",
+        "value": "Ho Chi Minh City, Vietnam"
+      }
+    },
+    "form": {
+      "title": "Send us a Message",
+      "prefilled": "✨ We've pre-filled your information since you're logged in!",
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+84 123 456 789",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "subjects": {
+        "general": "General Inquiry",
+        "order": "Order Support",
+        "product": "Product Question",
+        "shipping": "Shipping Issue",
+        "return": "Return Request",
+        "partnership": "Partnership",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell us how we can help you...",
+      "terms": "I agree to the",
+      "termsService": "Terms of Service",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": {
+        "title": "Message Sent Successfully!",
+        "description": "Thank you for contacting us. We'll get back to you within 24 hours.",
+        "another": "Send Another Message"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "return": {
+          "question": "What is your return policy?",
+          "answer": "We offer a 30-day return policy for all unworn items with original tags. Items must be in original condition."
+        },
+        "shipping": {
+          "question": "How long does shipping take?",
+          "answer": "Domestic shipping takes 2-3 business days. International shipping takes 5-10 business days depending on location."
+        },
+        "international": {
+          "question": "Do you offer international shipping?",
+          "answer": "Yes, we ship worldwide. Shipping costs and delivery times vary by destination."
+        },
+        "tracking": {
+          "question": "How can I track my order?",
+          "answer": "Once your order ships, you'll receive a tracking number via email. You can track your package on our website or the carrier's site."
+        }
+      },
+      "help": {
+        "title": "Still have questions?",
+        "description": "Can't find the answer you're looking for? Please chat with us.",
+        "button": "Start Live Chat"
+      }
+    }
+  },
   "footer": {
     "newsletter": {
       "title": "Stay in the Know",
@@ -64,5 +346,133 @@
       "shipping": "Free Shipping Over $100",
       "returns": "30-Day Returns"
     }
+  },
+  "products": {
+    "1": {
+      "name": "Essential Cotton T-Shirt",
+      "description": "Premium cotton t-shirt with minimalist design"
+    },
+    "2": {
+      "name": "Insulated Puffer Jacket",
+      "description": "Lightweight, water-resistant puffer jacket with premium insulation for cold-weather comfort."
+    },
+    "3": {
+      "name": "Modern Tailored Suit",
+      "description": "Refined two-piece suit with a modern silhouette and breathable wool blend — perfect for formal occasions and office wear."
+    },
+    "4": {
+      "name": "Classic Heritage Watch",
+      "description": "Precision quartz movement with a minimalist dial and stainless steel case — a timeless accessory."
+    },
+    "5": {
+      "name": "Linen Summer Shirt",
+      "description": "Breathable linen shirt perfect for hot summer days. Lightweight and comfortable with a relaxed fit."
+    },
+    "6": {
+      "name": "Streetwear Cargo Pants",
+      "description": "Modern cargo pants with multiple pockets and adjustable straps. Perfect for urban street style."
+    },
+    "8": {
+      "name": "Minimalist Leather Bag",
+      "description": "Handcrafted leather messenger bag with clean lines and functional design."
+    },
+    "9": {
+      "name": "Business Casual Blazer",
+      "description": "Versatile blazer that bridges the gap between formal and casual. Perfect for modern professionals."
+    },
+    "10": {
+      "name": "Winter Wool Scarf",
+      "description": "Luxurious cashmere-wool blend scarf. Soft, warm, and stylish for cold weather."
+    },
+    "11": {
+      "name": "Formal White Shirt",
+      "description": "Classic white shirt with French cuffs and spread collar. Essential for formal occasions."
+    },
+    "12": {
+      "name": "Denim Jacket Vintage",
+      "description": "Classic denim jacket with vintage wash and modern fit. Perfect for layering and casual looks."
+    },
+    "13": {
+      "name": "Summer Floral Dress",
+      "description": "Light and airy summer dress with delicate floral print. Perfect for warm weather occasions."
+    },
+    "14": {
+      "name": "Urban Sneakers",
+      "description": "Modern urban sneakers with premium materials and comfortable sole. Perfect for street style."
+    },
+    "15": {
+      "name": "Silk Pocket Square",
+      "description": "Premium silk pocket square with elegant pattern. Essential formal accessory."
+    },
+    "16": {
+      "name": "Bamboo Fiber Socks",
+      "description": "Eco-friendly bamboo fiber socks. Antibacterial, moisture-wicking, and incredibly soft."
+    },
+    "18": {
+      "name": "Thermal Base Layer",
+      "description": "High-performance thermal base layer for extreme cold weather. Moisture-wicking and insulating."
+    },
+    "19": {
+      "name": "High-waisted Jeans",
+      "description": "Classic high-waisted jeans with stretch fabric for comfort and flattering fit."
+    },
+    "20": {
+      "name": "Tech-wear Crossbody Bag",
+      "description": "Futuristic crossbody bag with multiple compartments and weather-resistant materials."
+    }
+  },
+  "productCollections": {
+    "casual-everyday": {
+      "name": "Casual Everyday",
+      "description": "Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look."
+    },
+    "formal-excellence": {
+      "name": "Formal Excellence",
+      "description": "Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection."
+    },
+    "premium-accessories": {
+      "name": "Premium Accessories",
+      "description": "Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement."
+    },
+    "winter-warmth": {
+      "name": "Winter Warmth",
+      "description": "Stay warm and stylish during the colder months. Our winter collection features cozy layers and weather-resistant outerwear."
+    },
+    "street-style-culture": {
+      "name": "Street Style Culture",
+      "description": "Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics."
+    },
+    "summer-breeze": {
+      "name": "Summer Breeze",
+      "description": "Light, breathable pieces perfect for warm weather. From flowing dresses to linen shirts, embrace the sunshine in style."
+    }
+  },
+  "productCategories": {
+    "casual": "Casual",
+    "winter": "Winter",
+    "formal": "Formal",
+    "accessories": "Accessories",
+    "summer": "Summer",
+    "street-style": "Street Style"
+  },
+  "productBrands": {
+    "timeless": "Timeless",
+    "heritage": "Heritage",
+    "aurum": "Aurum Tailoring",
+    "aurum-time": "Aurum Timepieces",
+    "coastal": "Coastal",
+    "urban-edge": "Urban Edge",
+    "craftsmen": "Craftsmen Co.",
+    "professional": "Professional",
+    "nordic": "Nordic",
+    "executive": "Executive",
+    "vintage-co": "Vintage Co.",
+    "bloom": "Bloom",
+    "metro": "Metro",
+    "gentleman": "Gentleman",
+    "ecowear": "EcoWear",
+    "arctic-pro": "Arctic Pro",
+    "denim-dreams": "Denim Dreams",
+    "future-gear": "Future Gear"
   }
 }

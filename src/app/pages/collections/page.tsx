@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ArrowRight, Star } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import productsData from '@/data/products.json'
+import { useTranslation } from 'react-i18next'
+import { getCollectionName, getCollectionDescription } from '@/utils/productTranslation'
 
 interface Collection {
   id: string
@@ -25,6 +27,7 @@ const collections: (Collection & { productCount: number; featured: boolean })[] 
   }))
 
 export default function CollectionsPage() {
+  const { t } = useTranslation()
   const featuredCollections = collections.filter(c => c.featured)
   const allCollections = collections
 
@@ -46,7 +49,7 @@ export default function CollectionsPage() {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-serif text-primary-900 mb-6"
           >
-            Our Collections
+            {t('collections.title')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -54,8 +57,7 @@ export default function CollectionsPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl text-primary-600 max-w-3xl mx-auto leading-relaxed"
           >
-            Discover our carefully curated collections that blend timeless elegance with contemporary style. 
-            Each collection tells a unique story, crafted for the modern individual who appreciates quality and authenticity.
+            {t('collections.description')}
           </motion.p>
         </div>
       </section>
@@ -69,10 +71,10 @@ export default function CollectionsPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-              Featured Collections
+              {t('collections.featured.title')}
             </h2>
             <p className="text-primary-600 max-w-2xl mx-auto">
-              Our most popular and seasonally relevant collections, handpicked for their exceptional design and quality
+              {t('collections.featured.description')}
             </p>
           </motion.div>
 
@@ -97,15 +99,17 @@ export default function CollectionsPage() {
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-medium">Featured</span>
+                    <span className="text-sm font-medium">{t('collections.featured.badge')}</span>
                   </div>
-                  <h3 className="text-2xl font-serif mb-2">{collection.name}</h3>
+                  <h3 className="text-2xl font-serif mb-2">
+                    {getCollectionName(collection.slug, collection.name, t)}
+                  </h3>
                   <p className="text-white/90 text-sm mb-4 line-clamp-2">
-                    {collection.description}
+                    {getCollectionDescription(collection.slug, collection.description, t)}
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-white/80">
-                      {collection.productCount} items
+                      {collection.productCount} {t('collections.items')}
                     </span>
                     <Link href={`/shop?collection=${collection.slug}`}>
                       <Button
@@ -113,7 +117,7 @@ export default function CollectionsPage() {
                         size="sm"
                         className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
                       >
-                        Explore
+                        {t('collections.explore')}
                         <ArrowRight size={16} className="ml-2" />
                       </Button>
                     </Link>
@@ -134,10 +138,10 @@ export default function CollectionsPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-              All Collections
+              {t('collections.all.title')}
             </h2>
             <p className="text-primary-600 max-w-2xl mx-auto">
-              Explore our complete range of collections, each designed to cater to different styles and occasions
+              {t('collections.all.description')}
             </p>
           </motion.div>
 
@@ -158,25 +162,25 @@ export default function CollectionsPage() {
                   />
                   {collection.featured && (
                     <div className="absolute top-3 right-3 bg-primary-900 text-white px-2 py-1 rounded-full text-xs font-medium">
-                      Featured
+                      {t('collections.featured.badge')}
                     </div>
                   )}
                 </div>
                 
                 <div className="p-6">
                   <h3 className="text-xl font-serif text-primary-900 mb-2">
-                    {collection.name}
+                    {getCollectionName(collection.slug, collection.name, t)}
                   </h3>
                   <p className="text-primary-600 text-sm mb-4 line-clamp-3">
-                    {collection.description}
+                    {getCollectionDescription(collection.slug, collection.description, t)}
                   </p>
                   
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-sm text-primary-500">
-                      {collection.productCount} items
+                      {collection.productCount} {t('collections.items')}
                     </span>
                     <div className="flex items-center gap-1">
-                      <span className="text-xs text-primary-400">Popular</span>
+                      <span className="text-xs text-primary-400">{t('collections.popular')}</span>
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <Star
@@ -193,7 +197,7 @@ export default function CollectionsPage() {
 
                   <Link href={`/shop?collection=${collection.slug}`}>
                     <Button className="w-full group">
-                      Explore Collection
+                      {t('collections.exploreCollection')}
                       <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
@@ -213,20 +217,19 @@ export default function CollectionsPage() {
             className="bg-primary-900 rounded-2xl p-8 md:p-12 text-center text-white"
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-4">
-              Stay Updated
+              {t('collections.newsletter.title')}
             </h2>
             <p className="text-primary-100 mb-6 max-w-2xl mx-auto">
-              Be the first to know about new collections, exclusive offers, and style inspiration. 
-              Join our community of fashion enthusiasts.
+              {t('collections.newsletter.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('collections.newsletter.placeholder')}
                 className="flex-1 px-4 py-3 rounded-lg text-primary-900 focus:outline-none focus:ring-2 focus:ring-white/50"
               />
               <Button variant="secondary" className="bg-white text-primary-900 hover:bg-primary-50">
-                Subscribe
+                {t('collections.newsletter.subscribe')}
               </Button>
             </div>
           </motion.div>

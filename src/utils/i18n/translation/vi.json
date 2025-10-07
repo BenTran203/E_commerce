@@ -18,6 +18,288 @@
       "story": "Câu Chuyện Của Chúng Tôi"
     }
   },
+  "categories": {
+    "title": "Mua Sắm Theo Danh Mục",
+    "description": "Khám phá các bộ sưu tập được tuyển chọn cẩn thận, được thiết kế để bổ sung cho phong cách và lối sống độc đáo của bạn.",
+    "viewAll": "Xem Tất Cả Sản Phẩm",
+    "lookMore": "Xem thêm",
+    "items": "sản phẩm",
+    "categories": {
+      "unique": {
+        "name": "Độc Đáo",
+        "description": "Các món đồ độc đáo vượt thời gian tạo nên nền tảng cho mọi tủ quần áo"
+      },
+      "outerwear": {
+        "name": "Áo Khoác",
+        "description": "Những lớp áo tinh tế cho mọi mùa và dịp"
+      },
+      "formal": {
+        "name": "Trang Phục Lịch Sự",
+        "description": "Những món đồ thanh lịch cho công việc và những dịp đặc biệt"
+      },
+      "accessories": {
+        "name": "Phụ Kiện",
+        "description": "Phụ kiện được tuyển chọn cẩn thận để hoàn thiện vẻ ngoài của bạn"
+      }
+    }
+  },
+  "featured": {
+    "title": "Bộ Sưu Tập Nổi Bật",
+    "description": "Những sản phẩm được chọn lọc thể hiện cam kết của chúng tôi về chất lượng, phong cách và sự hấp dẫn vượt thời gian.",
+    "quickView": "Xem Nhanh",
+    "colors": "Màu Sắc",
+    "viewAll": "Xem Tất Cả Sản Phẩm",
+    "reviews": "đánh giá"
+  },
+  "newsletter": {
+    "title": "Luôn Được Truyền Cảm Hứng",
+    "description": "Tham gia cộng đồng những người đam mê phong cách của chúng tôi. Nhận quyền truy cập độc quyền vào các bộ sưu tập mới, mẹo tạo kiểu và ưu đãi đặc biệt được gửi trực tiếp đến hộp thư của bạn.",
+    "benefits": {
+      "earlyAccess": {
+        "title": "Truy Cập Sớm",
+        "description": "Trở thành người đầu tiên mua sắm hàng mới về và bộ sưu tập giới hạn"
+      },
+      "exclusiveOffers": {
+        "title": "Ưu Đãi Độc Quyền",
+        "description": "Nhận giảm giá và khuyến mãi đặc biệt chỉ dành cho người đăng ký"
+      },
+      "styleGuide": {
+        "title": "Hướng Dẫn Phong Cách",
+        "description": "Mẹo tạo kiểu từ chuyên gia và thông tin xu hướng theo mùa"
+      }
+    },
+    "placeholder": "Nhập địa chỉ email của bạn",
+    "subscribe": "Đăng Ký Ngay",
+    "subscribing": "Đang đăng ký...",
+    "success": {
+      "title": "Chào Mừng Đến Với Timeless!",
+      "message": "Bạn đã đăng ký nhận bản tin thành công.",
+      "another": "Đăng ký email khác"
+    },
+    "disclaimer": "Bằng cách đăng ký, bạn đồng ý nhận email tiếp thị từ Timeless. Bạn có thể hủy đăng ký bất cứ lúc nào. Xem",
+    "privacy": "Chính Sách Bảo Mật"
+  },
+  "shop": {
+    "title": "Bộ Sưu Tập Của Chúng Tôi",
+    "description": "Khám phá bộ sưu tập thời trang cao cấp được tuyển chọn cẩn thận của chúng tôi",
+    "search": "Tìm kiếm sản phẩm...",
+    "filters": "Bộ Lọc",
+    "showing": "Hiển thị",
+    "products": "sản phẩm",
+    "product": "sản phẩm",
+    "noProducts": "Không tìm thấy sản phẩm nào",
+    "noProductsDesc": "Hãy thử điều chỉnh bộ lọc hoặc từ khóa tìm kiếm để tìm những gì bạn đang tìm",
+    "clearFilters": "Xóa Tất Cả Bộ Lọc",
+    "viewDetails": "Xem Chi Tiết",
+    "addToCart": "Thêm Vào Giỏ",
+    "priceRange": "Khoảng Giá",
+    "brands": "Thương Hiệu",
+    "colors": "Màu Sắc",
+    "sizes": "Kích Thước",
+    "applyInstantly": "✨ Bộ lọc áp dụng ngay lập tức",
+    "sortBy": {
+      "newest": "Mới Nhất",
+      "priceLow": "Giá: Thấp Đến Cao",
+      "priceHigh": "Giá: Cao Đến Thấp",
+      "name": "Tên A-Z"
+    },
+    "pagination": {
+      "previous": "Trước",
+      "next": "Tiếp"
+    }
+  },
+  "collections": {
+    "title": "Bộ Sưu Tập Của Chúng Tôi",
+    "description": "Khám phá các bộ sưu tập được tuyển chọn cẩn thận, kết hợp sự thanh lịch vượt thời gian với phong cách đương đại. Mỗi bộ sưu tập kể một câu chuyện độc đáo, được tạo ra cho những cá nhân hiện đại đánh giá cao chất lượng và tính xác thực.",
+    "featured": {
+      "title": "Bộ Sưu Tập Nổi Bật",
+      "description": "Các bộ sưu tập phổ biến nhất và phù hợp với mùa của chúng tôi, được chọn lọc vì thiết kế và chất lượng đặc biệt",
+      "badge": "Nổi Bật"
+    },
+    "all": {
+      "title": "Tất Cả Bộ Sưu Tập",
+      "description": "Khám phá toàn bộ các bộ sưu tập của chúng tôi, mỗi bộ được thiết kế để phục vụ các phong cách và dịp khác nhau"
+    },
+    "explore": "Khám Phá",
+    "exploreCollection": "Khám Phá Bộ Sưu Tập",
+    "items": "sản phẩm",
+    "popular": "Phổ Biến",
+    "newsletter": {
+      "title": "Cập Nhật Thông Tin",
+      "description": "Trở thành người đầu tiên biết về bộ sưu tập mới, ưu đãi độc quyền và cảm hứng phong cách. Tham gia cộng đồng những người đam mê thời trang của chúng tôi.",
+      "placeholder": "Nhập email của bạn",
+      "subscribe": "Đăng Ký"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Câu Chuyện Của Chúng Tôi",
+      "description": "Ra đời từ niềm đam mê về sự thanh lịch vượt thời gian và nghệ thuật thủ công chân thực, Timeless đại diện cho nhiều hơn cả thời trang—đó là sự tôn vinh di sản, chất lượng và nghệ thuật thiết kế chu đáo."
+    },
+    "mission": {
+      "title": "Tạo Nên Sự Thanh Lịch Vượt Thời Gian",
+      "description1": "Tại Timeless, chúng tôi tin rằng phong cách thực sự vượt qua xu hướng theo mùa. Sứ mệnh của chúng tôi là tuyển chọn và tạo ra những sản phẩm thể hiện sự thanh lịch bền vững, chất lượng vượt trội và nghệ thuật thủ công chân thực.",
+      "description2": "Mỗi món đồ trong bộ sưu tập của chúng tôi kể một câu chuyện—về những nghệ nhân tài ba, vật liệu cao cấp và cam kết về sự xuất sắc trải qua nhiều thế hệ. Chúng tôi không chỉ bán quần áo; chúng tôi đang bảo tồn truyền thống và tôn vinh nghệ thuật thời trang cao cấp.",
+      "cta": "Khám Phá Bộ Sưu Tập",
+      "badge": {
+        "title": "Làm Bằng Tình Yêu",
+        "since": "Từ Năm 2014"
+      }
+    },
+    "impact": {
+      "title": "Tác Động Của Chúng Tôi",
+      "description": "Con số phản ánh cam kết của chúng tôi về sự xuất sắc và niềm tin mà khách hàng dành cho chúng tôi",
+      "stats": {
+        "customers": "Khách Hàng Hài Lòng",
+        "products": "Sản Phẩm Đã Bán",
+        "countries": "Quốc Gia",
+        "years": "Năm Xuất Sắc"
+      }
+    },
+    "values": {
+      "title": "Giá Trị Của Chúng Tôi",
+      "description": "Những nguyên tắc định hướng mọi quyết định chúng tôi đưa ra và mọi sản phẩm chúng tôi tạo ra",
+      "passion": {
+        "title": "Đam Mê Chất Lượng",
+        "description": "Mỗi sản phẩm trong bộ sưu tập của chúng tôi được lựa chọn cẩn thận vì chất lượng đặc biệt, nghệ thuật và sự chú ý đến từng chi tiết."
+      },
+      "sustainable": {
+        "title": "Thời Trang Bền Vững",
+        "description": "Chúng tôi tin vào thời trang có trách nhiệm, tôn trọng cả con người và hành tinh, lựa chọn vật liệu thân thiện với môi trường và thực hành đạo đức."
+      },
+      "customer": {
+        "title": "Tập Trung Vào Khách Hàng",
+        "description": "Khách hàng là trung tâm của mọi việc chúng tôi làm. Chúng tôi nỗ lực vượt qua mong đợi và xây dựng mối quan hệ lâu dài."
+      },
+      "global": {
+        "title": "Cộng Đồng Toàn Cầu",
+        "description": "Tôn vinh sự đa dạng và kết nối những người yêu thời trang trên toàn thế giới thông qua sự đánh giá chung về phong cách vượt thời gian."
+      }
+    },
+    "journey": {
+      "title": "Hành Trình Của Chúng Tôi",
+      "description": "Từ khởi đầu khiêm tốn đến được công nhận toàn cầu—những cột mốc hình thành câu chuyện của chúng tôi",
+      "timeline": {
+        "2014": {
+          "title": "Khởi Đầu",
+          "description": "Được thành lập với tầm nhìn làm cho thời trang cao cấp có thể tiếp cận được với mọi người, bắt đầu từ một studio nhỏ ở Việt Nam."
+        },
+        "2016": {
+          "title": "Bộ Sưu Tập Đầu Tiên",
+          "description": "Ra mắt bộ sưu tập Di Sản Việt Nam đặc trưng, kết hợp nghệ thuật thủ công truyền thống với thiết kế hiện đại."
+        },
+        "2018": {
+          "title": "Mở Rộng Quốc Tế",
+          "description": "Mở rộng phục vụ khách hàng trên khắp châu Á, mang thẩm mỹ độc đáo của chúng tôi đến với đông đảo khán giả."
+        },
+        "2020": {
+          "title": "Chuyển Đổi Số",
+          "description": "Áp dụng thương mại điện tử và đổi mới số hóa, làm cho các bộ sưu tập của chúng tôi có sẵn trên toàn thế giới."
+        },
+        "2022": {
+          "title": "Sáng Kiến Bền Vững",
+          "description": "Ra mắt chương trình phát triển bền vững, hợp tác với các nhà cung cấp thân thiện với môi trường và hỗ trợ nghệ nhân địa phương."
+        },
+        "2024": {
+          "title": "Ngày Nay",
+          "description": "Tiếp tục phát triển và đổi mới trong khi vẫn trung thành với các giá trị cốt lõi của chúng tôi về chất lượng, tính xác thực và phong cách."
+        }
+      }
+    },
+    "team": {
+      "title": "Đội Ngũ Đằng Sau Timeless",
+      "description": "Gặp gỡ những cá nhân đam mê mang tầm nhìn của chúng tôi vào cuộc sống mỗi ngày"
+    },
+    "cta": {
+      "title": "Tham Gia Câu Chuyện Của Chúng Tôi",
+      "description": "Trở thành một phần của cộng đồng Timeless và khám phá thời trang tôn vinh tính xác thực, chất lượng và phong cách vượt thời gian.",
+      "shop": "Mua Sắm Bộ Sưu Tập",
+      "contact": "Liên Hệ Với Chúng Tôi"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Liên Hệ",
+      "description": "Chúng tôi rất mong được nghe từ bạn. Gửi cho chúng tôi tin nhắn và chúng tôi sẽ phản hồi sớm nhất có thể."
+    },
+    "info": {
+      "email": {
+        "title": "Email Cho Chúng Tôi",
+        "description": "Gửi email cho chúng tôi và chúng tôi sẽ phản hồi trong vòng 24 giờ",
+        "value": "hello@timeless.com"
+      },
+      "phone": {
+        "title": "Gọi Cho Chúng Tôi",
+        "description": "Thứ 2-6 từ 8 giờ sáng đến 6 giờ chiều (GMT+7)",
+        "value": "+84 123 456 789"
+      },
+      "visit": {
+        "title": "Ghé Thăm Chúng Tôi",
+        "description": "Đến thăm cửa hàng hàng đầu của chúng tôi",
+        "value": "Thành Phố Hồ Chí Minh, Việt Nam"
+      }
+    },
+    "form": {
+      "title": "Gửi Tin Nhắn Cho Chúng Tôi",
+      "prefilled": "✨ Chúng tôi đã điền sẵn thông tin của bạn vì bạn đã đăng nhập!",
+      "name": "Họ Tên",
+      "namePlaceholder": "Họ và tên đầy đủ của bạn",
+      "email": "Email",
+      "emailPlaceholder": "email@cua-ban.com",
+      "phone": "Số Điện Thoại",
+      "phonePlaceholder": "+84 123 456 789",
+      "subject": "Chủ Đề",
+      "subjectPlaceholder": "Chọn một chủ đề",
+      "subjects": {
+        "general": "Thắc Mắc Chung",
+        "order": "Hỗ Trợ Đơn Hàng",
+        "product": "Câu Hỏi Về Sản Phẩm",
+        "shipping": "Vấn Đề Vận Chuyển",
+        "return": "Yêu Cầu Trả Hàng",
+        "partnership": "Hợp Tác",
+        "other": "Khác"
+      },
+      "message": "Tin Nhắn",
+      "messagePlaceholder": "Cho chúng tôi biết chúng tôi có thể giúp bạn như thế nào...",
+      "terms": "Tôi đồng ý với",
+      "termsService": "Điều Khoản Dịch Vụ",
+      "and": "và",
+      "privacyPolicy": "Chính Sách Bảo Mật",
+      "send": "Gửi Tin Nhắn",
+      "sending": "Đang gửi...",
+      "success": {
+        "title": "Tin Nhắn Đã Được Gửi Thành Công!",
+        "description": "Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ liên hệ lại với bạn trong vòng 24 giờ.",
+        "another": "Gửi Tin Nhắn Khác"
+      }
+    },
+    "faq": {
+      "title": "Câu Hỏi Thường Gặp",
+      "questions": {
+        "return": {
+          "question": "Chính sách trả hàng của bạn là gì?",
+          "answer": "Chúng tôi cung cấp chính sách đổi trả trong 30 ngày cho tất cả các sản phẩm chưa mặc với nhãn gốc. Sản phẩm phải ở tình trạng ban đầu."
+        },
+        "shipping": {
+          "question": "Vận chuyển mất bao lâu?",
+          "answer": "Vận chuyển nội địa mất 2-3 ngày làm việc. Vận chuyển quốc tế mất 5-10 ngày làm việc tùy thuộc vào địa điểm."
+        },
+        "international": {
+          "question": "Bạn có cung cấp vận chuyển quốc tế không?",
+          "answer": "Có, chúng tôi giao hàng toàn cầu. Chi phí vận chuyển và thời gian giao hàng thay đổi theo địa điểm."
+        },
+        "tracking": {
+          "question": "Làm thế nào tôi có thể theo dõi đơn hàng của mình?",
+          "answer": "Khi đơn hàng của bạn được gửi đi, bạn sẽ nhận được mã theo dõi qua email. Bạn có thể theo dõi gói hàng của mình trên trang web của chúng tôi hoặc trang web của người vận chuyển."
+        }
+      },
+      "help": {
+        "title": "Vẫn Còn Câu Hỏi?",
+        "description": "Không tìm thấy câu trả lời bạn đang tìm kiếm? Vui lòng trò chuyện với chúng tôi.",
+        "button": "Bắt Đầu Trò Chuyện Trực Tiếp"
+      }
+    }
+  },
   "footer": {
     "newsletter": {
       "title": "Cập Nhật Xu Hướng",
@@ -64,5 +346,133 @@
       "shipping": "Miễn Phí Vận Chuyển Trên $100",
       "returns": "Đổi Trả Trong 30 Ngày"
     }
+  },
+  "products": {
+    "1": {
+      "name": "Áo Thun Cotton Cơ Bản",
+      "description": "Áo thun cotton cao cấp với thiết kế tối giản"
+    },
+    "2": {
+      "name": "Áo Khoác Phao Cách Nhiệt",
+      "description": "Áo khoác phao nhẹ, chống nước với lớp cách nhiệt cao cấp cho sự ấm áp trong thời tiết lạnh."
+    },
+    "3": {
+      "name": "Bộ Vest May Đo Hiện Đại",
+      "description": "Bộ vest hai mảnh tinh tế với phom dáng hiện đại và chất liệu len pha thoáng khí — hoàn hảo cho các dịp trang trọng và văn phòng."
+    },
+    "4": {
+      "name": "Đồng Hồ Di Sản Cổ Điển",
+      "description": "Bộ máy thạch anh chính xác với mặt số tối giản và vỏ thép không gỉ — phụ kiện vượt thời gian."
+    },
+    "5": {
+      "name": "Áo Sơ Mi Lanh Mùa Hè",
+      "description": "Áo sơ mi lanh thoáng khí hoàn hảo cho những ngày hè nóng nực. Nhẹ nhàng và thoải mái với form dáng rộng rãi."
+    },
+    "6": {
+      "name": "Quần Cargo Phong Cách Đường Phố",
+      "description": "Quần cargo hiện đại với nhiều túi và dây điều chỉnh. Hoàn hảo cho phong cách đường phố đô thị."
+    },
+    "8": {
+      "name": "Túi Da Tối Giản",
+      "description": "Túi đeo chéo bằng da thủ công với đường nét sạch sẽ và thiết kế chức năng."
+    },
+    "9": {
+      "name": "Áo Blazer Công Sở Thoải Mái",
+      "description": "Áo blazer đa năng kết hợp giữa trang trọng và thoải mái. Hoàn hảo cho các chuyên gia hiện đại."
+    },
+    "10": {
+      "name": "Khăn Len Mùa Đông",
+      "description": "Khăn len cashmere pha trộn sang trọng. Mềm mại, ấm áp và thời trang cho thời tiết lạnh."
+    },
+    "11": {
+      "name": "Áo Sơ Mi Trắng Trang Trọng",
+      "description": "Áo sơ mi trắng cổ điển với mu măng sét Pháp và cổ áo rộng. Thiết yếu cho các dịp trang trọng."
+    },
+    "12": {
+      "name": "Áo Khoác Denim Cổ Điển",
+      "description": "Áo khoác denim cổ điển với kiểu giặt vintage và form dáng hiện đại. Hoàn hảo để mặc nhiều lớp và phong cách thoải mái."
+    },
+    "13": {
+      "name": "Váy Hoa Mùa Hè",
+      "description": "Váy mùa hè nhẹ nhàng và thoáng mát với họa tiết hoa tinh tế. Hoàn hảo cho các dịp thời tiết ấm áp."
+    },
+    "14": {
+      "name": "Giày Thể Thao Đô Thị",
+      "description": "Giày thể thao đô thị hiện đại với vật liệu cao cấp và đế thoải mái. Hoàn hảo cho phong cách đường phố."
+    },
+    "15": {
+      "name": "Khăn Tay Lụa Túi Ngực",
+      "description": "Khăn tay lụa cao cấp với họa tiết thanh lịch. Phụ kiện trang trọng thiết yếu."
+    },
+    "16": {
+      "name": "Tất Sợi Tre",
+      "description": "Tất sợi tre thân thiện với môi trường. Kháng khuẩn, thấm hút ẩm và cực kỳ mềm mại."
+    },
+    "18": {
+      "name": "Lớp Lót Giữ Nhiệt",
+      "description": "Lớp lót giữ nhiệt hiệu suất cao cho thời tiết cực lạnh. Thấm hút ẩm và cách nhiệt."
+    },
+    "19": {
+      "name": "Quần Jean Lưng Cao",
+      "description": "Quần jean lưng cao cổ điển với vải co giãn cho sự thoải mái và form dáng đẹp."
+    },
+    "20": {
+      "name": "Túi Đeo Chéo Công Nghệ",
+      "description": "Túi đeo chéo tương lai với nhiều ngăn và vật liệu chống thời tiết."
+    }
+  },
+  "productCollections": {
+    "casual-everyday": {
+      "name": "Hằng Ngày Thoải Mái",
+      "description": "Những món đồ thoải mái và phong cách cho trang phục hàng ngày. Từ áo thun cơ bản đến quần jean đa năng, mọi thứ bạn cần cho vẻ ngoài thoải mái nhưng gọn gàng."
+    },
+    "formal-excellence": {
+      "name": "Trang Trọng Xuất Sắc",
+      "description": "Trang phục trang trọng tinh tế cho các cuộc họp công việc, dịp đặc biệt và sự kiện chuyên nghiệp. May đo hoàn hảo."
+    },
+    "premium-accessories": {
+      "name": "Phụ Kiện Cao Cấp",
+      "description": "Phụ kiện sang trọng nâng tầm mọi trang phục. Từ đồng hồ đến đồ da, khám phá những món đồ tạo nên dấu ấn."
+    },
+    "winter-warmth": {
+      "name": "Ấm Áp Mùa Đông",
+      "description": "Giữ ấm và phong cách trong những tháng lạnh giá. Bộ sưu tập mùa đông của chúng tôi có các lớp ấm áp và áo khoác chống thời tiết."
+    },
+    "street-style-culture": {
+      "name": "Văn Hóa Phong Cách Đường Phố",
+      "description": "Thời trang lấy cảm hứng từ đô thị cho người sống ở thành phố hiện đại. Thiết kế táo bạo, chi tiết chức năng và thẩm mỹ đương đại."
+    },
+    "summer-breeze": {
+      "name": "Gió Hè Mát Mẻ",
+      "description": "Những món đồ nhẹ nhàng, thoáng khí hoàn hảo cho thời tiết ấm áp. Từ váy bay bổng đến áo sơ mi lanh, đón ánh nắng với phong cách."
+    }
+  },
+  "productCategories": {
+    "casual": "Thoải Mái",
+    "winter": "Mùa Đông",
+    "formal": "Trang Trọng",
+    "accessories": "Phụ Kiện",
+    "summer": "Mùa Hè",
+    "street-style": "Phong Cách Đường Phố"
+  },
+  "productBrands": {
+    "timeless": "Timeless",
+    "heritage": "Heritage",
+    "aurum": "Aurum Tailoring",
+    "aurum-time": "Aurum Timepieces",
+    "coastal": "Coastal",
+    "urban-edge": "Urban Edge",
+    "craftsmen": "Craftsmen Co.",
+    "professional": "Professional",
+    "nordic": "Nordic",
+    "executive": "Executive",
+    "vintage-co": "Vintage Co.",
+    "bloom": "Bloom",
+    "metro": "Metro",
+    "gentleman": "Gentleman",
+    "ecowear": "EcoWear",
+    "arctic-pro": "Arctic Pro",
+    "denim-dreams": "Denim Dreams",
+    "future-gear": "Future Gear"
   }
 }

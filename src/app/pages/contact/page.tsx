@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { useTranslation } from 'react-i18next'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -22,50 +23,39 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>
 
+export default function ContactPage() {
+  const { t } = useTranslation()
+
 const contactInfo = [
   {
     icon: Mail,
-    title: 'Email Us',
-    description: 'Send us an email and we\'ll respond within 24 hours',
-    value: 'hello@timeless.com',
+    titleKey: 'contact.info.email.title',
+    descKey: 'contact.info.email.description',
+    valueKey: 'contact.info.email.value',
     action: 'mailto:hello@timeless.com'
   },
   {
     icon: Phone,
-    title: 'Call Us',
-    description: 'Mon-Fri from 8am to 6pm (GMT+7)',
-    value: '+84 123 456 789',
+    titleKey: 'contact.info.phone.title',
+    descKey: 'contact.info.phone.description',
+    valueKey: 'contact.info.phone.value',
     action: 'tel:+84123456789'
   },
   {
     icon: MapPin,
-    title: 'Visit Us',
-    description: 'Come visit our flagship store',
-    value: 'Ho Chi Minh City, Vietnam',
+    titleKey: 'contact.info.visit.title',
+    descKey: 'contact.info.visit.description',
+    valueKey: 'contact.info.visit.value',
     action: null
   }
 ]
 
 const faqs = [
-  {
-    question: 'What is your return policy?',
-    answer: 'We offer a 30-day return policy for all unworn items with original tags. Items must be in original condition.'
-  },
-  {
-    question: 'How long does shipping take?',
-    answer: 'Domestic shipping takes 2-3 business days. International shipping takes 5-10 business days depending on location.'
-  },
-  {
-    question: 'Do you offer international shipping?',
-    answer: 'Yes, we ship worldwide. Shipping costs and delivery times vary by destination.'
-  },
-  {
-    question: 'How can I track my order?',
-    answer: 'Once your order ships, you\'ll receive a tracking number via email. You can track your package on our website or the carrier\'s site.'
-  }
+  { questionKey: 'contact.faq.questions.return.question', answerKey: 'contact.faq.questions.return.answer' },
+  { questionKey: 'contact.faq.questions.shipping.question', answerKey: 'contact.faq.questions.shipping.answer' },
+  { questionKey: 'contact.faq.questions.international.question', answerKey: 'contact.faq.questions.international.answer' },
+  { questionKey: 'contact.faq.questions.tracking.question', answerKey: 'contact.faq.questions.tracking.answer' }
 ]
-
-export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
@@ -126,13 +116,13 @@ export default function ContactPage() {
         >
           <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-serif text-primary-900 mb-4">
-            Message Sent Successfully!
+            {t('contact.form.success.title')}
           </h2>
           <p className="text-primary-600 mb-6">
-            Thank you for contacting us. We&apos;ll get back to you within 24 hours.
+            {t('contact.form.success.description')}
           </p>
           <Button onClick={() => setIsSubmitted(false)}>
-            Send Another Message
+            {t('contact.form.success.another')}
           </Button>
         </motion.div>
       </div>
@@ -150,7 +140,7 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-serif text-primary-900 mb-6"
           >
-            Get in Touch
+            {t('contact.hero.title')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -158,7 +148,7 @@ export default function ContactPage() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl text-primary-600 max-w-2xl mx-auto"
           >
-            We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
+            {t('contact.hero.description')}
           </motion.p>
         </div>
       </section>
@@ -171,7 +161,7 @@ export default function ContactPage() {
               const Icon = info.icon
               return (
                 <motion.div
-                  key={info.title}
+                  key={info.titleKey}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -179,21 +169,21 @@ export default function ContactPage() {
                 >
                   <Icon size={48} className="text-primary-900 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-primary-900 mb-2">
-                    {info.title}
+                    {t(info.titleKey)}
                   </h3>
                   <p className="text-primary-600 text-sm mb-4">
-                    {info.description}
+                    {t(info.descKey)}
                   </p>
                   {info.action ? (
                     <a
                       href={info.action}
                       className="text-primary-900 font-medium hover:text-primary-700 transition-colors"
                     >
-                      {info.value}
+                      {t(info.valueKey)}
                     </a>
                   ) : (
                     <span className="text-primary-900 font-medium">
-                      {info.value}
+                      {t(info.valueKey)}
                     </span>
                   )}
                 </motion.div>
@@ -215,13 +205,13 @@ export default function ContactPage() {
               className="bg-white p-8 rounded-2xl shadow-sm"
             >
               <h2 className="text-2xl font-serif text-primary-900 mb-6">
-                Send us a Message
+                {t('contact.form.title')}
               </h2>
               
               {isAuthenticated && user && (
                 <div className="bg-primary-50 p-4 rounded-lg mb-6">
                   <p className="text-sm text-primary-700">
-                    ✨ We&apos;ve pre-filled your information since you&apos;re logged in!
+                    {t('contact.form.prefilled')}
                   </p>
                 </div>
               )}
@@ -365,7 +355,7 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-2xl font-serif text-primary-900 mb-6">
-                Frequently Asked Questions
+                {t('contact.faq.title')}
               </h2>
               
               <div className="space-y-4">
@@ -379,7 +369,7 @@ export default function ContactPage() {
                       className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-primary-50 transition-colors"
                     >
                       <span className="font-medium text-primary-900">
-                        {faq.question}
+                        {t(faq.questionKey)}
                       </span>
                       <span className={`transform transition-transform ${
                         openFaq === index ? 'rotate-180' : ''
@@ -398,7 +388,7 @@ export default function ContactPage() {
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-4">
-                        <p className="text-primary-600">{faq.answer}</p>
+                        <p className="text-primary-600">{t(faq.answerKey)}</p>
                       </div>
                     </motion.div>
                   </div>
@@ -407,13 +397,13 @@ export default function ContactPage() {
 
               <div className="mt-8 p-6 bg-primary-900 text-white rounded-2xl">
                 <h3 className="text-xl font-semibold mb-2">
-                  Still have questions?
+                  {t('contact.faq.help.title')}
                 </h3>
                 <p className="text-primary-100 mb-4">
-                  Can&apos;t find the answer you&apos;re looking for? Please chat with us.
+                  {t('contact.faq.help.description')}
                 </p>
                 <Button variant="secondary" size="sm">
-                  Start Live Chat
+                  {t('contact.faq.help.button')}
                 </Button>
               </div>
             </motion.div>

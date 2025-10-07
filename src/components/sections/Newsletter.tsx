@@ -7,10 +7,10 @@ import { isValidEmail } from '@/utils'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import toast from 'react-hot-toast'
-import { withTranslation } from '@/utils/i18n/withTranslation'
-import type { WithTranslationProps } from '@/utils/i18n/withTranslation'
+import { useTranslation } from 'react-i18next'
 
 const Newsletter: React.FC = () => {
+  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -75,7 +75,7 @@ const Newsletter: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Stay Inspired
+            {t('newsletter.title')}
           </motion.h2>
 
           {/* Description */}
@@ -86,8 +86,7 @@ const Newsletter: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Join our community of style enthusiasts. Get exclusive access to new collections, 
-            styling tips, and special offers delivered directly to your inbox.
+            {t('newsletter.description')}
           </motion.p>
 
           {/* Benefits */}
@@ -100,16 +99,16 @@ const Newsletter: React.FC = () => {
           >
             {[
               {
-                title: 'Early Access',
-                description: 'Be first to shop new arrivals and limited collections'
+                title: t('newsletter.benefits.earlyAccess.title'),
+                description: t('newsletter.benefits.earlyAccess.description')
               },
               {
-                title: 'Exclusive Offers',
-                description: 'Receive subscriber-only discounts and special promotions'
+                title: t('newsletter.benefits.exclusiveOffers.title'),
+                description: t('newsletter.benefits.exclusiveOffers.description')
               },
               {
-                title: 'Style Guide',
-                description: 'Expert styling tips and seasonal trend insights'
+                title: t('newsletter.benefits.styleGuide.title'),
+                description: t('newsletter.benefits.styleGuide.description')
               }
             ].map((benefit, index) => (
               <div key={benefit.title} className="text-center">
@@ -134,7 +133,7 @@ const Newsletter: React.FC = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder={t('newsletter.placeholder')}
                     className="w-full px-6 py-4 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-none text-white placeholder-primary-300 focus:outline-none focus:border-opacity-40 transition-colors"
                     disabled={isLoading}
                   />
@@ -145,7 +144,7 @@ const Newsletter: React.FC = () => {
                   disabled={isLoading}
                   className="w-full bg-white text-primary-900 hover:bg-primary-100 py-4"
                 >
-                  {isLoading ? 'Subscribing...' : 'Subscribe Now'}
+                  {isLoading ? t('newsletter.subscribing') : t('newsletter.subscribe')}
                 </Button>
               </form>
             ) : (
@@ -157,24 +156,23 @@ const Newsletter: React.FC = () => {
               >
                 <div className="bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 rounded-none p-6 mb-4">
                   <Check size={32} className="text-green-400 mx-auto mb-2" />
-                  <h3 className="font-semibold text-green-400 mb-2">Welcome to Timeless!</h3>
+                  <h3 className="font-semibold text-green-400 mb-2">{t('newsletter.success.title')}</h3>
                   <p className="text-sm text-primary-300">
-                    You've been successfully subscribed to our newsletter.
+                    {t('newsletter.success.message')}
                   </p>
                 </div>
                 <button
                   onClick={() => setIsSubscribed(false)}
                   className="text-sm text-primary-400 hover:text-white transition-colors"
                 >
-                  Subscribe another email
+                  {t('newsletter.success.another')}
                 </button>
               </motion.div>
             )}
 
             <p className="text-xs text-primary-400 mt-4 leading-relaxed">
-              By subscribing, you agree to receive marketing emails from Timeless. 
-              You can unsubscribe at any time. View our{' '}
-              <a href="/privacy" className="underline hover:text-white">Privacy Policy</a>.
+              {t('newsletter.disclaimer')}{' '}
+              <a href="/privacy" className="underline hover:text-white">{t('newsletter.privacy')}</a>.
             </p>
           </motion.div>
         </motion.div>

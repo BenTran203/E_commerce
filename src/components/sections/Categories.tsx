@@ -4,48 +4,40 @@ import React from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Category {
   id: string
-  name: string
   slug: string
   image: string
-  description: string
   itemCount: number
 }
 
 const Categories: React.FC = () => {
+  const { t } = useTranslation()
   const categories: Category[] = [
     {
       id: '1',
-      name: 'Unique',
       slug: 'unique',
       image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=774&auto=format&fit=crop",
-      description: 'Timeless unique items that form the foundation for every wardrobe',
       itemCount: 0,
     },
     {
       id: '2',
-      name: 'Outerwear',
       slug: 'outerwear',
       image: 'https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=500&auto=format&fit=crop&q=60',
-      description: 'Sophisticated layers for every season and occasion',
       itemCount: 0,
     },
     {
       id: '3',
-      name: 'Formal',
       slug: 'formal',
       image: 'https://images.unsplash.com/photo-1426523038054-a260f3ef5bc9?q=60&w=1545&auto=format&fit=crop',
-      description: 'Elegant pieces for professional and special occasions',
       itemCount: 0,
     },
     {
       id: '4',
-      name: 'Accessories',
       slug: 'accessories',
       image: 'https://images.unsplash.com/3/www.madebyvadim.com.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8QWNjZXNzb3JpZXN8ZW58MHx8MHx8fDI%3D',
-      description: 'Carefully curated accessories to complete your look',
       itemCount: 0,
     },
   ]
@@ -84,10 +76,10 @@ const Categories: React.FC = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-primary-900 mb-4">
-            Shop by Category
+            {t('categories.title')}
           </h2>
           <p className="text-lg text-primary-600 max-w-2xl mx-auto">
-            Explore our carefully curated collections, each designed to complement your unique style and lifestyle.
+            {t('categories.description')}
           </p>
         </motion.div>
 
@@ -119,7 +111,7 @@ const Categories: React.FC = () => {
                   {/* Hover text */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
                     <div className="text-primary-600 p-2 shadow-luxury bg-white/80 rounded">
-                      <span>Look for more</span>
+                      <span>{t('categories.lookMore')}</span>
                     </div>
                   </div>
                 </div>
@@ -127,13 +119,13 @@ const Categories: React.FC = () => {
                 {/* Category Info */}
                 <div className="space-y-2">
                   <h3 className="text-xl font-semibold text-primary-900 group-hover:text-primary-700 transition-colors">
-                    {category.name}
+                    {t(`categories.categories.${category.slug}.name`)}
                   </h3>
                   <p className="text-sm text-primary-600 leading-relaxed">
-                    {category.description}
+                    {t(`categories.categories.${category.slug}.description`)}
                   </p>
                   <p className="text-xs text-primary-500 font-medium">
-                    {category.itemCount} items
+                    {category.itemCount} {t('categories.items')}
                   </p>
                 </div>
               </Link>
@@ -153,7 +145,7 @@ const Categories: React.FC = () => {
             href="/shop" 
             className="inline-flex items-center text-primary-700 hover:text-primary-900 font-medium group transition-colors duration-200"
           >
-            View All Products
+            {t('categories.viewAll')}
             <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>

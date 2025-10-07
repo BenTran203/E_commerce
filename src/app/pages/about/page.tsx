@@ -4,70 +4,40 @@ import { motion } from 'framer-motion'
 import { Heart, Award, Users, Sparkles, Globe, Leaf } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
+
+export default function AboutPage() {
+  const { t } = useTranslation()
+
 const stats = [
-  { label: 'Happy Customers', value: '50K+', icon: Users },
-  { label: 'Products Sold', value: '200K+', icon: Award },
-  { label: 'Countries', value: '25+', icon: Globe },
-  { label: 'Years of Excellence', value: '10+', icon: Sparkles }
+  { labelKey: 'about.impact.stats.customers', value: '50K+', icon: Users },
+  { labelKey: 'about.impact.stats.products', value: '200K+', icon: Award },
+  { labelKey: 'about.impact.stats.countries', value: '25+', icon: Globe },
+  { labelKey: 'about.impact.stats.years', value: '10+', icon: Sparkles }
 ]
 
 const values = [
   {
     icon: Heart,
-    title: 'Passion for Quality',
-    description: 'Every piece in our collection is carefully selected for its exceptional quality, craftsmanship, and attention to detail.'
+    titleKey: 'about.values.passion.title',
+    descKey: 'about.values.passion.description'
   },
   {
     icon: Leaf,
-    title: 'Sustainable Fashion',
-    description: 'We believe in responsible fashion that respects both people and the planet, choosing eco-friendly materials and ethical practices.'
+    titleKey: 'about.values.sustainable.title',
+    descKey: 'about.values.sustainable.description'
   },
   {
     icon: Users,
-    title: 'Customer Focused',
-    description: 'Our customers are at the heart of everything we do. We strive to exceed expectations and build lasting relationships.'
+    titleKey: 'about.values.customer.title',
+    descKey: 'about.values.customer.description'
   },
   {
     icon: Globe,
-    title: 'Global Community',
-    description: 'Celebrating diversity and connecting fashion lovers worldwide through shared appreciation for timeless style.'
+    titleKey: 'about.values.global.title',
+    descKey: 'about.values.global.description'
   }
 ]
-
-const timeline = [
-  {
-    year: '2014',
-    title: 'The Beginning',
-    description: 'Founded with a vision to make premium fashion accessible to everyone, starting from a small studio in Vietnam.'
-  },
-  {
-    year: '2016',
-    title: 'First Collection',
-    description: 'Launched our signature Vietnamese Heritage collection, blending traditional craftsmanship with modern design.'
-  },
-  {
-    year: '2018',
-    title: 'International Expansion',
-    description: 'Expanded to serve customers across Asia, bringing our unique aesthetic to a broader audience.'
-  },
-  {
-    year: '2020',
-    title: 'Digital Transformation',
-    description: 'Embraced e-commerce and digital innovation, making our collections available worldwide.'
-  },
-  {
-    year: '2022',
-    title: 'Sustainable Initiative',
-    description: 'Launched our sustainability program, partnering with eco-friendly suppliers and supporting local artisans.'
-  },
-  {
-    year: '2024',
-    title: 'Today',
-    description: 'Continuing to evolve and innovate while staying true to our core values of quality, authenticity, and style.'
-  }
-]
-
-export default function AboutPage() {
   return (
     <div className="min-h-screen bg-luxury-cream">
       {/* Hero Section */}
@@ -87,7 +57,7 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-serif text-primary-900 mb-6"
             >
-              Our Story
+              {t('about.hero.title')}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -95,9 +65,7 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-lg md:text-xl text-primary-600 leading-relaxed"
             >
-              Born from a passion for timeless elegance and authentic craftsmanship, 
-              Timeless represents more than fashion—it&apos;s a celebration of heritage, 
-              quality, and the art of thoughtful design.
+              {t('about.hero.description')}
             </motion.p>
           </div>
         </div>
@@ -113,20 +81,15 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-6">
-                Crafting Timeless Elegance
+                {t('about.mission.title')}
               </h2>
               <p className="text-primary-600 text-lg mb-6 leading-relaxed">
-                At Timeless, we believe that true style transcends seasonal trends. 
-                Our mission is to curate and create pieces that embody lasting elegance, 
-                superior quality, and authentic craftsmanship.
+                {t('about.mission.description1')}
               </p>
               <p className="text-primary-600 text-lg mb-8 leading-relaxed">
-                Each item in our collection tells a story—of skilled artisans, 
-                premium materials, and a commitment to excellence that spans generations. 
-                We&apos;re not just selling clothing; we&apos;re preserving traditions and 
-                celebrating the art of fine fashion.
+                {t('about.mission.description2')}
               </p>
-              <Button size="lg"> <Link href="/pages/collections">Explore Our Collections</Link> </Button>
+              <Button size="lg"> <Link href="/pages/collections">{t('about.mission.cta')}</Link> </Button>
             </motion.div>
             
             <motion.div
@@ -144,8 +107,8 @@ export default function AboutPage() {
                 <div className="flex items-center gap-3">
                   <Heart className="text-red-500" size={24} />
                   <div>
-                    <p className="font-semibold text-primary-900">Made with Love</p>
-                    <p className="text-sm text-primary-600">Since 2014</p>
+                    <p className="font-semibold text-primary-900">{t('about.mission.badge.title')}</p>
+                    <p className="text-sm text-primary-600">{t('about.mission.badge.since')}</p>
                   </div>
                 </div>
               </div>
@@ -164,10 +127,10 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-4">
-              Our Impact
+              {t('about.impact.title')}
             </h2>
             <p className="text-primary-100 max-w-2xl mx-auto">
-              Numbers that reflect our commitment to excellence and the trust our customers place in us
+              {t('about.impact.description')}
             </p>
           </motion.div>
 
@@ -176,7 +139,7 @@ export default function AboutPage() {
               const Icon = stat.icon
               return (
                 <motion.div
-                  key={stat.label}
+                  key={stat.labelKey}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -184,7 +147,7 @@ export default function AboutPage() {
                 >
                   <Icon size={48} className="mx-auto mb-4 text-primary-200" />
                   <h3 className="text-3xl md:text-4xl font-bold mb-2">{stat.value}</h3>
-                  <p className="text-primary-200">{stat.label}</p>
+                  <p className="text-primary-200">{t(stat.labelKey)}</p>
                 </motion.div>
               )
             })}
@@ -202,10 +165,10 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-              Our Values
+              {t('about.values.title')}
             </h2>
             <p className="text-primary-600 max-w-2xl mx-auto">
-              The principles that guide every decision we make and every product we create
+              {t('about.values.description')}
             </p>
           </motion.div>
 
@@ -214,7 +177,7 @@ export default function AboutPage() {
               const Icon = value.icon
               return (
                 <motion.div
-                  key={value.title}
+                  key={value.titleKey}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -222,10 +185,10 @@ export default function AboutPage() {
                 >
                   <Icon size={48} className="text-primary-900 mb-4" />
                   <h3 className="text-xl font-semibold text-primary-900 mb-3">
-                    {value.title}
+                    {t(value.titleKey)}
                   </h3>
                   <p className="text-primary-600 leading-relaxed">
-                    {value.description}
+                    {t(value.descKey)}
                   </p>
                 </motion.div>
               )
@@ -244,19 +207,19 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-              Our Journey
+              {t('about.journey.title')}
             </h2>
             <p className="text-primary-600 max-w-2xl mx-auto">
-              From humble beginnings to global recognition—the milestones that shaped our story
+              {t('about.journey.description')}
             </p>
           </motion.div>
 
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-0.5 w-0.5 h-full bg-primary-200"></div>
             
-            {timeline.map((item, index) => (
+            {['2014', '2016', '2018', '2020', '2022', '2024'].map((year, index) => (
               <motion.div
-                key={item.year}
+                key={year}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -266,11 +229,11 @@ export default function AboutPage() {
               >
                 <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
                   <div className="bg-white p-6 rounded-xl shadow-sm">
-                    <span className="text-primary-500 font-medium text-sm">{item.year}</span>
+                    <span className="text-primary-500 font-medium text-sm">{year}</span>
                     <h3 className="text-xl font-semibold text-primary-900 mb-2">
-                      {item.title}
+                      {t(`about.journey.timeline.${year}.title`)}
                     </h3>
-                    <p className="text-primary-600">{item.description}</p>
+                    <p className="text-primary-600">{t(`about.journey.timeline.${year}.description`)}</p>
                   </div>
                 </div>
                 
@@ -291,10 +254,10 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-serif text-primary-900 mb-4">
-              The Team Behind Timeless
+              {t('about.team.title')}
             </h2>
             <p className="text-primary-600 max-w-2xl mx-auto">
-              Meet the passionate individuals who bring our vision to life every day
+              {t('about.team.description')}
             </p>
           </motion.div>
 
@@ -347,18 +310,17 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-4">
-              Join Our Story
+              {t('about.cta.title')}
             </h2>
             <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-              Become part of the Timeless community and discover fashion that 
-              celebrates authenticity, quality, and timeless style.
+              {t('about.cta.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="secondary" size="lg">
-                Shop Collections
+                {t('about.cta.shop')}
               </Button>
               <Button variant="ghost" size="lg" className="border-white text-white hover:bg-white hover:text-primary-900">
-                Contact Us
+                {t('about.cta.contact')}
               </Button>
             </div>
           </motion.div>
