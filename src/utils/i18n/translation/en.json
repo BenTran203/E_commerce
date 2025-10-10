@@ -143,7 +143,7 @@
       "cta": "Explore Our Collections",
       "badge": {
         "title": "Made with Love",
-        "since": "Since 2014"
+        "since": "Since 2025"
       }
     },
     "impact": {
@@ -474,5 +474,156 @@
     "arctic-pro": "Arctic Pro",
     "denim-dreams": "Denim Dreams",
     "future-gear": "Future Gear"
+  },
+  "collectionPages": {
+    "backToCollections": "Back to Collections",
+    "products": "Products",
+    "luxuryItems": "Luxury Items",
+    "cozyEssentials": "Cozy Essentials",
+    "urbanEssentials": "Urban Essentials",
+    "trending": "Trending",
+    "addToCart": "Add to Cart",
+    "casualEveryday": {
+      "name": "Casual Everyday",
+      "description": "Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look.",
+      "features": {
+        "comfort": {
+          "title": "Everyday Comfort",
+          "description": "Designed for your daily routine with maximum comfort and style"
+        },
+        "versatile": {
+          "title": "Versatile Style",
+          "description": "Mix and match pieces that work for any casual occasion"
+        },
+        "quality": {
+          "title": "Quality Materials",
+          "description": "Premium fabrics that last through countless wears"
+        }
+      }
+    },
+    "formalExcellence": {
+      "name": "Formal Excellence",
+      "description": "Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection.",
+      "features": {
+        "tailored": {
+          "title": "Tailored Perfection",
+          "description": "Precision-crafted formal wear for the most important occasions"
+        },
+        "fabrics": {
+          "title": "Premium Fabrics",
+          "description": "Finest materials selected for elegance and durability"
+        },
+        "design": {
+          "title": "Timeless Design",
+          "description": "Classic styles that never go out of fashion"
+        }
+      },
+      "cta": {
+        "title": "Need Custom Tailoring?",
+        "description": "Our expert tailors can customize any piece to fit you perfectly. Schedule a consultation today.",
+        "button": "Book Consultation"
+      }
+    },
+    "premiumAccessories": {
+      "name": "Premium Accessories",
+      "description": "Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement.",
+      "features": {
+        "craftsmanship": {
+          "title": "Luxury Craftsmanship",
+          "description": "Each piece is meticulously crafted with attention to every detail"
+        },
+        "statement": {
+          "title": "Statement Pieces",
+          "description": "Accessories that elevate any outfit and make a lasting impression"
+        },
+        "investment": {
+          "title": "Investment Quality",
+          "description": "Timeless accessories designed to last and retain their value"
+        }
+      },
+      "gift": {
+        "title": "Luxury Gift Packaging",
+        "description": "All premium accessories come with complimentary luxury gift packaging. Perfect for special occasions.",
+        "button": "Learn More"
+      }
+    },
+    "winterWarmth": {
+      "name": "Winter Warmth",
+      "description": "Stay warm and stylish during the colder months. Our winter collection features cozy layers and weather-resistant outerwear.",
+      "features": {
+        "protection": {
+          "title": "Cold Weather Protection",
+          "description": "Advanced insulation and weather-resistant materials keep you warm"
+        },
+        "warmth": {
+          "title": "Premium Warmth",
+          "description": "High-quality materials provide superior warmth without bulk"
+        },
+        "layering": {
+          "title": "Stylish Layering",
+          "description": "Versatile pieces that layer perfectly for any winter occasion"
+        }
+      },
+      "care": {
+        "title": "Winter Care Guide",
+        "description": "Learn how to properly care for your winter essentials to ensure they last for seasons to come.",
+        "button": "Download Guide",
+        "storage": {
+          "title": "Proper Storage",
+          "description": "Clean and store in breathable bags"
+        },
+        "cleaning": {
+          "title": "Cleaning Methods",
+          "description": "Follow care labels for best results"
+        }
+      }
+    },
+    "streetStyleCulture": {
+      "name": "Street Style Culture",
+      "description": "Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics.",
+      "features": {
+        "urban": {
+          "title": "Urban Edge",
+          "description": "Bold designs that make a statement on city streets"
+        },
+        "trending": {
+          "title": "Trend-Setting",
+          "description": "Stay ahead with the latest urban fashion movements"
+        },
+        "functional": {
+          "title": "Functional Design",
+          "description": "Practical features that meet the demands of urban life"
+        }
+      },
+      "styleGuide": {
+        "title": "Street Style Guide",
+        "description": "Master the art of urban fashion with our comprehensive styling tips and lookbook featuring the latest trends.",
+        "button": "View Lookbook",
+        "tips": {
+          "layering": {
+            "title": "Layering",
+            "description": "Mix textures & proportions"
+          },
+          "color": {
+            "title": "Color Play",
+            "description": "Bold & monochrome"
+          },
+          "accessories": {
+            "title": "Accessories",
+            "description": "Statement pieces"
+          },
+          "footwear": {
+            "title": "Footwear",
+            "description": "Comfort meets style"
+          }
+        }
+      },
+      "community": {
+        "title": "Join the Street Style Community",
+        "description": "Share your looks and get inspired by urban fashion enthusiasts worldwide.",
+        "share": "Share Your Style",
+        "browse": "Browse Community"
+      }
+    }
   }
 }

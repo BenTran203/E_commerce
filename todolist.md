@@ -76,18 +76,18 @@
 
 #### **Product Pages**
 
-- [ ] Create `src/app/shop/page.tsx` (product listing)
-- [ ] Create `src/app/shop/[category]/page.tsx`
-- [ ] Create `src/app/products/[id]/page.tsx` (product detail)
-- [ ] Implement product search and filtering
+- [X] Create `src/app/shop/page.tsx` (product listing)
+- [X] Create `src/app/shop/[category]/page.tsx`
+- [X] Create `src/app/products/[id]/page.tsx` (product detail)
+- [X] Implement product search and filtering
 - [ ] Add product comparison feature
 - [ ] Create wishlist functionality
 
 #### **Cart & Checkout**
 
 - [ ] Create cart sidebar/drawer component
-- [ ] Create `src/app/cart/page.tsx`
-- [ ] Create `src/app/checkout/page.tsx`
+- [X] Create `src/app/cart/page.tsx`
+- [X] Create `src/app/checkout/page.tsx`
 - [ ] Implement checkout flow
 - [ ] Add address management
 - [ ] Integrate Stripe payment form
@@ -102,12 +102,12 @@
 
 #### **Additional Pages**
 
-- [ ] Create `src/app/about/page.tsx`
-- [ ] Create `src/app/contact/page.tsx`
-- [ ] Create `src/app/privacy/page.tsx`
-- [ ] Create `src/app/terms/page.tsx`
-- [ ] Create `src/app/size-guide/page.tsx`
-- [ ] Create `src/app/shipping-returns/page.tsx`
+- [X] Create `src/app/about/page.tsx`
+- [X] Create `src/app/contact/page.tsx`
+- [X] Create `src/app/privacy/page.tsx`
+- [X] Create `src/app/terms/page.tsx`
+- [X] Create `src/app/size-guide/page.tsx`
+- [X] Create `src/app/shipping-returns/page.tsx`
 
 ---
 

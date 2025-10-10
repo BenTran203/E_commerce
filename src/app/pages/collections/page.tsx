@@ -111,7 +111,7 @@ export default function CollectionsPage() {
                     <span className="text-sm text-white/80">
                       {collection.productCount} {t('collections.items')}
                     </span>
-                    <Link href={`/shop?collection=${collection.slug}`}>
+                    <Link href={`/pages/collections/${collection.slug}`}>
                       <Button
                         variant="secondary"
                         size="sm"
@@ -195,7 +195,7 @@ export default function CollectionsPage() {
                     </div>
                   </div>
 
-                  <Link href={`/shop?collection=${collection.slug}`}>
+                  <Link href={`/pages/collections/${collection.slug}`}>
                     <Button className="w-full group">
                       {t('collections.exploreCollection')}
                       <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
