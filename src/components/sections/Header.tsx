@@ -79,23 +79,12 @@ const Header: React.FC = () => {
               <Search size={20} />
             </button>
 
-            {/* Wishlist */}
-            {isAuthenticated && (
-              <Link
-                href="/wishlist"
-                className="p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
-                aria-label="Wishlist"
-              >
-                <Heart size={20} />
-              </Link>
-            )}
-
             {/* Language Switcher */}
             <LanguageSwitcher />
 
             {/* Cart */}
             <Link
-              href="/cart"
+              href="/pages/cart"
               className="relative p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
               aria-label="Shopping cart"
             >

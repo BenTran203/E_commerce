@@ -80,8 +80,8 @@
     "privacy": "Privacy Policy"
   },
   "shop": {
-    "title": "Our Collection",
-    "description": "Discover our carefully curated selection of premium fashion pieces",
+    "title": "Shop with us for the best quality",
+    "description": "Giving you the best experience with our products",
     "search": "Search products...",
     "filters": "Filters",
     "showing": "Showing",
@@ -209,12 +209,6 @@
     "team": {
       "title": "The Team Behind Timeless",
       "description": "Meet the passionate individuals who bring our vision to life every day"
-    },
-    "cta": {
-      "title": "Join Our Story",
-      "description": "Become part of the Timeless community and discover fashion that celebrates authenticity, quality, and timeless style.",
-      "shop": "Shop Collections",
-      "contact": "Contact Us"
     }
   },
   "contact": {
@@ -623,6 +617,189 @@
         "description": "Share your looks and get inspired by urban fashion enthusiasts worldwide.",
         "share": "Share Your Style",
         "browse": "Browse Community"
+      }
+    }
+  },
+  "legalPages": {
+    "lastUpdated": "Last Updated: {{date}}",
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.",
+      "intro": {
+        "title": "Introduction",
+        "p1": "Welcome to Timeless. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
+        "p2": "This policy applies to information we collect when you use our website, mobile application, or interact with us through other channels. By using our services, you agree to the collection and use of information in accordance with this policy."
+      },
+      "sections": {
+        "collect": {
+          "title": "Information We Collect",
+          "personal": "We collect information you provide directly to us, including your name, email address, postal address, phone number, and payment information when you create an account, make a purchase, or contact us.",
+          "automatic": "We automatically collect certain information about your device when you use our website, including IP address, browser type, operating system, referring URLs, and pages viewed.",
+          "cookies": "We use cookies, web beacons, and similar technologies to collect information about your browsing activities and preferences. See our Cookie Policy for more details."
+        },
+        "use": {
+          "title": "How We Use Your Information",
+          "orders": "We use your information to process and fulfill your orders, send order confirmations, and provide customer support.",
+          "communication": "With your consent, we may send you promotional emails about new products, special offers, or other information we think you may find interesting.",
+          "improvement": "We analyze usage data to improve our website, products, and services, and to understand how customers use our platform.",
+          "legal": "We may use your information to comply with legal obligations, enforce our terms of service, and protect our rights and property."
+        },
+        "security": {
+          "title": "Data Security",
+          "measures": "We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+          "payment": "All payment transactions are processed through secure payment gateways. We do not store complete credit card information on our servers.",
+          "employee": "Access to personal information is restricted to employees, contractors, and agents who need to know that information to operate, develop, or improve our services."
+        },
+        "rights": {
+          "title": "Your Rights",
+          "access": "You have the right to access, update, or correct your personal information at any time through your account settings or by contacting us.",
+          "deletion": "You may request deletion of your personal information, subject to certain legal exceptions. We will respond to your request within 30 days.",
+          "optout": "You can opt out of receiving promotional communications by clicking the unsubscribe link in our emails or updating your account preferences.",
+          "portability": "You have the right to request a copy of your personal information in a structured, commonly used, and machine-readable format."
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Services",
+        "description": "We may employ third-party companies and individuals to facilitate our service, provide service on our behalf, perform service-related services, or assist us in analyzing how our service is used. These third parties have access to your personal information only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose.",
+        "services": "Payment processors, shipping carriers, email service providers, analytics platforms, and customer support tools."
+      },
+      "contact": "If you have any questions about this privacy policy or our privacy practices, please contact our Data Protection Officer."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "subtitle": "Please read these terms carefully before using our services. By accessing or using our website, you agree to be bound by these terms.",
+      "agreement": {
+        "title": "Agreement to Terms",
+        "p1": "These Terms of Service (\"Terms\") govern your access to and use of Timeless's website, mobile application, and services (collectively, the \"Services\"). By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy.",
+        "p2": "If you do not agree to these Terms, you may not access or use our Services. We reserve the right to update these Terms at any time, and your continued use of the Services constitutes acceptance of any changes.",
+        "important": "These Terms include an arbitration clause and class action waiver that affects your legal rights. Please review them carefully."
+      },
+      "account": {
+        "title": "Account Terms",
+        "creation": "You must be at least 18 years old to use our services. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.",
+        "responsibilities": "You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate, current, and complete.",
+        "termination": "We reserve the right to suspend or terminate your account if you violate these terms or engage in fraudulent, illegal, or harmful activities."
+      },
+      "orders": {
+        "title": "Orders and Products",
+        "descriptions": "We strive to ensure that product descriptions, prices, and availability are accurate. However, we do not warrant that product descriptions or other content is accurate, complete, reliable, or error-free.",
+        "acceptance": "We reserve the right to refuse or cancel any order for any reason, including limitations on quantities available for purchase, inaccuracies in product or pricing information, or problems identified by our fraud detection systems.",
+        "pricing": "All prices are in USD and are subject to change without notice. We reserve the right to correct any pricing errors on our website or on pending orders."
+      },
+      "contact": "If you have any questions about these Terms of Service, please contact our legal team."
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "subtitle": "Learn about how we use cookies and similar technologies to provide, protect, and improve our services.",
+      "what": {
+        "title": "What Are Cookies?",
+        "p1": "Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners.",
+        "p2": "We use cookies and similar tracking technologies to track activity on our website and store certain information. These technologies help us understand how you interact with our services and allow us to improve your experience.",
+        "control": "You can control and manage cookies in various ways. Please note that removing or blocking cookies may impact your user experience and parts of our website may no longer be fully accessible."
+      },
+      "types": {
+        "title": "Types of Cookies We Use",
+        "essential": {
+          "name": "Essential Cookies",
+          "description": "These cookies are necessary for the website to function properly. They enable basic functions like page navigation, secure areas access, and shopping cart functionality. The website cannot function properly without these cookies.",
+          "required": "Required"
+        },
+        "analytics": {
+          "name": "Analytics Cookies",
+          "description": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. They help us improve our website and provide better user experiences."
+        },
+        "marketing": {
+          "name": "Marketing Cookies",
+          "description": "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for individual users, making them more valuable for publishers and third-party advertisers."
+        },
+        "preference": {
+          "name": "Preference Cookies",
+          "description": "These cookies enable the website to remember information that changes the way the website behaves or looks, like your preferred language, region, or theme settings."
+        }
+      },
+      "manage": {
+        "title": "Manage Your Cookie Preferences",
+        "description": "Customize which cookies you want to allow. Essential cookies cannot be disabled as they are required for the website to function.",
+        "acceptAll": "Accept All Cookies",
+        "savePreferences": "Save Preferences",
+        "rejectNonEssential": "Reject Non-Essential"
+      },
+      "contact": "If you have any questions about our use of cookies or other technologies, please contact us."
+    },
+    "accessibility": {
+      "title": "Accessibility Statement",
+      "subtitle": "We're committed to making our website accessible and usable for all people, regardless of their abilities or disabilities.",
+      "commitment": {
+        "title": "Our Commitment",
+        "p1": "At Timeless, we believe that everyone should have equal access to our products and services. We are committed to ensuring that our website is accessible to people with disabilities, including those who use assistive technologies.",
+        "p2": "We continuously work to improve the accessibility of our website and services, and we regularly review and update our practices to ensure we meet or exceed applicable accessibility standards.",
+        "feedback": "We welcome feedback on the accessibility of our website. If you encounter any barriers or have suggestions for improvement, please contact us."
+      },
+      "features": {
+        "title": "Accessibility Features",
+        "keyboard": {
+          "title": "Keyboard Navigation",
+          "description": "Our website is fully navigable using only a keyboard. All interactive elements can be accessed using Tab, Enter, and Arrow keys."
+        },
+        "screenReader": {
+          "title": "Screen Reader Support",
+          "description": "We ensure compatibility with popular screen readers like JAWS, NVDA, and VoiceOver by using semantic HTML and ARIA labels."
+        },
+        "visual": {
+          "title": "Visual Accessibility",
+          "description": "Our design considers various visual needs with high contrast ratios, resizable text, and clear visual indicators."
+        },
+        "audio": {
+          "title": "Audio & Video",
+          "description": "All multimedia content includes captions, transcripts, and audio descriptions where applicable."
+        }
+      },
+      "contact": {
+        "title": "Feedback & Assistance",
+        "description": "We welcome your feedback on the accessibility of our website. If you have difficulty accessing any content or feature, please let us know.",
+        "email": "Email:",
+        "phone": "Phone:",
+        "response": "Response Time: We aim to respond within 2 business days",
+        "reportIssue": "Report an Issue",
+        "contactSupport": "Contact Support"
+      },
+      "standards": {
+        "title": "Standards & Compliance",
+        "description": "We are committed to conforming to the following accessibility standards:",
+        "wcag": "We strive to meet Web Content Accessibility Guidelines 2.1 Level AA standards",
+        "ada": "Our website aims to comply with the Americans with Disabilities Act",
+        "section508": "We work to meet Section 508 standards for federal accessibility",
+        "inProgress": "In Progress"
+      },
+      "assistiveTech": {
+        "title": "Compatible Assistive Technologies",
+        "description": "Our website is designed to work with the following assistive technologies:",
+        "screenReaders": "Screen Readers",
+        "browserExtensions": "Browser Extensions",
+        "osFeatures": "Operating System Features"
+      },
+      "limitations": {
+        "title": "Known Limitations",
+        "description": "Despite our best efforts, some content on our website may not yet be fully accessible. We are actively working to address these issues:",
+        "alternativeTitle": "Need an alternative format?",
+        "alternativeText": "If you encounter content that is not accessible, please contact us. We will work with you to provide the information in an alternative format."
+      },
+      "browserSettings": {
+        "title": "Adjusting Your Browser Settings",
+        "description": "Most browsers allow you to adjust settings to improve accessibility:",
+        "textSize": "Text Size",
+        "highContrast": "High Contrast",
+        "readerMode": "Reader Mode",
+        "zoom": "Zoom"
+      },
+      "testing": {
+        "title": "Testing & Continuous Improvement",
+        "description": "We regularly evaluate our website's accessibility through:",
+        "automated": "Automated accessibility testing tools",
+        "manual": "Manual testing with screen readers and keyboard navigation",
+        "userFeedback": "User feedback from people with disabilities",
+        "audits": "Regular accessibility audits by third-party experts",
+        "training": "Ongoing training for our development and content teams"
       }
     }
   }

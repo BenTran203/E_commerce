@@ -27,19 +27,14 @@ import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 import { connectRedis } from './utils/redis';
 import authRoutes from './routes/auth'
-
-
-
-// Import route modules (implement these step by step)
-// import authRoutes from '@/routes/auth'
-// import userRoutes from '@/routes/users'
-// import productRoutes from '@/routes/products'
-// import orderRoutes from '@/routes/orders'
-// import cartRoutes from '@/routes/cart'
-// import paymentRoutes from '@/routes/payments'
-// import vendorRoutes from '@/routes/vendors'
-// import reviewRoutes from '@/routes/reviews'
-// import chatbotRoutes from '@/routes/chatbot'
+import userRoutes from './routes/users'
+import productRoutes from './routes/products'
+import categoryRoutes from './routes/categories'
+import cartRoutes from './routes/cart'
+import orderRoutes from './routes/orders'
+import reviewRoutes from './routes/reviews'
+import vendorRoutes from './routes/vendors'
+import paymentRoutes from './routes/payments'
 
 // Import middleware (implement these step by step)
 // import { errorHandler } from '@/middleware/errorHandler'
@@ -158,37 +153,35 @@ app.get('/api', (req: Request, res: Response) => {
 /**
  * ROUTE MOUNTING
  * 
- * TODO: Uncomment these as you implement each route module
- * Each route module should handle a specific domain of functionality
+ * Each route module handles a specific domain of functionality
  */
 
 // Authentication routes
 app.use('/api/auth', authRoutes)
 
-
 // User management routes
-// app.use('/api/users', authenticate, userRoutes)
+app.use('/api/users', userRoutes)
 
 // Product management routes
-// app.use('/api/products', productRoutes)
+app.use('/api/products', productRoutes)
+
+// Category routes
+app.use('/api/categories', categoryRoutes)
 
 // Shopping cart routes
-// app.use('/api/cart', authenticate, cartRoutes)
+app.use('/api/cart', cartRoutes)
 
 // Order management routes
-// app.use('/api/orders', authenticate, orderRoutes)
-
-// Payment processing routes
-// app.use('/api/payments', authenticate, paymentRoutes)
+app.use('/api/orders', orderRoutes)
 
 // Vendor management routes (multi-vendor support)
-// app.use('/api/vendors', vendorRoutes)
+app.use('/api/vendors', vendorRoutes)
 
 // Review and rating routes
-// app.use('/api/reviews', authenticate, reviewRoutes)
+app.use('/api/reviews', reviewRoutes)
 
-// AI chatbot routes
-// app.use('/api/chatbot', chatbotRoutes)
+// Payment routes
+app.use('/api/payments', paymentRoutes)
 
 /**
  * ERROR HANDLING MIDDLEWARE

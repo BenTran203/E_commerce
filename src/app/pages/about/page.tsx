@@ -266,7 +266,7 @@ const values = [
               {
                 name: 'Linh Nguyen',
                 role: 'Founder & Creative Director',
-                image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&auto=format&fit=crop'
+                image: 'https://images.unsplash.com/photo-1526413232644-8a40f03cc03b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=687'
               },
               {
                 name: 'David Chen',
@@ -298,32 +298,6 @@ const values = [
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-primary-900 text-white">
-        <div className="container-luxury text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-serif mb-4">
-              {t('about.cta.title')}
-            </h2>
-            <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-              {t('about.cta.description')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="secondary" size="lg">
-                {t('about.cta.shop')}
-              </Button>
-              <Button variant="ghost" size="lg" className="border-white text-white hover:bg-white hover:text-primary-900">
-                {t('about.cta.contact')}
-              </Button>
-            </div>
-          </motion.div>
         </div>
       </section>
     </div>

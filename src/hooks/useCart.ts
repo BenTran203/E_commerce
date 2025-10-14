@@ -13,6 +13,7 @@ import {
 } from '@/store/slices/cartSlice'
 import { Product } from '@/types'
 import toast from 'react-hot-toast'
+// import { cartAPI } from '@/lib/api' // Uncomment when backend is ready
 
 export function useCart() {
   const dispatch = useDispatch()

@@ -80,8 +80,8 @@
     "privacy": "Chính Sách Bảo Mật"
   },
   "shop": {
-    "title": "Bộ Sưu Tập Của Chúng Tôi",
-    "description": "Khám phá bộ sưu tập thời trang cao cấp được tuyển chọn cẩn thận của chúng tôi",
+    "title": "Cùng khám phá bộ sưu tập",
+    "description": "Cho bạn trải nghiệm tốt nhất với sản phẩm của chúng tôi",
     "search": "Tìm kiếm sản phẩm...",
     "filters": "Bộ Lọc",
     "showing": "Hiển thị",
@@ -209,12 +209,6 @@
     "team": {
       "title": "Đội Ngũ Đằng Sau Timeless",
       "description": "Gặp gỡ những cá nhân đam mê mang tầm nhìn của chúng tôi vào cuộc sống mỗi ngày"
-    },
-    "cta": {
-      "title": "Tham Gia Câu Chuyện Của Chúng Tôi",
-      "description": "Trở thành một phần của cộng đồng Timeless và khám phá thời trang tôn vinh tính xác thực, chất lượng và phong cách vượt thời gian.",
-      "shop": "Mua Sắm Bộ Sưu Tập",
-      "contact": "Liên Hệ Với Chúng Tôi"
     }
   },
   "contact": {
@@ -623,6 +617,189 @@
         "description": "Chia sẻ phong cách của bạn và lấy cảm hứng từ những người đam mê thời trang đô thị trên toàn thế giới.",
         "share": "Chia Sẻ Phong Cách Của Bạn",
         "browse": "Duyệt Cộng Đồng"
+      }
+    }
+  },
+  "legalPages": {
+    "lastUpdated": "Cập nhật lần cuối: {{date}}",
+    "privacy": {
+      "title": "Chính Sách Bảo Mật",
+      "subtitle": "Quyền riêng tư của bạn rất quan trọng đối với chúng tôi. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn.",
+      "intro": {
+        "title": "Giới Thiệu",
+        "p1": "Chào mừng đến với Timeless. Chúng tôi tôn trọng quyền riêng tư của bạn và cam kết bảo vệ dữ liệu cá nhân của bạn. Chính sách bảo mật này sẽ thông báo cho bạn về cách chúng tôi chăm sóc dữ liệu cá nhân của bạn khi bạn truy cập trang web của chúng tôi và cho bạn biết về quyền riêng tư của bạn và cách pháp luật bảo vệ bạn.",
+        "p2": "Chính sách này áp dụng cho thông tin chúng tôi thu thập khi bạn sử dụng trang web, ứng dụng di động của chúng tôi hoặc tương tác với chúng tôi thông qua các kênh khác. Bằng cách sử dụng dịch vụ của chúng tôi, bạn đồng ý với việc thu thập và sử dụng thông tin theo chính sách này."
+      },
+      "sections": {
+        "collect": {
+          "title": "Thông Tin Chúng Tôi Thu Thập",
+          "personal": "Chúng tôi thu thập thông tin bạn cung cấp trực tiếp cho chúng tôi, bao gồm tên, địa chỉ email, địa chỉ bưu điện, số điện thoại và thông tin thanh toán khi bạn tạo tài khoản, mua hàng hoặc liên hệ với chúng tôi.",
+          "automatic": "Chúng tôi tự động thu thập một số thông tin nhất định về thiết bị của bạn khi bạn sử dụng trang web của chúng tôi, bao gồm địa chỉ IP, loại trình duyệt, hệ điều hành, URL giới thiệu và các trang đã xem.",
+          "cookies": "Chúng tôi sử dụng cookie, web beacon và các công nghệ tương tự để thu thập thông tin về hoạt động duyệt web và sở thích của bạn. Xem Chính sách Cookie của chúng tôi để biết thêm chi tiết."
+        },
+        "use": {
+          "title": "Cách Chúng Tôi Sử Dụng Thông Tin",
+          "orders": "Chúng tôi sử dụng thông tin của bạn để xử lý và hoàn thành đơn hàng, gửi xác nhận đơn hàng và cung cấp hỗ trợ khách hàng.",
+          "communication": "Với sự đồng ý của bạn, chúng tôi có thể gửi email quảng cáo về sản phẩm mới, ưu đãi đặc biệt hoặc thông tin khác mà chúng tôi nghĩ bạn có thể quan tâm.",
+          "improvement": "Chúng tôi phân tích dữ liệu sử dụng để cải thiện trang web, sản phẩm và dịch vụ của chúng tôi, đồng thời hiểu cách khách hàng sử dụng nền tảng của chúng tôi.",
+          "legal": "Chúng tôi có thể sử dụng thông tin của bạn để tuân thủ các nghĩa vụ pháp lý, thực thi điều khoản dịch vụ và bảo vệ quyền và tài sản của chúng tôi."
+        },
+        "security": {
+          "title": "Bảo Mật Dữ Liệu",
+          "measures": "Chúng tôi thực hiện các biện pháp bảo mật kỹ thuật và tổ chức phù hợp để bảo vệ thông tin cá nhân của bạn khỏi bị truy cập, thay đổi, tiết lộ hoặc phá hủy trái phép.",
+          "payment": "Tất cả các giao dịch thanh toán được xử lý thông qua các cổng thanh toán an toàn. Chúng tôi không lưu trữ thông tin thẻ tín dụng đầy đủ trên máy chủ của mình.",
+          "employee": "Quyền truy cập vào thông tin cá nhân bị hạn chế đối với nhân viên, nhà thầu và đại lý cần biết thông tin đó để vận hành, phát triển hoặc cải thiện dịch vụ của chúng tôi."
+        },
+        "rights": {
+          "title": "Quyền Của Bạn",
+          "access": "Bạn có quyền truy cập, cập nhật hoặc sửa thông tin cá nhân của mình bất kỳ lúc nào thông qua cài đặt tài khoản hoặc liên hệ với chúng tôi.",
+          "deletion": "Bạn có thể yêu cầu xóa thông tin cá nhân của mình, tùy thuộc vào một số trường hợp ngoại lệ pháp lý. Chúng tôi sẽ trả lời yêu cầu của bạn trong vòng 30 ngày.",
+          "optout": "Bạn có thể chọn không nhận thông tin quảng cáo bằng cách nhấp vào liên kết hủy đăng ký trong email của chúng tôi hoặc cập nhật tùy chọn tài khoản.",
+          "portability": "Bạn có quyền yêu cầu một bản sao thông tin cá nhân của mình ở định dạng có cấu trúc, thông dụng và có thể đọc được bằng máy."
+        }
+      },
+      "thirdParty": {
+        "title": "Dịch Vụ Bên Thứ Ba",
+        "description": "Chúng tôi có thể sử dụng các công ty và cá nhân bên thứ ba để hỗ trợ dịch vụ của mình, cung cấp dịch vụ thay mặt chúng tôi, thực hiện các dịch vụ liên quan hoặc hỗ trợ chúng tôi phân tích cách dịch vụ được sử dụng. Các bên thứ ba này chỉ có quyền truy cập thông tin cá nhân của bạn để thực hiện các nhiệm vụ cụ thể thay mặt chúng tôi và có nghĩa vụ không tiết lộ hoặc sử dụng nó cho bất kỳ mục đích nào khác.",
+        "services": "Bộ xử lý thanh toán, đơn vị vận chuyển, nhà cung cấp dịch vụ email, nền tảng phân tích và công cụ hỗ trợ khách hàng."
+      },
+      "contact": "Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật này hoặc thực tiễn bảo mật của chúng tôi, vui lòng liên hệ với Nhân viên Bảo vệ Dữ liệu của chúng tôi."
+    },
+    "terms": {
+      "title": "Điều Khoản Dịch Vụ",
+      "subtitle": "Vui lòng đọc kỹ các điều khoản này trước khi sử dụng dịch vụ của chúng tôi. Bằng cách truy cập hoặc sử dụng trang web của chúng tôi, bạn đồng ý bị ràng buộc bởi các điều khoản này.",
+      "agreement": {
+        "title": "Thỏa Thuận Điều Khoản",
+        "p1": "Các Điều khoản Dịch vụ này (\"Điều khoản\") điều chỉnh quyền truy cập và sử dụng trang web, ứng dụng di động và dịch vụ của Timeless (gọi chung là \"Dịch vụ\"). Bằng cách truy cập hoặc sử dụng Dịch vụ của chúng tôi, bạn đồng ý bị ràng buộc bởi các Điều khoản này và Chính sách Bảo mật của chúng tôi.",
+        "p2": "Nếu bạn không đồng ý với các Điều khoản này, bạn không được truy cập hoặc sử dụng Dịch vụ của chúng tôi. Chúng tôi có quyền cập nhật các Điều khoản này bất kỳ lúc nào và việc bạn tiếp tục sử dụng Dịch vụ cấu thành sự chấp nhận bất kỳ thay đổi nào.",
+        "important": "Các Điều khoản này bao gồm điều khoản trọng tài và từ bỏ quyền khởi kiện tập thể ảnh hưởng đến quyền lợi pháp lý của bạn. Vui lòng xem xét chúng cẩn thận."
+      },
+      "account": {
+        "title": "Điều Khoản Tài Khoản",
+        "creation": "Bạn phải đủ 18 tuổi trở lên để sử dụng dịch vụ của chúng tôi. Bạn có trách nhiệm duy trì tính bảo mật của thông tin đăng nhập tài khoản và tất cả các hoạt động xảy ra trong tài khoản của bạn.",
+        "responsibilities": "Bạn đồng ý cung cấp thông tin chính xác, hiện tại và đầy đủ trong quá trình đăng ký và cập nhật thông tin đó để giữ cho nó chính xác, hiện tại và đầy đủ.",
+        "termination": "Chúng tôi có quyền tạm ngưng hoặc chấm dứt tài khoản của bạn nếu bạn vi phạm các điều khoản này hoặc tham gia vào các hoạt động gian lận, bất hợp pháp hoặc có hại."
+      },
+      "orders": {
+        "title": "Đơn Hàng và Sản Phẩm",
+        "descriptions": "Chúng tôi cố gắng đảm bảo rằng mô tả sản phẩm, giá cả và tính khả dụng là chính xác. Tuy nhiên, chúng tôi không đảm bảo rằng mô tả sản phẩm hoặc nội dung khác là chính xác, đầy đủ, đáng tin cậy hoặc không có lỗi.",
+        "acceptance": "Chúng tôi có quyền từ chối hoặc hủy bất kỳ đơn hàng nào vì bất kỳ lý do gì, bao gồm giới hạn về số lượng có sẵn để mua, sai sót trong thông tin sản phẩm hoặc giá cả, hoặc các vấn đề được xác định bởi hệ thống phát hiện gian lận của chúng tôi.",
+        "pricing": "Tất cả giá được tính bằng USD và có thể thay đổi mà không cần thông báo. Chúng tôi có quyền sửa bất kỳ lỗi định giá nào trên trang web hoặc đơn hàng đang chờ xử lý."
+      },
+      "contact": "Nếu bạn có bất kỳ câu hỏi nào về Điều khoản Dịch vụ này, vui lòng liên hệ với nhóm pháp lý của chúng tôi."
+    },
+    "cookies": {
+      "title": "Chính Sách Cookie",
+      "subtitle": "Tìm hiểu về cách chúng tôi sử dụng cookie và các công nghệ tương tự để cung cấp, bảo vệ và cải thiện dịch vụ của chúng tôi.",
+      "what": {
+        "title": "Cookie Là Gì?",
+        "p1": "Cookie là các tệp văn bản nhỏ được đặt trên thiết bị của bạn khi bạn truy cập một trang web. Chúng được sử dụng rộng rãi để làm cho các trang web hoạt động hiệu quả hơn và cung cấp thông tin cho chủ sở hữu trang web.",
+        "p2": "Chúng tôi sử dụng cookie và các công nghệ theo dõi tương tự để theo dõi hoạt động trên trang web của chúng tôi và lưu trữ một số thông tin nhất định. Các công nghệ này giúp chúng tôi hiểu cách bạn tương tác với dịch vụ của chúng tôi và cho phép chúng tôi cải thiện trải nghiệm của bạn.",
+        "control": "Bạn có thể kiểm soát và quản lý cookie theo nhiều cách khác nhau. Xin lưu ý rằng việc xóa hoặc chặn cookie có thể ảnh hưởng đến trải nghiệm người dùng của bạn và một số phần của trang web có thể không còn truy cập được đầy đủ."
+      },
+      "types": {
+        "title": "Các Loại Cookie Chúng Tôi Sử Dụng",
+        "essential": {
+          "name": "Cookie Thiết Yếu",
+          "description": "Các cookie này là cần thiết để trang web hoạt động bình thường. Chúng cho phép các chức năng cơ bản như điều hướng trang, truy cập khu vực an toàn và chức năng giỏ hàng. Trang web không thể hoạt động bình thường nếu không có các cookie này.",
+          "required": "Bắt Buộc"
+        },
+        "analytics": {
+          "name": "Cookie Phân Tích",
+          "description": "Các cookie này giúp chúng tôi hiểu cách khách truy cập tương tác với trang web của chúng tôi bằng cách thu thập và báo cáo thông tin một cách ẩn danh. Chúng giúp chúng tôi cải thiện trang web và cung cấp trải nghiệm người dùng tốt hơn."
+        },
+        "marketing": {
+          "name": "Cookie Tiếp Thị",
+          "description": "Các cookie này được sử dụng để theo dõi khách truy cập trên các trang web. Mục đích là hiển thị quảng cáo phù hợp và hấp dẫn cho từng người dùng, làm cho chúng có giá trị hơn đối với nhà xuất bản và nhà quảng cáo bên thứ ba."
+        },
+        "preference": {
+          "name": "Cookie Tùy Chỉnh",
+          "description": "Các cookie này cho phép trang web ghi nhớ thông tin thay đổi cách trang web hoạt động hoặc hiển thị, như ngôn ngữ ưa thích, khu vực hoặc cài đặt chủ đề của bạn."
+        }
+      },
+      "manage": {
+        "title": "Quản Lý Tùy Chọn Cookie",
+        "description": "Tùy chỉnh cookie bạn muốn cho phép. Cookie thiết yếu không thể bị vô hiệu hóa vì chúng là bắt buộc để trang web hoạt động.",
+        "acceptAll": "Chấp Nhận Tất Cả Cookie",
+        "savePreferences": "Lưu Tùy Chọn",
+        "rejectNonEssential": "Từ Chối Cookie Không Thiết Yếu"
+      },
+      "contact": "Nếu bạn có bất kỳ câu hỏi nào về việc sử dụng cookie hoặc các công nghệ khác của chúng tôi, vui lòng liên hệ với chúng tôi."
+    },
+    "accessibility": {
+      "title": "Tuyên Bố Truy Cập",
+      "subtitle": "Chúng tôi cam kết làm cho trang web của chúng tôi có thể truy cập và sử dụng được cho tất cả mọi người, bất kể khả năng hoặc khuyết tật của họ.",
+      "commitment": {
+        "title": "Cam Kết Của Chúng Tôi",
+        "p1": "Tại Timeless, chúng tôi tin rằng mọi người đều nên có quyền truy cập bình đẳng vào sản phẩm và dịch vụ của chúng tôi. Chúng tôi cam kết đảm bảo rằng trang web của chúng tôi có thể truy cập được đối với người khuyết tật, bao gồm những người sử dụng công nghệ hỗ trợ.",
+        "p2": "Chúng tôi liên tục làm việc để cải thiện khả năng truy cập của trang web và dịch vụ, đồng thời thường xuyên xem xét và cập nhật các phương pháp của mình để đảm bảo chúng tôi đáp ứng hoặc vượt quá các tiêu chuẩn truy cập áp dụng.",
+        "feedback": "Chúng tôi hoan nghênh phản hồi về khả năng truy cập của trang web. Nếu bạn gặp bất kỳ rào cản nào hoặc có đề xuất cải thiện, vui lòng liên hệ với chúng tôi."
+      },
+      "features": {
+        "title": "Tính Năng Truy Cập",
+        "keyboard": {
+          "title": "Điều Hướng Bằng Bàn Phím",
+          "description": "Trang web của chúng tôi có thể điều hướng hoàn toàn chỉ bằng bàn phím. Tất cả các yếu tố tương tác có thể được truy cập bằng các phím Tab, Enter và Mũi tên."
+        },
+        "screenReader": {
+          "title": "Hỗ Trợ Trình Đọc Màn Hình",
+          "description": "Chúng tôi đảm bảo khả năng tương thích với các trình đọc màn hình phổ biến như JAWS, NVDA và VoiceOver bằng cách sử dụng HTML ngữ nghĩa và nhãn ARIA."
+        },
+        "visual": {
+          "title": "Truy Cập Hình Ảnh",
+          "description": "Thiết kế của chúng tôi xem xét các nhu cầu hình ảnh khác nhau với tỷ lệ tương phản cao, văn bản có thể thay đổi kích thước và các chỉ báo hình ảnh rõ ràng."
+        },
+        "audio": {
+          "title": "Âm Thanh & Video",
+          "description": "Tất cả nội dung đa phương tiện bao gồm phụ đề, bản ghi và mô tả âm thanh khi áp dụng."
+        }
+      },
+      "contact": {
+        "title": "Phản Hồi & Hỗ Trợ",
+        "description": "Chúng tôi hoan nghênh phản hồi của bạn về khả năng truy cập của trang web. Nếu bạn gặp khó khăn trong việc truy cập bất kỳ nội dung hoặc tính năng nào, vui lòng cho chúng tôi biết.",
+        "email": "Email:",
+        "phone": "Điện Thoại:",
+        "response": "Thời Gian Phản Hồi: Chúng tôi sẽ phản hồi trong vòng 2 ngày làm việc",
+        "reportIssue": "Báo Cáo Vấn Đề",
+        "contactSupport": "Liên Hệ Hỗ Trợ"
+      },
+      "standards": {
+        "title": "Tiêu Chuẩn & Tuân Thủ",
+        "description": "Chúng tôi cam kết tuân thủ các tiêu chuẩn truy cập sau:",
+        "wcag": "Chúng tôi cố gắng đáp ứng tiêu chuẩn Hướng dẫn Truy cập Nội dung Web 2.1 Cấp độ AA",
+        "ada": "Trang web của chúng tôi nhằm mục đích tuân thủ Đạo luật Người Mỹ Khuyết tật",
+        "section508": "Chúng tôi làm việc để đáp ứng tiêu chuẩn Mục 508 về khả năng truy cập liên bang",
+        "inProgress": "Đang Tiến Hành"
+      },
+      "assistiveTech": {
+        "title": "Công Nghệ Hỗ Trợ Tương Thích",
+        "description": "Trang web của chúng tôi được thiết kế để hoạt động với các công nghệ hỗ trợ sau:",
+        "screenReaders": "Trình Đọc Màn Hình",
+        "browserExtensions": "Tiện Ích Mở Rộng Trình Duyệt",
+        "osFeatures": "Tính Năng Hệ Điều Hành"
+      },
+      "limitations": {
+        "title": "Hạn Chế Đã Biết",
+        "description": "Mặc dù đã nỗ lực hết sức, một số nội dung trên trang web của chúng tôi có thể chưa hoàn toàn có thể truy cập được. Chúng tôi đang tích cực làm việc để giải quyết các vấn đề này:",
+        "alternativeTitle": "Cần định dạng thay thế?",
+        "alternativeText": "Nếu bạn gặp nội dung không thể truy cập, vui lòng liên hệ với chúng tôi. Chúng tôi sẽ làm việc với bạn để cung cấp thông tin ở định dạng thay thế."
+      },
+      "browserSettings": {
+        "title": "Điều Chỉnh Cài Đặt Trình Duyệt",
+        "description": "Hầu hết các trình duyệt cho phép bạn điều chỉnh cài đặt để cải thiện khả năng truy cập:",
+        "textSize": "Kích Thước Văn Bản",
+        "highContrast": "Độ Tương Phản Cao",
+        "readerMode": "Chế Độ Đọc",
+        "zoom": "Thu Phóng"
+      },
+      "testing": {
+        "title": "Kiểm Tra & Cải Tiến Liên Tục",
+        "description": "Chúng tôi thường xuyên đánh giá khả năng truy cập của trang web thông qua:",
+        "automated": "Công cụ kiểm tra khả năng truy cập tự động",
+        "manual": "Kiểm tra thủ công với trình đọc màn hình và điều hướng bằng bàn phím",
+        "userFeedback": "Phản hồi của người dùng từ người khuyết tật",
+        "audits": "Kiểm toán khả năng truy cập thường xuyên bởi chuyên gia bên thứ ba",
+        "training": "Đào tạo liên tục cho nhóm phát triển và nội dung của chúng tôi"
       }
     }
   }

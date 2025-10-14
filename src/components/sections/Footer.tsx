@@ -25,37 +25,37 @@ function buildFooterSections(t: TFunction): FooterSection[] {
     {
       title: t('footer.sections.shop.title'),
       links: [
-        { name: t('footer.sections.shop.newArrivals'), href: '/shop/new-arrivals' },
-        { name: t('footer.sections.shop.bestSellers'), href: '/shop/best-sellers' },
-        { name: t('footer.sections.shop.sale'), href: '/shop/sale' },
-        { name: t('footer.sections.shop.giftCards'), href: '/gift-cards' },
+        { name: t('footer.sections.shop.newArrivals'), href: '/pages/shop?filter=new-arrivals' },
+        { name: t('footer.sections.shop.bestSellers'), href: '/pages/shop?filter=best-sellers' },
+        { name: t('footer.sections.shop.sale'), href: '/pages/shop?filter=sale' },
+        { name: t('footer.sections.shop.giftCards'), href: '/pages/shop' },
       ],
     },
     {
       title: t('footer.sections.customerCare.title'),
       links: [
-        { name: t('footer.sections.customerCare.contact'), href: '/contact' },
-        { name: t('footer.sections.customerCare.sizeGuide'), href: '/size-guide' },
-        { name: t('footer.sections.customerCare.shipping'), href: '/shipping-returns' },
-        { name: t('footer.sections.customerCare.faq'), href: '/faq' },
+        { name: t('footer.sections.customerCare.contact'), href: '/pages/contact' },
+        { name: t('footer.sections.customerCare.sizeGuide'), href: '/pages/size-guide' },
+        { name: t('footer.sections.customerCare.shipping'), href: '/pages/shipping-returns' },
+        { name: t('footer.sections.customerCare.faq'), href: '/pages/faq' },
       ],
     },
     {
       title: t('footer.sections.company.title'),
       links: [
-        { name: t('footer.sections.company.about'), href: '/about' },
-        { name: t('footer.sections.company.careers'), href: '/careers' },
-        { name: t('footer.sections.company.press'), href: '/press' },
-        { name: t('footer.sections.company.sustainability'), href: '/sustainability' },
+        { name: t('footer.sections.company.about'), href: '/pages/about' },
+        { name: t('footer.sections.company.careers'), href: '/pages/contact' },
+        { name: t('footer.sections.company.press'), href: '/pages/press' },
+        { name: t('footer.sections.company.sustainability'), href: '/pages/sustainability' },
       ],
     },
     {
       title: t('footer.sections.legal.title'),
       links: [
-        { name: t('footer.sections.legal.privacy'), href: '/privacy' },
-        { name: t('footer.sections.legal.terms'), href: '/terms' },
-        { name: t('footer.sections.legal.cookies'), href: '/cookies' },
-        { name: t('footer.sections.legal.accessibility'), href: '/accessibility' },
+        { name: t('footer.sections.legal.privacy'), href: '/pages/privacy' },
+        { name: t('footer.sections.legal.terms'), href: '/pages/terms' },
+        { name: t('footer.sections.legal.cookies'), href: '/pages/cookies' },
+        { name: t('footer.sections.legal.accessibility'), href: '/pages/accessibility' },
       ],
     },
   ]
