@@ -36,11 +36,15 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   emailRaw  String 
-  password  String
+  password  String?
   firstName String
   lastName  String
   avatar    String?
   phone     String?
+  
+  // Social authentication
+  provider   String? // google, facebook, twitter, credentials
+  providerId String? // ID from OAuth provider
   
   // Role-based access control
   role      UserRole @default(CUSTOMER)
@@ -54,6 +58,8 @@ model User {
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  @@index([provider, providerId])
   
   // Relationships
   addresses     Address[]

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, ShoppingCart, Heart, Star, Sparkles } from 'lucide-react'
+import { ArrowLeft, Eye, Heart, Star, Sparkles } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import productsData from '@/data/products.json'
 import { useTranslation } from 'react-i18next'
@@ -151,10 +151,12 @@ export default function PremiumAccessoriesPage() {
                     )}
                   </div>
                   
-                  <Button className="w-full group">
-                    <ShoppingCart size={18} className="mr-2" />
-                    {t('collectionPages.addToCart')}
-                  </Button>
+                  <Link href={`/product/${product.id}`}>
+                    <Button className="w-full group">
+                      <Eye size={18} className="mr-2" />
+                      View Item
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
             ))}

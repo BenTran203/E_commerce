@@ -529,6 +529,141 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 }
 
 /**
+ * Social Login (Google, Facebook, Twitter)
+ * 
+ * LEARNING OBJECTIVES:
+ * - Handle OAuth authentication from social providers
+ * - Create or find users from social login
+ * - Link social accounts to existing users
+ */
+export const socialLogin = async (req: Request, res: Response) => {
+  try {
+    const { provider, providerId, email, name, image } = req.body
+
+    // Validate required fields
+    if (!provider || !providerId || !email || !name) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Provider, providerId, email, and name are required'
+      })
+    }
+
+    // Validate provider
+    const validProviders = ['google', 'facebook', 'twitter']
+    if (!validProviders.includes(provider)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid provider. Must be google, facebook, or twitter'
+      })
+    }
+
+    // Find existing user by email or providerId
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: email.toLowerCase() },
+          { 
+            AND: [
+              { providerId },
+              { provider }
+            ]
+          }
+        ]
+      }
+    })
+
+    // If user doesn't exist, create new user
+    if (!user) {
+      const [firstName, ...lastNameParts] = name.split(' ')
+      
+      user = await prisma.user.create({
+        data: {
+          email: email.toLowerCase(),
+          firstName: firstName || 'User',
+          lastName: lastNameParts.join(' ') || firstName || 'Name',
+          provider,
+          providerId,
+          avatar: image || null,
+          isEmailVerified: true, // Social auth emails are pre-verified
+          role: 'CUSTOMER',
+          password: null // No password for social auth users
+        }
+      })
+    } else {
+      // Update existing user with social provider info if not already set
+      if (!user.provider || !user.providerId) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            provider,
+            providerId,
+            avatar: image || user.avatar,
+            isEmailVerified: true
+          }
+        })
+      }
+      
+      // Update last login time
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { lastLoginAt: new Date() }
+      })
+    }
+
+    // Check if user is active
+    if (!user.isActive) {
+      return res.status(403).json({
+        status: 'error',
+        message: 'Account is disabled. Please contact support.'
+      })
+    }
+
+    // Generate tokens
+    const accessToken = generateToken(user.id)
+    const refreshToken = generateRefreshToken(user.id)
+
+    // Store refresh token
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+      }
+    })
+
+    // Return user data and tokens
+    res.status(200).json({
+      status: 'success',
+      message: 'Social login successful',
+      data: {
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: user.avatar,
+          phone: user.phone,
+          role: user.role,
+          isActive: user.isActive,
+          isEmailVerified: user.isEmailVerified
+        },
+        tokens: {
+          accessToken,
+          refreshToken
+        }
+      }
+    })
+
+  } catch (error) {
+    console.error('Social login error:', error)
+    res.status(500).json({
+      status: 'error',
+      message: 'Social login failed. Please try again.'
+    })
+  }
+}
+
+/**
  * IMPLEMENTATION NOTES:
  * 
  * 1. **Security Best Practices**:

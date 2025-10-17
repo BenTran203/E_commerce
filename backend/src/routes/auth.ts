@@ -7,7 +7,8 @@ import {
   resetPassword,
   verifyEmail,
   logout,
-  getCurrentUser
+  getCurrentUser,
+  socialLogin
 } from '../controllers/auth'
 import { authenticate } from '../middleware/auth'
 
@@ -17,6 +18,7 @@ const router = Router()
 const routes = [
     {path: '/register', handler: register},
     {path: '/login', handler: login },
+    {path: '/social-login', handler: socialLogin},
     {path: '/refresh', handler: refreshToken},
     {path: '/forgot-password', handler: forgotPassword},
     {path: '/reset-password', handler: resetPassword},

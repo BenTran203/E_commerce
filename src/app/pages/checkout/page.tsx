@@ -1,17 +1,29 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowLeft, CreditCard, Lock, CheckCircle } from 'lucide-react'
+import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Link from 'next/link'
+import CheckoutWrapper from '@/components/checkout/CheckoutWrapper'
+import StripePaymentForm from '@/components/checkout/StripePaymentForm'
+import { ordersAPI, paymentsAPI } from '@/lib/api'
+import toast from 'react-hot-toast'
 export default function CheckoutPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { items, total, clearAllItems } = useCart()
   const [step, setStep] = useState<'details' | 'payment' | 'success'>('details')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  
+  // Payment states
+  const [orderId, setOrderId] = useState<string | null>(null)
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
   
   // Form states
   const [formData, setFormData] = useState({
@@ -23,47 +35,168 @@ export default function CheckoutPage() {
     city: '',
     state: '',
     zipCode: '',
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: ''
+    country: ''
   })
 
   const shippingCost = total > 100 ? 0 : 10
   const tax = total * 0.1
   const finalTotal = total + shippingCost + tax
 
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token')
+    if (!token) {
+      toast.error('Please login to continue with checkout')
+      router.push('/auth/login?redirect=/pages/checkout')
+      return
+    }
+    setIsAuthenticated(true)
+  }, [router])
+
+  // Check for payment success from redirect
+  useEffect(() => {
+    if (searchParams.get('success') === 'true' && orderId) {
+      handlePaymentSuccess()
+    }
+  }, [searchParams])
+
   const handleInputChange = (field: string) => (value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleContinueToPayment = (e: React.FormEvent) => {
+  const handleContinueToPayment = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Validate shipping details
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.address) {
-      alert('Please fill in all required fields')
-      return
-    }
-    setStep('payment')
-  }
-
-  const handlePlaceOrder = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Validate payment details
-    if (!formData.cardNumber || !formData.cardName || !formData.expiryDate || !formData.cvv) {
-      alert('Please fill in all payment details')
+    setError(null)
+    
+    // Check authentication before proceeding
+    const token = localStorage.getItem('auth_token')
+    if (!token) {
+      setError('Please login to continue')
+      toast.error('Please login to continue with checkout')
+      router.push('/auth/login?redirect=/pages/checkout')
       return
     }
     
-    // Simulate order placement
-    setTimeout(() => {
+    // Validate shipping details
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.address || !formData.country) {
+      setError('Please fill in all required fields including country')
+      toast.error('Please fill in all required fields including country')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Step 1: Create addresses
+      // Note: Backend expects address1 field, not street
+      const addressData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address1: formData.address, // Changed from 'street' to 'address1'
+        city: formData.city,
+        state: formData.state,
+        postalCode: formData.zipCode,
+        country: formData.country,
+        phone: formData.phone,
+        isDefault: false
+      }
+
+      // For simplicity, using the same address for shipping and billing
+      // In production, you might want separate address forms
+      const shippingAddressResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/users/addresses`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(addressData)
+        }
+      )
+
+      if (!shippingAddressResponse.ok) {
+        const errorData = await shippingAddressResponse.json().catch(() => ({}))
+        if (shippingAddressResponse.status === 401) {
+          toast.error('Session expired. Please login again.')
+          localStorage.removeItem('auth_token')
+          router.push('/auth/login?redirect=/pages/checkout')
+          return
+        }
+        throw new Error(errorData.message || 'Failed to create address')
+      }
+
+      const shippingAddressResult = await shippingAddressResponse.json()
+      const shippingAddressId = shippingAddressResult.data.address.id
+      const billingAddressId = shippingAddressId // Using same address
+
+      // Step 2: Create order
+      const orderData = {
+        items: items.map(item => ({
+          productId: item.product.id,
+          quantity: item.quantity,
+          variantId: item.selectedVariant?.id || undefined
+        })),
+        shippingAddressId,
+        billingAddressId,
+        paymentMethod: 'CARD',
+        customerNotes: ''
+      }
+
+      const order = await ordersAPI.create(orderData)
+      setOrderId(order.id)
+
+      // Step 3: Create payment intent
+      const paymentIntent = await paymentsAPI.createIntent(order.id)
+      setClientSecret(paymentIntent.clientSecret)
+
+      // Move to payment step
+      setStep('payment')
+      toast.success('Order created! Please complete payment.')
+    } catch (err: any) {
+      console.error('Checkout error:', err)
+      setError(err.message || 'Failed to process order')
+      toast.error(err.message || 'Failed to process order')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handlePaymentSuccess = async () => {
+    try {
+      // Confirm payment with backend
+      if (orderId && clientSecret) {
+        const paymentIntentId = clientSecret.split('_secret_')[0]
+        await paymentsAPI.confirmPayment(paymentIntentId, orderId)
+      }
+      
       setStep('success')
       clearAllItems()
-    }, 1500)
+      toast.success('Payment successful!')
+    } catch (err: any) {
+      console.error('Payment confirmation error:', err)
+      toast.error('Payment processed but confirmation failed')
+      setStep('success') // Still show success since payment went through
+      clearAllItems()
+    }
+  }
+
+  const handlePaymentError = (errorMessage: string) => {
+    setError(errorMessage)
+    toast.error(errorMessage)
+  }
+
+  // Show loading while checking authentication
+  if (!isAuthenticated && step !== 'success') {
+    return (
+      <div className="min-h-screen bg-luxury-cream flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-900" />
+      </div>
+    )
   }
 
   if (items.length === 0 && step !== 'success') {
-    router.push('/cart')
+    router.push('/pages/cart')
     return null
   }
 
@@ -86,7 +219,7 @@ export default function CheckoutPage() {
     Continue Shopping
   </Button>
 </Link>
-            <Button onClick={() => router.push('/orders')} variant="secondary" className="w-full">
+            <Button onClick={() => router.push('/account/orders')} variant="secondary" className="w-full">
               View Orders
             </Button>
           </div>
@@ -105,7 +238,7 @@ export default function CheckoutPage() {
           className="mb-8"
         >
           <button
-            onClick={() => step === 'payment' ? setStep('details') : router.push('/cart')}
+            onClick={() => step === 'payment' ? setStep('details') : router.push('/pages/cart')}
             className="flex items-center gap-2 text-primary-600 hover:text-primary-900 mb-4 transition-colors"
           >
             <ArrowLeft size={20} />
@@ -133,6 +266,21 @@ export default function CheckoutPage() {
               <span className="text-sm font-medium">Payment</span>
             </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3"
+            >
+              <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+              <div className="flex-1">
+                <p className="text-sm text-red-800 font-medium">Error</p>
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -185,7 +333,7 @@ export default function CheckoutPage() {
                     required
                   />
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
                       label="City"
                       value={formData.city}
@@ -193,79 +341,123 @@ export default function CheckoutPage() {
                       required
                     />
                     <Input
-                      label="State"
+                      label="State / Province"
                       value={formData.state}
                       onChange={handleInputChange('state')}
                       required
                     />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
-                      label="ZIP Code"
+                      label="ZIP / Postal Code"
                       value={formData.zipCode}
                       onChange={handleInputChange('zipCode')}
                       required
                     />
+                    
+                    {/* Country Selector */}
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium text-primary-700 mb-2">
+                        Country <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        value={formData.country}
+                        onChange={(e) => handleInputChange('country')(e.target.value)}
+                        required
+                        className="w-full px-4 py-2 border border-primary-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white text-primary-900"
+                      >
+                        <option value="">Select Country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="NZ">New Zealand</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="NL">Netherlands</option>
+                        <option value="BE">Belgium</option>
+                        <option value="CH">Switzerland</option>
+                        <option value="AT">Austria</option>
+                        <option value="SE">Sweden</option>
+                        <option value="NO">Norway</option>
+                        <option value="DK">Denmark</option>
+                        <option value="FI">Finland</option>
+                        <option value="IE">Ireland</option>
+                        <option value="PT">Portugal</option>
+                        <option value="GR">Greece</option>
+                        <option value="PL">Poland</option>
+                        <option value="CZ">Czech Republic</option>
+                        <option value="HU">Hungary</option>
+                        <option value="RO">Romania</option>
+                        <option value="BG">Bulgaria</option>
+                        <option value="HR">Croatia</option>
+                        <option value="SI">Slovenia</option>
+                        <option value="SK">Slovakia</option>
+                        <option value="LT">Lithuania</option>
+                        <option value="LV">Latvia</option>
+                        <option value="EE">Estonia</option>
+                        <option value="JP">Japan</option>
+                        <option value="KR">South Korea</option>
+                        <option value="CN">China</option>
+                        <option value="IN">India</option>
+                        <option value="SG">Singapore</option>
+                        <option value="MY">Malaysia</option>
+                        <option value="TH">Thailand</option>
+                        <option value="ID">Indonesia</option>
+                        <option value="PH">Philippines</option>
+                        <option value="VN">Vietnam</option>
+                        <option value="AE">United Arab Emirates</option>
+                        <option value="SA">Saudi Arabia</option>
+                        <option value="IL">Israel</option>
+                        <option value="TR">Turkey</option>
+                        <option value="ZA">South Africa</option>
+                        <option value="NG">Nigeria</option>
+                        <option value="KE">Kenya</option>
+                        <option value="EG">Egypt</option>
+                        <option value="BR">Brazil</option>
+                        <option value="MX">Mexico</option>
+                        <option value="AR">Argentina</option>
+                        <option value="CL">Chile</option>
+                        <option value="CO">Colombia</option>
+                        <option value="PE">Peru</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
+              </div>
 
-                <Button type="submit" size="lg" className="w-full mt-6">
-                  Continue to Payment
-                </Button>
-              </motion.form>
-            ) : (
-              <motion.form
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                onSubmit={handlePlaceOrder}
-                className="bg-white rounded-xl p-6 md:p-8 shadow-sm"
+              <Button 
+                type="submit" 
+                size="lg" 
+                className="w-full mt-6"
+                disabled={isLoading}
               >
-                <h2 className="text-2xl font-serif text-primary-900 mb-6">Payment Information</h2>
-                
-                <div className="space-y-4">
-                  <Input
-                    label="Card Number"
-                    value={formData.cardNumber}
-                    onChange={handleInputChange('cardNumber')}
-                    placeholder="1234 5678 9012 3456"
-                    required
-                  />
-                  
-                  <Input
-                    label="Cardholder Name"
-                    value={formData.cardName}
-                    onChange={handleInputChange('cardName')}
-                    placeholder="John Doe"
-                    required
-                  />
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      label="Expiry Date"
-                      value={formData.expiryDate}
-                      onChange={handleInputChange('expiryDate')}
-                      placeholder="MM/YY"
-                      required
-                    />
-                    <Input
-                      label="CVV"
-                      value={formData.cvv}
-                      onChange={handleInputChange('cvv')}
-                      placeholder="123"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-primary-600 mt-6 p-4 bg-primary-50 rounded-lg">
-                  <Lock size={16} />
-                  <span>Your payment information is secure and encrypted</span>
-                </div>
-
-                <Button type="submit" size="lg" className="w-full mt-6 flex items-center justify-center gap-2">
-                  <CreditCard size={20} />
-                  Place Order - ${finalTotal.toFixed(2)}
-                </Button>
-              </motion.form>
-            )}
+                {isLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
+                    Processing...
+                  </>
+                ) : (
+                  'Continue to Payment'
+                )}
+              </Button>
+            </motion.form>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <CheckoutWrapper clientSecret={clientSecret}>
+                <StripePaymentForm
+                  amount={finalTotal}
+                  onSuccess={handlePaymentSuccess}
+                  onError={handlePaymentError}
+                />
+              </CheckoutWrapper>
+            </motion.div>
+          )}
           </div>
 
           {/* Order Summary */}

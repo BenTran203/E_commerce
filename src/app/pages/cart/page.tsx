@@ -35,7 +35,7 @@ export default function CartPage() {
       return
     }
     // Navigate to checkout page (you can create this later)
-    router.push('/checkout')
+    router.push('/pages/checkout')
   }
 
   if (items.length === 0) {

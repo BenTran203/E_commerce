@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, ShoppingCart, Heart, Star } from 'lucide-react'
+import { ArrowLeft, Eye, Heart, Star, Package } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import productsData from '@/data/products.json'
 import { useTranslation } from 'react-i18next'
@@ -138,10 +138,12 @@ export default function CasualEverydayPage() {
                     )}
                   </div>
                   
-                  <Button className="w-full group">
-                    <ShoppingCart size={18} className="mr-2" />
-                    {t('collectionPages.addToCart')}
-                  </Button>
+                  <Link href={`/product/${product.id}`}>
+                    <Button className="w-full group">
+                      <Eye size={18} className="mr-2" />
+                      View Item
+                    </Button>
+                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -160,7 +162,7 @@ export default function CasualEverydayPage() {
               className="text-center p-8 bg-white rounded-xl shadow-sm"
             >
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <ShoppingCart className="text-primary-900" size={28} />
+                <Package className="text-primary-900" size={28} />
               </div>
               <h3 className="text-xl font-serif text-primary-900 mb-2">{t('collectionPages.casualEveryday.features.comfort.title')}</h3>
               <p className="text-primary-600">
