@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Link href="/shop">
+            <Link href="/pages/shop">
               <Button size="lg" className="min-w-[200px] group">
                 {t('hero.cta.explore')}
                 <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
