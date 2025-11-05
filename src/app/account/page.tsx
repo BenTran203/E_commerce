@@ -1,48 +1,48 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
-import { motion } from 'framer-motion'
-import { User, Mail, Phone, Calendar, Edit2, Save, X } from 'lucide-react'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { motion } from "framer-motion";
+import { User, Mail, Phone, Calendar, Edit2, Save, X } from "lucide-react";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 
 export default function ProfilePage() {
-  const { user, isLoading } = useAuth()
-  const [isEditing, setIsEditing] = useState(false)
+  const { user, isLoading } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    phone: user?.phone || '',
-    avatar: user?.avatar || ''
-  })
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    phone: user?.phone || "",
+    avatar: user?.avatar || "",
+  });
 
   const handleInputChange = (field: string) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSave = async () => {
     // TODO: Call API to update profile
-    console.log('Saving profile:', formData)
-    setIsEditing(false)
-  }
+    console.log("Saving profile:", formData);
+    setIsEditing(false);
+  };
 
   const handleCancel = () => {
     setFormData({
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      phone: user?.phone || '',
-      avatar: user?.avatar || ''
-    })
-    setIsEditing(false)
-  }
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      phone: user?.phone || "",
+      avatar: user?.avatar || "",
+    });
+    setIsEditing(false);
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-luxury-cream flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-900"></div>
       </div>
-    )
+    );
   }
 
   if (!user) {
@@ -50,7 +50,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-luxury-cream flex items-center justify-center">
         <p className="text-primary-600">Please log in to view your profile.</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -64,8 +64,12 @@ export default function ProfilePage() {
           {/* Header */}
           <div className="flex justify-between items-start mb-8">
             <div>
-              <h1 className="text-3xl font-serif text-primary-900 mb-2">My Profile</h1>
-              <p className="text-primary-600">Manage your personal information</p>
+              <h1 className="text-3xl font-serif text-primary-900 mb-2">
+                My Profile
+              </h1>
+              <p className="text-primary-600">
+                Manage your personal information
+              </p>
             </div>
             {!isEditing ? (
               <Button
@@ -108,7 +112,8 @@ export default function ProfilePage() {
                 />
               ) : (
                 <div className="w-24 h-24 rounded-full bg-primary-900 text-white flex items-center justify-center text-3xl font-serif">
-                  {user.firstName[0]}{user.lastName[0]}
+                  {user.firstName[0]}
+                  {user.lastName[0]}
                 </div>
               )}
               {isEditing && (
@@ -130,7 +135,9 @@ export default function ProfilePage() {
 
           {/* Profile Information */}
           <div className="space-y-6">
-            <h3 className="text-xl font-serif text-primary-900 mb-4">Personal Information</h3>
+            <h3 className="text-xl font-serif text-primary-900 mb-4">
+              Personal Information
+            </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -141,7 +148,7 @@ export default function ProfilePage() {
                 {isEditing ? (
                   <Input
                     value={formData.firstName}
-                    onChange={handleInputChange('firstName')}
+                    onChange={handleInputChange("firstName")}
                   />
                 ) : (
                   <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
@@ -158,7 +165,7 @@ export default function ProfilePage() {
                 {isEditing ? (
                   <Input
                     value={formData.lastName}
-                    onChange={handleInputChange('lastName')}
+                    onChange={handleInputChange("lastName")}
                   />
                 ) : (
                   <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
@@ -176,9 +183,13 @@ export default function ProfilePage() {
               <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
                 {user.email}
                 {user.isEmailVerified ? (
-                  <span className="ml-2 text-green-600 text-sm">✓ Verified</span>
+                  <span className="ml-2 text-green-600 text-sm">
+                    ✓ Verified
+                  </span>
                 ) : (
-                  <span className="ml-2 text-yellow-600 text-sm">⚠ Not verified</span>
+                  <span className="ml-2 text-yellow-600 text-sm">
+                    ⚠ Not verified
+                  </span>
                 )}
               </p>
             </div>
@@ -191,12 +202,12 @@ export default function ProfilePage() {
               {isEditing ? (
                 <Input
                   value={formData.phone}
-                  onChange={handleInputChange('phone')}
+                  onChange={handleInputChange("phone")}
                   placeholder="Enter phone number"
                 />
               ) : (
                 <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
-                  {user.phone || 'Not provided'}
+                  {user.phone || "Not provided"}
                 </p>
               )}
             </div>
@@ -207,10 +218,10 @@ export default function ProfilePage() {
                 Member Since
               </label>
               <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
-                {new Date(user.createdAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
+                {new Date(user.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
                 })}
               </p>
             </div>
@@ -218,6 +229,5 @@ export default function ProfilePage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
-

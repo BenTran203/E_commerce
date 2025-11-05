@@ -1,14 +1,14 @@
 /**
  * USERS CONTROLLER
- * 
+ *
  * Handles user profile and account management operations
  */
 
-import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcryptjs'
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 /**
  * GET USER PROFILE
@@ -18,9 +18,9 @@ export const getUserProfile = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const user = await prisma.user.findUnique({
@@ -35,30 +35,29 @@ export const getUserProfile = async (req: Request, res: Response) => {
         role: true,
         isEmailVerified: true,
         createdAt: true,
-        updatedAt: true
-      }
-    })
+        updatedAt: true,
+      },
+    });
 
     if (!user) {
       return res.status(404).json({
-        status: 'error',
-        message: 'User not found'
-      })
+        status: "error",
+        message: "User not found",
+      });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: { user }
-    })
-
+      status: "success",
+      data: { user },
+    });
   } catch (error) {
-    console.error('Get user profile error:', error)
+    console.error("Get user profile error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch user profile'
-    })
+      status: "error",
+      message: "Failed to fetch user profile",
+    });
   }
-}
+};
 
 /**
  * UPDATE USER PROFILE
@@ -68,12 +67,12 @@ export const updateUserProfile = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { firstName, lastName, phone, avatar } = req.body
+    const { firstName, lastName, phone, avatar } = req.body;
 
     const user = await prisma.user.update({
       where: { id: req.user.id },
@@ -81,7 +80,7 @@ export const updateUserProfile = async (req: Request, res: Response) => {
         firstName,
         lastName,
         phone,
-        avatar
+        avatar,
       },
       select: {
         id: true,
@@ -93,24 +92,23 @@ export const updateUserProfile = async (req: Request, res: Response) => {
         role: true,
         isEmailVerified: true,
         createdAt: true,
-        updatedAt: true
-      }
-    })
+        updatedAt: true,
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Profile updated successfully',
-      data: { user }
-    })
-
+      status: "success",
+      message: "Profile updated successfully",
+      data: { user },
+    });
   } catch (error) {
-    console.error('Update profile error:', error)
+    console.error("Update profile error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to update profile'
-    })
+      status: "error",
+      message: "Failed to update profile",
+    });
   }
-}
+};
 
 /**
  * CHANGE PASSWORD
@@ -120,26 +118,26 @@ export const changePassword = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { currentPassword, newPassword } = req.body
+    const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Current password and new password are required'
-      })
+        status: "error",
+        message: "Current password and new password are required",
+      });
     }
 
     // Validate new password strength
     if (newPassword.length < 8) {
       return res.status(400).json({
-        status: 'error',
-        message: 'New password must be at least 8 characters long'
-      })
+        status: "error",
+        message: "New password must be at least 8 characters long",
+      });
     }
 
     // Get user with password
@@ -147,49 +145,51 @@ export const changePassword = async (req: Request, res: Response) => {
       where: { id: req.user.id },
       select: {
         id: true,
-        password: true
-      }
-    })
+        password: true,
+      },
+    });
 
     if (!user) {
       return res.status(404).json({
-        status: 'error',
-        message: 'User not found'
-      })
+        status: "error",
+        message: "User not found",
+      });
     }
 
     // Verify current password
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password)
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
 
     if (!isPasswordValid) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Current password is incorrect'
-      })
+        status: "error",
+        message: "Current password is incorrect",
+      });
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 12)
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
 
     // Update password
     await prisma.user.update({
       where: { id: req.user.id },
-      data: { password: hashedPassword }
-    })
+      data: { password: hashedPassword },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Password changed successfully'
-    })
-
+      status: "success",
+      message: "Password changed successfully",
+    });
   } catch (error) {
-    console.error('Change password error:', error)
+    console.error("Change password error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to change password'
-    })
+      status: "error",
+      message: "Failed to change password",
+    });
   }
-}
+};
 
 /**
  * GET USER ADDRESSES
@@ -199,29 +199,28 @@ export const getUserAddresses = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const addresses = await prisma.address.findMany({
       where: { userId: req.user.id },
-      orderBy: { isDefault: 'desc' }
-    })
+      orderBy: { isDefault: "desc" },
+    });
 
     res.status(200).json({
-      status: 'success',
-      data: { addresses }
-    })
-
+      status: "success",
+      data: { addresses },
+    });
   } catch (error) {
-    console.error('Get addresses error:', error)
+    console.error("Get addresses error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch addresses'
-    })
+      status: "error",
+      message: "Failed to fetch addresses",
+    });
   }
-}
+};
 
 /**
  * CREATE ADDRESS
@@ -231,9 +230,9 @@ export const createAddress = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const {
@@ -247,18 +246,18 @@ export const createAddress = async (req: Request, res: Response) => {
       country,
       postalCode,
       phone,
-      isDefault
-    } = req.body
+      isDefault,
+    } = req.body;
 
     // If this is set as default, unset other default addresses
     if (isDefault) {
       await prisma.address.updateMany({
         where: {
           userId: req.user.id,
-          isDefault: true
+          isDefault: true,
         },
-        data: { isDefault: false }
-      })
+        data: { isDefault: false },
+      });
     }
 
     const address = await prisma.address.create({
@@ -274,24 +273,23 @@ export const createAddress = async (req: Request, res: Response) => {
         country,
         postalCode,
         phone,
-        isDefault: isDefault || false
-      }
-    })
+        isDefault: isDefault || false,
+      },
+    });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Address created successfully',
-      data: { address }
-    })
-
+      status: "success",
+      message: "Address created successfully",
+      data: { address },
+    });
   } catch (error) {
-    console.error('Create address error:', error)
+    console.error("Create address error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to create address'
-    })
+      status: "error",
+      message: "Failed to create address",
+    });
   }
-}
+};
 
 /**
  * UPDATE ADDRESS
@@ -301,12 +299,12 @@ export const updateAddress = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
     const {
       firstName,
       lastName,
@@ -318,22 +316,22 @@ export const updateAddress = async (req: Request, res: Response) => {
       country,
       postalCode,
       phone,
-      isDefault
-    } = req.body
+      isDefault,
+    } = req.body;
 
     // Verify ownership
     const existingAddress = await prisma.address.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
-    })
+        userId: req.user.id,
+      },
+    });
 
     if (!existingAddress) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Address not found'
-      })
+        status: "error",
+        message: "Address not found",
+      });
     }
 
     // If this is set as default, unset other default addresses
@@ -342,10 +340,10 @@ export const updateAddress = async (req: Request, res: Response) => {
         where: {
           userId: req.user.id,
           isDefault: true,
-          id: { not: id }
+          id: { not: id },
         },
-        data: { isDefault: false }
-      })
+        data: { isDefault: false },
+      });
     }
 
     const address = await prisma.address.update({
@@ -361,24 +359,23 @@ export const updateAddress = async (req: Request, res: Response) => {
         country,
         postalCode,
         phone,
-        isDefault
-      }
-    })
+        isDefault,
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Address updated successfully',
-      data: { address }
-    })
-
+      status: "success",
+      message: "Address updated successfully",
+      data: { address },
+    });
   } catch (error) {
-    console.error('Update address error:', error)
+    console.error("Update address error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to update address'
-    })
+      status: "error",
+      message: "Failed to update address",
+    });
   }
-}
+};
 
 /**
  * DELETE ADDRESS
@@ -388,45 +385,44 @@ export const deleteAddress = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
 
     // Verify ownership
     const address = await prisma.address.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
-    })
+        userId: req.user.id,
+      },
+    });
 
     if (!address) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Address not found'
-      })
+        status: "error",
+        message: "Address not found",
+      });
     }
 
     await prisma.address.delete({
-      where: { id }
-    })
+      where: { id },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Address deleted successfully'
-    })
-
+      status: "success",
+      message: "Address deleted successfully",
+    });
   } catch (error) {
-    console.error('Delete address error:', error)
+    console.error("Delete address error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to delete address'
-    })
+      status: "error",
+      message: "Failed to delete address",
+    });
   }
-}
+};
 
 /**
  * GET USER WISHLIST
@@ -436,9 +432,9 @@ export const getUserWishlist = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const wishlistItems = await prisma.wishlistItem.findMany({
@@ -448,33 +444,32 @@ export const getUserWishlist = async (req: Request, res: Response) => {
           include: {
             images: {
               where: { isPrimary: true },
-              take: 1
+              take: 1,
             },
             brand: {
-              select: { name: true }
+              select: { name: true },
             },
             category: {
-              select: { name: true }
-            }
-          }
-        }
+              select: { name: true },
+            },
+          },
+        },
       },
-      orderBy: { createdAt: 'desc' }
-    })
+      orderBy: { createdAt: "desc" },
+    });
 
     res.status(200).json({
-      status: 'success',
-      data: { wishlistItems }
-    })
-
+      status: "success",
+      data: { wishlistItems },
+    });
   } catch (error) {
-    console.error('Get wishlist error:', error)
+    console.error("Get wishlist error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch wishlist'
-    })
+      status: "error",
+      message: "Failed to fetch wishlist",
+    });
   }
-}
+};
 
 /**
  * ADD TO WISHLIST
@@ -484,23 +479,23 @@ export const addToWishlist = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { productId } = req.body
+    const { productId } = req.body;
 
     // Check if product exists
     const product = await prisma.product.findUnique({
-      where: { id: productId }
-    })
+      where: { id: productId },
+    });
 
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Product not found'
-      })
+        status: "error",
+        message: "Product not found",
+      });
     }
 
     // Check if already in wishlist
@@ -508,49 +503,48 @@ export const addToWishlist = async (req: Request, res: Response) => {
       where: {
         userId_productId: {
           userId: req.user.id,
-          productId
-        }
-      }
-    })
+          productId,
+        },
+      },
+    });
 
     if (existingItem) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Product already in wishlist'
-      })
+        status: "error",
+        message: "Product already in wishlist",
+      });
     }
 
     const wishlistItem = await prisma.wishlistItem.create({
       data: {
         userId: req.user.id,
-        productId
+        productId,
       },
       include: {
         product: {
           include: {
             images: {
               where: { isPrimary: true },
-              take: 1
-            }
-          }
-        }
-      }
-    })
+              take: 1,
+            },
+          },
+        },
+      },
+    });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Added to wishlist',
-      data: { wishlistItem }
-    })
-
+      status: "success",
+      message: "Added to wishlist",
+      data: { wishlistItem },
+    });
   } catch (error) {
-    console.error('Add to wishlist error:', error)
+    console.error("Add to wishlist error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to add to wishlist'
-    })
+      status: "error",
+      message: "Failed to add to wishlist",
+    });
   }
-}
+};
 
 /**
  * REMOVE FROM WISHLIST
@@ -560,49 +554,47 @@ export const removeFromWishlist = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { productId } = req.params
+    const { productId } = req.params;
 
     const wishlistItem = await prisma.wishlistItem.findUnique({
       where: {
         userId_productId: {
           userId: req.user.id,
-          productId
-        }
-      }
-    })
+          productId,
+        },
+      },
+    });
 
     if (!wishlistItem) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Item not found in wishlist'
-      })
+        status: "error",
+        message: "Item not found in wishlist",
+      });
     }
 
     await prisma.wishlistItem.delete({
       where: {
         userId_productId: {
           userId: req.user.id,
-          productId
-        }
-      }
-    })
+          productId,
+        },
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Removed from wishlist'
-    })
-
+      status: "success",
+      message: "Removed from wishlist",
+    });
   } catch (error) {
-    console.error('Remove from wishlist error:', error)
+    console.error("Remove from wishlist error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to remove from wishlist'
-    })
+      status: "error",
+      message: "Failed to remove from wishlist",
+    });
   }
-}
-
+};

@@ -1,13 +1,13 @@
 /**
  * REVIEWS CONTROLLER
- * 
+ *
  * Handles product review operations
  */
 
-import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 /**
  * GET PRODUCT REVIEWS
@@ -15,20 +15,20 @@ const prisma = new PrismaClient()
  */
 export const getProductReviews = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params
-    const { page = '1', limit = '10', sortBy = 'newest' } = req.query
+    const { productId } = req.params;
+    const { page = "1", limit = "10", sortBy = "newest" } = req.query;
 
-    const pageNum = parseInt(page as string)
-    const limitNum = parseInt(limit as string)
-    const skip = (pageNum - 1) * limitNum
+    const pageNum = parseInt(page as string);
+    const limitNum = parseInt(limit as string);
+    const skip = (pageNum - 1) * limitNum;
 
-    let orderBy: any = { createdAt: 'desc' }
-    if (sortBy === 'rating-high') {
-      orderBy = { rating: 'desc' }
-    } else if (sortBy === 'rating-low') {
-      orderBy = { rating: 'asc' }
-    } else if (sortBy === 'helpful') {
-      orderBy = { helpfulVotes: 'desc' }
+    let orderBy: any = { createdAt: "desc" };
+    if (sortBy === "rating-high") {
+      orderBy = { rating: "desc" };
+    } else if (sortBy === "rating-low") {
+      orderBy = { rating: "asc" };
+    } else if (sortBy === "helpful") {
+      orderBy = { helpfulVotes: "desc" };
     }
 
     const [reviews, total, stats] = await Promise.all([
@@ -43,18 +43,18 @@ export const getProductReviews = async (req: Request, res: Response) => {
               id: true,
               firstName: true,
               lastName: true,
-              avatar: true
-            }
-          }
-        }
+              avatar: true,
+            },
+          },
+        },
       }),
       prisma.review.count({ where: { productId } }),
       prisma.review.groupBy({
-        by: ['rating'],
+        by: ["rating"],
         where: { productId },
-        _count: { rating: true }
-      })
-    ])
+        _count: { rating: true },
+      }),
+    ]);
 
     // Calculate rating distribution
     const ratingDistribution = {
@@ -62,43 +62,49 @@ export const getProductReviews = async (req: Request, res: Response) => {
       2: 0,
       3: 0,
       4: 0,
-      5: 0
-    }
-    stats.forEach(stat => {
-      ratingDistribution[stat.rating as keyof typeof ratingDistribution] = stat._count.rating
-    })
+      5: 0,
+    };
+    stats.forEach((stat: any) => {
+      ratingDistribution[stat.rating as keyof typeof ratingDistribution] =
+        stat._count.rating;
+    });
 
     // Calculate average rating
-    const totalRatings = stats.reduce((sum, stat) => sum + stat._count.rating, 0)
-    const sumRatings = stats.reduce((sum, stat) => sum + (stat.rating * stat._count.rating), 0)
-    const averageRating = totalRatings > 0 ? sumRatings / totalRatings : 0
+    const totalRatings = stats.reduce(
+      (sum: number, stat: any) => sum + stat._count.rating,
+      0,
+    );
+    const sumRatings = stats.reduce(
+      (sum: number, stat: any) => sum + stat.rating * stat._count.rating,
+      0,
+    );
+    const averageRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         reviews,
         pagination: {
           page: pageNum,
           limit: limitNum,
           total,
-          pages: Math.ceil(total / limitNum)
+          pages: Math.ceil(total / limitNum),
         },
         stats: {
           averageRating,
           totalReviews: totalRatings,
-          ratingDistribution
-        }
-      }
-    })
-
+          ratingDistribution,
+        },
+      },
+    });
   } catch (error) {
-    console.error('Get reviews error:', error)
+    console.error("Get reviews error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch reviews'
-    })
+      status: "error",
+      message: "Failed to fetch reviews",
+    });
   }
-}
+};
 
 /**
  * CREATE REVIEW
@@ -108,9 +114,9 @@ export const createReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const {
@@ -119,27 +125,27 @@ export const createReview = async (req: Request, res: Response) => {
       title,
       comment,
       images = [],
-      isRecommended = false
-    } = req.body
+      isRecommended = false,
+    } = req.body;
 
     // Validate rating
     if (rating < 1 || rating > 5) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Rating must be between 1 and 5'
-      })
+        status: "error",
+        message: "Rating must be between 1 and 5",
+      });
     }
 
     // Check if product exists
     const product = await prisma.product.findUnique({
-      where: { id: productId }
-    })
+      where: { id: productId },
+    });
 
     if (!product) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Product not found'
-      })
+        status: "error",
+        message: "Product not found",
+      });
     }
 
     // Check if user already reviewed this product
@@ -147,16 +153,16 @@ export const createReview = async (req: Request, res: Response) => {
       where: {
         userId_productId: {
           userId: req.user.id,
-          productId
-        }
-      }
-    })
+          productId,
+        },
+      },
+    });
 
     if (existingReview) {
       return res.status(400).json({
-        status: 'error',
-        message: 'You have already reviewed this product'
-      })
+        status: "error",
+        message: "You have already reviewed this product",
+      });
     }
 
     // Check if user purchased this product (verified purchase)
@@ -165,10 +171,10 @@ export const createReview = async (req: Request, res: Response) => {
         productId,
         order: {
           userId: req.user.id,
-          status: 'DELIVERED'
-        }
-      }
-    })
+          status: "DELIVERED",
+        },
+      },
+    });
 
     // Create review
     const review = await prisma.review.create({
@@ -180,7 +186,7 @@ export const createReview = async (req: Request, res: Response) => {
         comment,
         images,
         isRecommended,
-        isVerified: !!hasPurchased
+        isVerified: !!hasPurchased,
       },
       include: {
         user: {
@@ -188,42 +194,43 @@ export const createReview = async (req: Request, res: Response) => {
             id: true,
             firstName: true,
             lastName: true,
-            avatar: true
-          }
-        }
-      }
-    })
+            avatar: true,
+          },
+        },
+      },
+    });
 
     // Update product rating
     const allReviews = await prisma.review.findMany({
       where: { productId },
-      select: { rating: true }
-    })
+      select: { rating: true },
+    });
 
-    const avgRating = allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length
+    const avgRating =
+      allReviews.reduce((sum: number, r: any) => sum + r.rating, 0) /
+      allReviews.length;
 
     await prisma.product.update({
       where: { id: productId },
       data: {
         rating: avgRating,
-        reviewCount: allReviews.length
-      }
-    })
+        reviewCount: allReviews.length,
+      },
+    });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Review submitted successfully',
-      data: { review }
-    })
-
+      status: "success",
+      message: "Review submitted successfully",
+      data: { review },
+    });
   } catch (error) {
-    console.error('Create review error:', error)
+    console.error("Create review error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to create review'
-    })
+      status: "error",
+      message: "Failed to create review",
+    });
   }
-}
+};
 
 /**
  * UPDATE REVIEW
@@ -233,27 +240,27 @@ export const updateReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
-    const { rating, title, comment, images, isRecommended } = req.body
+    const { id } = req.params;
+    const { rating, title, comment, images, isRecommended } = req.body;
 
     // Verify ownership
     const existingReview = await prisma.review.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
-    })
+        userId: req.user.id,
+      },
+    });
 
     if (!existingReview) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Review not found'
-      })
+        status: "error",
+        message: "Review not found",
+      });
     }
 
     const review = await prisma.review.update({
@@ -263,7 +270,7 @@ export const updateReview = async (req: Request, res: Response) => {
         title,
         comment,
         images,
-        isRecommended
+        isRecommended,
       },
       include: {
         user: {
@@ -271,39 +278,40 @@ export const updateReview = async (req: Request, res: Response) => {
             id: true,
             firstName: true,
             lastName: true,
-            avatar: true
-          }
-        }
-      }
-    })
+            avatar: true,
+          },
+        },
+      },
+    });
 
     // Update product rating
     const allReviews = await prisma.review.findMany({
       where: { productId: existingReview.productId },
-      select: { rating: true }
-    })
+      select: { rating: true },
+    });
 
-    const avgRating = allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length
+    const avgRating =
+      allReviews.reduce((sum: number, r: any) => sum + r.rating, 0) /
+      allReviews.length;
 
     await prisma.product.update({
       where: { id: existingReview.productId },
-      data: { rating: avgRating }
-    })
+      data: { rating: avgRating },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Review updated successfully',
-      data: { review }
-    })
-
+      status: "success",
+      message: "Review updated successfully",
+      data: { review },
+    });
   } catch (error) {
-    console.error('Update review error:', error)
+    console.error("Update review error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to update review'
-    })
+      status: "error",
+      message: "Failed to update review",
+    });
   }
-}
+};
 
 /**
  * DELETE REVIEW
@@ -313,63 +321,64 @@ export const deleteReview = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
 
     // Verify ownership
     const review = await prisma.review.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
-    })
+        userId: req.user.id,
+      },
+    });
 
     if (!review) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Review not found'
-      })
+        status: "error",
+        message: "Review not found",
+      });
     }
 
     await prisma.review.delete({
-      where: { id }
-    })
+      where: { id },
+    });
 
     // Update product rating
     const remainingReviews = await prisma.review.findMany({
       where: { productId: review.productId },
-      select: { rating: true }
-    })
+      select: { rating: true },
+    });
 
-    const avgRating = remainingReviews.length > 0
-      ? remainingReviews.reduce((sum, r) => sum + r.rating, 0) / remainingReviews.length
-      : 0
+    const avgRating =
+      remainingReviews.length > 0
+        ? remainingReviews.reduce((sum: number, r: any) => sum + r.rating, 0) /
+          remainingReviews.length
+        : 0;
 
     await prisma.product.update({
       where: { id: review.productId },
       data: {
         rating: avgRating,
-        reviewCount: remainingReviews.length
-      }
-    })
+        reviewCount: remainingReviews.length,
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Review deleted successfully'
-    })
-
+      status: "success",
+      message: "Review deleted successfully",
+    });
   } catch (error) {
-    console.error('Delete review error:', error)
+    console.error("Delete review error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to delete review'
-    })
+      status: "error",
+      message: "Failed to delete review",
+    });
   }
-}
+};
 
 /**
  * VOTE REVIEW AS HELPFUL
@@ -377,27 +386,25 @@ export const deleteReview = async (req: Request, res: Response) => {
  */
 export const voteReviewHelpful = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
 
     const review = await prisma.review.update({
       where: { id },
       data: {
-        helpfulVotes: { increment: 1 }
-      }
-    })
+        helpfulVotes: { increment: 1 },
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Vote recorded',
-      data: { review }
-    })
-
+      status: "success",
+      message: "Vote recorded",
+      data: { review },
+    });
   } catch (error) {
-    console.error('Vote review error:', error)
+    console.error("Vote review error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to vote review'
-    })
+      status: "error",
+      message: "Failed to vote review",
+    });
   }
-}
-
+};

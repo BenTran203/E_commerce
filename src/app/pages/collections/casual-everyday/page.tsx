@@ -1,57 +1,65 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { ArrowLeft, Eye, Heart, Star, Package } from 'lucide-react'
-import Button from '@/components/ui/Button'
-import productsData from '@/data/products.json'
-import { useTranslation } from 'react-i18next'
-import { getProductName, getProductDescription } from '@/utils/productTranslation'
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft, Eye, Heart, Star, Package } from "lucide-react";
+import Button from "@/components/ui/Button";
+import productsData from "@/data/products.json";
+import { useTranslation } from "react-i18next";
+import {
+  getProductName,
+  getProductDescription,
+} from "@/utils/productTranslation";
 
-const collectionSlug = 'casual-everyday'
-const collection = productsData.collections.find(c => c.slug === collectionSlug)
-const collectionProducts = productsData.products.filter(p => 
-  collection?.productIds.includes(p.id)
-)
+const collectionSlug = "casual-everyday";
+const collection = productsData.collections.find(
+  (c) => c.slug === collectionSlug,
+);
+const collectionProducts = productsData.products.filter((p) =>
+  collection?.productIds.includes(p.id),
+);
 
 export default function CasualEverydayPage() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-luxury-cream">
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("${collection?.image}")`,
           }}
         />
-        
+
         <div className="relative container-luxury text-center text-white">
-          <Link href="/pages/collections" className="inline-flex items-center gap-2 mb-6 text-white/90 hover:text-white transition-colors">
+          <Link
+            href="/pages/collections"
+            className="inline-flex items-center gap-2 mb-6 text-white/90 hover:text-white transition-colors"
+          >
             <ArrowLeft size={20} />
-            <span>{t('collectionPages.backToCollections')}</span>
+            <span>{t("collectionPages.backToCollections")}</span>
           </Link>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-7xl font-serif mb-6"
           >
-            {t('collectionPages.casualEveryday.name')}
+            {t("collectionPages.casualEveryday.name")}
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-white/90"
           >
-            {t('collectionPages.casualEveryday.description')}
+            {t("collectionPages.casualEveryday.description")}
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +67,7 @@ export default function CasualEverydayPage() {
             className="mt-8"
           >
             <span className="text-sm font-medium bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-              {collectionProducts.length} {t('collectionPages.products')}
+              {collectionProducts.length} {t("collectionPages.products")}
             </span>
           </motion.div>
         </div>
@@ -84,13 +92,13 @@ export default function CasualEverydayPage() {
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    
+
                     {product.isOnSale && (
                       <div className="absolute top-3 left-3 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
                         -{product.salePercentage}%
                       </div>
                     )}
-                    
+
                     <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <button className="bg-white p-2 rounded-full shadow-lg hover:bg-primary-50 transition-colors">
                         <Heart size={18} className="text-primary-900" />
@@ -98,7 +106,7 @@ export default function CasualEverydayPage() {
                     </div>
                   </div>
                 </Link>
-                
+
                 <div className="p-5">
                   <div className="flex items-center gap-1 mb-2">
                     {[...Array(5)].map((_, i) => (
@@ -106,9 +114,9 @@ export default function CasualEverydayPage() {
                         key={i}
                         size={14}
                         className={`${
-                          i < Math.floor(product.rating) 
-                            ? 'fill-yellow-400 text-yellow-400' 
-                            : 'text-gray-200'
+                          i < Math.floor(product.rating)
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-200"
                         }`}
                       />
                     ))}
@@ -116,17 +124,17 @@ export default function CasualEverydayPage() {
                       ({product.reviewCount})
                     </span>
                   </div>
-                  
+
                   <Link href={`/product/${product.id}`}>
                     <h3 className="text-lg font-serif text-primary-900 mb-2 group-hover:text-primary-700 transition-colors line-clamp-1">
                       {getProductName(product.id, product.name, t)}
                     </h3>
                   </Link>
-                  
+
                   <p className="text-sm text-primary-600 mb-3 line-clamp-2">
                     {getProductDescription(product.id, product.description, t)}
                   </p>
-                  
+
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xl font-bold text-primary-900">
                       ${product.price.toFixed(2)}
@@ -137,7 +145,7 @@ export default function CasualEverydayPage() {
                       </span>
                     )}
                   </div>
-                  
+
                   <Link href={`/product/${product.id}`}>
                     <Button className="w-full group">
                       <Eye size={18} className="mr-2" />
@@ -164,12 +172,16 @@ export default function CasualEverydayPage() {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Package className="text-primary-900" size={28} />
               </div>
-              <h3 className="text-xl font-serif text-primary-900 mb-2">{t('collectionPages.casualEveryday.features.comfort.title')}</h3>
+              <h3 className="text-xl font-serif text-primary-900 mb-2">
+                {t("collectionPages.casualEveryday.features.comfort.title")}
+              </h3>
               <p className="text-primary-600">
-                {t('collectionPages.casualEveryday.features.comfort.description')}
+                {t(
+                  "collectionPages.casualEveryday.features.comfort.description",
+                )}
               </p>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -179,12 +191,16 @@ export default function CasualEverydayPage() {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="text-primary-900" size={28} />
               </div>
-              <h3 className="text-xl font-serif text-primary-900 mb-2">{t('collectionPages.casualEveryday.features.versatile.title')}</h3>
+              <h3 className="text-xl font-serif text-primary-900 mb-2">
+                {t("collectionPages.casualEveryday.features.versatile.title")}
+              </h3>
               <p className="text-primary-600">
-                {t('collectionPages.casualEveryday.features.versatile.description')}
+                {t(
+                  "collectionPages.casualEveryday.features.versatile.description",
+                )}
               </p>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -194,15 +210,18 @@ export default function CasualEverydayPage() {
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Star className="text-primary-900" size={28} />
               </div>
-              <h3 className="text-xl font-serif text-primary-900 mb-2">{t('collectionPages.casualEveryday.features.quality.title')}</h3>
+              <h3 className="text-xl font-serif text-primary-900 mb-2">
+                {t("collectionPages.casualEveryday.features.quality.title")}
+              </h3>
               <p className="text-primary-600">
-                {t('collectionPages.casualEveryday.features.quality.description')}
+                {t(
+                  "collectionPages.casualEveryday.features.quality.description",
+                )}
               </p>
             </motion.div>
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
-

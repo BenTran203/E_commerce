@@ -1,7 +1,7 @@
-import  Hero  from '@/components/sections/Hero'
-import FeaturedProducts  from '@/components/sections/FeaturedProducts'
-import Categories  from '@/components/sections/Categories'
-import Newsletter  from '@/components/sections/Newsletter'
+import Hero from "@/components/sections/Hero";
+import FeaturedProducts from "@/components/sections/FeaturedProducts";
+import Categories from "@/components/sections/Categories";
+import Newsletter from "@/components/sections/Newsletter";
 
 export default function HomePage() {
   return (
@@ -11,5 +11,5 @@ export default function HomePage() {
       <FeaturedProducts />
       <Newsletter />
     </main>
-  )
-} 
+  );
+}

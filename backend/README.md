@@ -20,6 +20,7 @@ This document provides a comprehensive guide to building the backend for the Tim
 ## 🚀 **Getting Started**
 
 ### Prerequisites
+
 ```bash
 # Install Node.js (v18+)
 # Install PostgreSQL
@@ -27,6 +28,7 @@ This document provides a comprehensive guide to building the backend for the Tim
 ```
 
 ### Initial Setup
+
 ```bash
 # 1. Initialize Node.js project
 npm init -y
@@ -76,6 +78,7 @@ backend/
 ## 🗄️ **Database Design**
 
 ### Core Entities
+
 - **Users**: Customer accounts, vendors, admins
 - **Products**: Product catalog with variants
 - **Categories**: Product categorization
@@ -182,4 +185,4 @@ FRONTEND_URL="http://localhost:3000"
 4. Follow the controller implementations for API endpoints
 5. Test each feature as you implement it
 
-Happy coding! 🚀 
+Happy coding! 🚀

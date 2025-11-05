@@ -1,35 +1,37 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, ChevronDown } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Globe, ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
-]
+  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "vi", name: "Tiếng Việt", flag: "🇻🇳" },
+];
 
 export default function LanguageSwitcher() {
-  const { i18n, t } = useTranslation()
-  const [isOpen, setIsOpen] = useState(false)
+  const { i18n, t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const currentLanguage = languages.find(lang => lang.code === (i18n.language as 'en' | 'vi'))
+  const currentLanguage = languages.find(
+    (lang) => lang.code === (i18n.language as "en" | "vi"),
+  );
 
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-lg border border-primary-200 hover:border-primary-300 transition-colors bg-white"
-        aria-label={t('language.switch')}
+        aria-label={t("language.switch")}
       >
         <Globe size={16} className="text-primary-600" />
         <span className="text-sm font-medium text-primary-700">
           {currentLanguage?.flag} {currentLanguage?.name}
         </span>
-        <ChevronDown 
-          size={14} 
-          className={`text-primary-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+        <ChevronDown
+          size={14}
+          className={`text-primary-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -37,11 +39,11 @@ export default function LanguageSwitcher() {
         {isOpen && (
           <>
             {/* Backdrop */}
-            <div 
-              className="fixed inset-0 z-40" 
+            <div
+              className="fixed inset-0 z-40"
               onClick={() => setIsOpen(false)}
             />
-            
+
             {/* Dropdown */}
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -54,11 +56,13 @@ export default function LanguageSwitcher() {
                 <button
                   key={lang.code}
                   onClick={() => {
-                    i18n.changeLanguage(lang.code)
-                    setIsOpen(false)
+                    i18n.changeLanguage(lang.code);
+                    setIsOpen(false);
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-primary-50 transition-colors ${
-                    i18n.language === lang.code ? 'bg-primary-50 text-primary-900' : 'text-primary-700'
+                    i18n.language === lang.code
+                      ? "bg-primary-50 text-primary-900"
+                      : "text-primary-700"
                   }`}
                 >
                   <span className="text-lg">{lang.flag}</span>
@@ -77,5 +81,5 @@ export default function LanguageSwitcher() {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

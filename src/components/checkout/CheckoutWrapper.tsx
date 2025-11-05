@@ -1,28 +1,28 @@
-'use client'
+"use client";
 
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe, Stripe } from '@stripe/stripe-js'
-import { useEffect, useState } from 'react'
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+import { useEffect, useState } from "react";
 
 // Initialize Stripe
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-)
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "",
+);
 
 interface CheckoutWrapperProps {
-  clientSecret: string | null
-  children: React.ReactNode
+  clientSecret: string | null;
+  children: React.ReactNode;
 }
 
-export default function CheckoutWrapper({ 
-  clientSecret, 
-  children 
+export default function CheckoutWrapper({
+  clientSecret,
+  children,
 }: CheckoutWrapperProps) {
-  const [stripe, setStripe] = useState<Promise<Stripe | null> | null>(null)
+  const [stripe, setStripe] = useState<Promise<Stripe | null> | null>(null);
 
   useEffect(() => {
-    setStripe(stripePromise)
-  }, [])
+    setStripe(stripePromise);
+  }, []);
 
   if (!clientSecret || !stripe) {
     return (
@@ -31,7 +31,7 @@ export default function CheckoutWrapper({
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-900" />
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -40,20 +40,19 @@ export default function CheckoutWrapper({
       options={{
         clientSecret,
         appearance: {
-          theme: 'stripe',
+          theme: "stripe",
           variables: {
-            colorPrimary: '#2c3e50',
-            colorBackground: '#ffffff',
-            colorText: '#2c3e50',
-            colorDanger: '#ef4444',
-            fontFamily: 'system-ui, sans-serif',
-            borderRadius: '8px',
+            colorPrimary: "#2c3e50",
+            colorBackground: "#ffffff",
+            colorText: "#2c3e50",
+            colorDanger: "#ef4444",
+            fontFamily: "system-ui, sans-serif",
+            borderRadius: "8px",
           },
         },
       }}
     >
       {children}
     </Elements>
-  )
+  );
 }
-

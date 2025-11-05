@@ -4,11 +4,11 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com', 'localhost'],
+    domains: ["images.unsplash.com", "via.placeholder.com", "localhost"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
@@ -18,6 +18,6 @@ const nextConfig = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
-}
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig;

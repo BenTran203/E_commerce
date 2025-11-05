@@ -1,13 +1,13 @@
 /**
  * VENDORS CONTROLLER
- * 
+ *
  * Handles vendor management operations
  */
 
-import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 /**
  * GET ALL VENDORS
@@ -15,18 +15,18 @@ const prisma = new PrismaClient()
  */
 export const getAllVendors = async (req: Request, res: Response) => {
   try {
-    const { page = '1', limit = '20', isVerified } = req.query
+    const { page = "1", limit = "20", isVerified } = req.query;
 
-    const pageNum = parseInt(page as string)
-    const limitNum = parseInt(limit as string)
-    const skip = (pageNum - 1) * limitNum
+    const pageNum = parseInt(page as string);
+    const limitNum = parseInt(limit as string);
+    const skip = (pageNum - 1) * limitNum;
 
     const where: any = {
-      isActive: true
-    }
+      isActive: true,
+    };
 
-    if (isVerified === 'true') {
-      where.isVerified = true
+    if (isVerified === "true") {
+      where.isVerified = true;
     }
 
     const [vendors, total] = await Promise.all([
@@ -34,7 +34,7 @@ export const getAllVendors = async (req: Request, res: Response) => {
         where,
         skip,
         take: limitNum,
-        orderBy: { rating: 'desc' },
+        orderBy: { rating: "desc" },
         select: {
           id: true,
           name: true,
@@ -47,34 +47,33 @@ export const getAllVendors = async (req: Request, res: Response) => {
           totalOrders: true,
           isVerified: true,
           _count: {
-            select: { products: true }
-          }
-        }
+            select: { products: true },
+          },
+        },
       }),
-      prisma.vendor.count({ where })
-    ])
+      prisma.vendor.count({ where }),
+    ]);
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         vendors,
         pagination: {
           page: pageNum,
           limit: limitNum,
           total,
-          pages: Math.ceil(total / limitNum)
-        }
-      }
-    })
-
+          pages: Math.ceil(total / limitNum),
+        },
+      },
+    });
   } catch (error) {
-    console.error('Get vendors error:', error)
+    console.error("Get vendors error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch vendors'
-    })
+      status: "error",
+      message: "Failed to fetch vendors",
+    });
   }
-}
+};
 
 /**
  * GET VENDOR BY ID/SLUG
@@ -82,15 +81,12 @@ export const getAllVendors = async (req: Request, res: Response) => {
  */
 export const getVendorByIdentifier = async (req: Request, res: Response) => {
   try {
-    const { identifier } = req.params
+    const { identifier } = req.params;
 
     const vendor = await prisma.vendor.findFirst({
       where: {
-        OR: [
-          { id: identifier },
-          { slug: identifier }
-        ],
-        isActive: true
+        OR: [{ id: identifier }, { slug: identifier }],
+        isActive: true,
       },
       include: {
         products: {
@@ -99,36 +95,35 @@ export const getVendorByIdentifier = async (req: Request, res: Response) => {
           include: {
             images: {
               where: { isPrimary: true },
-              take: 1
+              take: 1,
             },
             category: {
-              select: { name: true }
-            }
-          }
-        }
-      }
-    })
+              select: { name: true },
+            },
+          },
+        },
+      },
+    });
 
     if (!vendor) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Vendor not found'
-      })
+        status: "error",
+        message: "Vendor not found",
+      });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: { vendor }
-    })
-
+      status: "success",
+      data: { vendor },
+    });
   } catch (error) {
-    console.error('Get vendor error:', error)
+    console.error("Get vendor error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch vendor'
-    })
+      status: "error",
+      message: "Failed to fetch vendor",
+    });
   }
-}
+};
 
 /**
  * CREATE VENDOR (Register as vendor)
@@ -138,21 +133,21 @@ export const createVendor = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     // Check if user already has a vendor account
     const existingVendor = await prisma.vendor.findUnique({
-      where: { userId: req.user.id }
-    })
+      where: { userId: req.user.id },
+    });
 
     if (existingVendor) {
       return res.status(400).json({
-        status: 'error',
-        message: 'You already have a vendor account'
-      })
+        status: "error",
+        message: "You already have a vendor account",
+      });
     }
 
     const {
@@ -164,13 +159,14 @@ export const createVendor = async (req: Request, res: Response) => {
       phone,
       businessName,
       businessRegistration,
-      taxNumber
-    } = req.body
+      taxNumber,
+    } = req.body;
 
     // Generate slug from name
-    const slug = name.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
 
     // Create vendor
     const vendor = await prisma.vendor.create({
@@ -185,30 +181,29 @@ export const createVendor = async (req: Request, res: Response) => {
         phone,
         businessName,
         businessRegistration,
-        taxNumber
-      }
-    })
+        taxNumber,
+      },
+    });
 
     // Update user role to VENDOR
     await prisma.user.update({
       where: { id: req.user.id },
-      data: { role: 'VENDOR' }
-    })
+      data: { role: "VENDOR" },
+    });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Vendor account created successfully. Awaiting verification.',
-      data: { vendor }
-    })
-
+      status: "success",
+      message: "Vendor account created successfully. Awaiting verification.",
+      data: { vendor },
+    });
   } catch (error) {
-    console.error('Create vendor error:', error)
+    console.error("Create vendor error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to create vendor account'
-    })
+      status: "error",
+      message: "Failed to create vendor account",
+    });
   }
-}
+};
 
 /**
  * UPDATE VENDOR
@@ -218,26 +213,26 @@ export const updateVendor = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
 
     // Verify ownership
     const existingVendor = await prisma.vendor.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
-    })
+        userId: req.user.id,
+      },
+    });
 
-    if (!existingVendor && req.user.role !== 'ADMIN') {
+    if (!existingVendor && req.user.role !== "ADMIN") {
       return res.status(403).json({
-        status: 'error',
-        message: 'Access denied'
-      })
+        status: "error",
+        message: "Access denied",
+      });
     }
 
     const {
@@ -249,8 +244,8 @@ export const updateVendor = async (req: Request, res: Response) => {
       phone,
       businessName,
       businessRegistration,
-      taxNumber
-    } = req.body
+      taxNumber,
+    } = req.body;
 
     const vendor = await prisma.vendor.update({
       where: { id },
@@ -263,24 +258,23 @@ export const updateVendor = async (req: Request, res: Response) => {
         phone,
         businessName,
         businessRegistration,
-        taxNumber
-      }
-    })
+        taxNumber,
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Vendor updated successfully',
-      data: { vendor }
-    })
-
+      status: "success",
+      message: "Vendor updated successfully",
+      data: { vendor },
+    });
   } catch (error) {
-    console.error('Update vendor error:', error)
+    console.error("Update vendor error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to update vendor'
-    })
+      status: "error",
+      message: "Failed to update vendor",
+    });
   }
-}
+};
 
 /**
  * VERIFY VENDOR (ADMIN only)
@@ -288,31 +282,30 @@ export const updateVendor = async (req: Request, res: Response) => {
  */
 export const verifyVendor = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
 
     const vendor = await prisma.vendor.update({
       where: { id },
       data: {
         isVerified: true,
         verifiedAt: new Date(),
-        isActive: true
-      }
-    })
+        isActive: true,
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Vendor verified successfully',
-      data: { vendor }
-    })
-
+      status: "success",
+      message: "Vendor verified successfully",
+      data: { vendor },
+    });
   } catch (error) {
-    console.error('Verify vendor error:', error)
+    console.error("Verify vendor error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to verify vendor'
-    })
+      status: "error",
+      message: "Failed to verify vendor",
+    });
   }
-}
+};
 
 /**
  * GET VENDOR DASHBOARD STATS
@@ -322,20 +315,20 @@ export const getVendorDashboard = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const vendor = await prisma.vendor.findUnique({
-      where: { userId: req.user.id }
-    })
+      where: { userId: req.user.id },
+    });
 
     if (!vendor) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Vendor account not found'
-      })
+        status: "error",
+        message: "Vendor account not found",
+      });
     }
 
     // Get statistics
@@ -344,44 +337,44 @@ export const getVendorDashboard = async (req: Request, res: Response) => {
       activeProducts,
       totalOrders,
       pendingOrders,
-      totalRevenue
+      totalRevenue,
     ] = await Promise.all([
       prisma.product.count({
-        where: { vendorId: vendor.id }
+        where: { vendorId: vendor.id },
       }),
       prisma.product.count({
         where: {
           vendorId: vendor.id,
-          isActive: true
-        }
+          isActive: true,
+        },
       }),
       prisma.orderItem.count({
-        where: { vendorId: vendor.id }
+        where: { vendorId: vendor.id },
       }),
       prisma.orderItem.count({
         where: {
           vendorId: vendor.id,
           order: {
-            status: { in: ['PENDING', 'CONFIRMED'] }
-          }
-        }
+            status: { in: ["PENDING", "CONFIRMED"] },
+          },
+        },
       }),
       prisma.orderItem.aggregate({
         where: {
           vendorId: vendor.id,
           order: {
-            paymentStatus: 'PAID'
-          }
+            paymentStatus: "PAID",
+          },
         },
-        _sum: { total: true }
-      })
-    ])
+        _sum: { total: true },
+      }),
+    ]);
 
     // Get recent orders
     const recentOrders = await prisma.orderItem.findMany({
       where: { vendorId: vendor.id },
       take: 10,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       include: {
         order: {
           select: {
@@ -389,23 +382,23 @@ export const getVendorDashboard = async (req: Request, res: Response) => {
             orderNumber: true,
             status: true,
             total: true,
-            createdAt: true
-          }
+            createdAt: true,
+          },
         },
         product: {
           select: {
             name: true,
             images: {
               where: { isPrimary: true },
-              take: 1
-            }
-          }
-        }
-      }
-    })
+              take: 1,
+            },
+          },
+        },
+      },
+    });
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         stats: {
           totalProducts,
@@ -414,18 +407,16 @@ export const getVendorDashboard = async (req: Request, res: Response) => {
           pendingOrders,
           totalRevenue: totalRevenue._sum.total || 0,
           rating: vendor.rating,
-          reviewCount: vendor.reviewCount
+          reviewCount: vendor.reviewCount,
         },
-        recentOrders
-      }
-    })
-
+        recentOrders,
+      },
+    });
   } catch (error) {
-    console.error('Get vendor dashboard error:', error)
+    console.error("Get vendor dashboard error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch dashboard data'
-    })
+      status: "error",
+      message: "Failed to fetch dashboard data",
+    });
   }
-}
-
+};

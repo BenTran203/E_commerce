@@ -1,37 +1,37 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { 
-  PaymentElement, 
-  useStripe, 
-  useElements 
-} from '@stripe/react-stripe-js'
-import { CreditCard, Lock } from 'lucide-react'
-import Button from '@/components/ui/Button'
+import { useState } from "react";
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { CreditCard, Lock } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 interface StripePaymentFormProps {
-  amount: number
-  onSuccess: () => void
-  onError: (error: string) => void
+  amount: number;
+  onSuccess: () => void;
+  onError: (error: string) => void;
 }
 
-export default function StripePaymentForm({ 
-  amount, 
-  onSuccess, 
-  onError 
+export default function StripePaymentForm({
+  amount,
+  onSuccess,
+  onError,
 }: StripePaymentFormProps) {
-  const stripe = useStripe()
-  const elements = useElements()
-  const [isProcessing, setIsProcessing] = useState(false)
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!stripe || !elements) {
-      return
+      return;
     }
 
-    setIsProcessing(true)
+    setIsProcessing(true);
 
     try {
       // Confirm the payment with Stripe
@@ -40,20 +40,20 @@ export default function StripePaymentForm({
         confirmParams: {
           return_url: `${window.location.origin}/pages/checkout?success=true`,
         },
-        redirect: 'if_required'
-      })
+        redirect: "if_required",
+      });
 
       if (error) {
-        onError(error.message || 'Payment failed')
-        setIsProcessing(false)
-      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        onSuccess()
+        onError(error.message || "Payment failed");
+        setIsProcessing(false);
+      } else if (paymentIntent && paymentIntent.status === "succeeded") {
+        onSuccess();
       }
     } catch (err: any) {
-      onError(err.message || 'Payment failed')
-      setIsProcessing(false)
+      onError(err.message || "Payment failed");
+      setIsProcessing(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -61,13 +61,13 @@ export default function StripePaymentForm({
         <h2 className="text-2xl font-serif text-primary-900 mb-6">
           Payment Information
         </h2>
-        
+
         {/* Stripe Payment Element */}
         <div className="mb-6">
-          <PaymentElement 
+          <PaymentElement
             options={{
-              layout: 'tabs',
-              paymentMethodOrder: ['card', 'apple_pay', 'google_pay']
+              layout: "tabs",
+              paymentMethodOrder: ["card", "apple_pay", "google_pay"],
             }}
           />
         </div>
@@ -75,7 +75,9 @@ export default function StripePaymentForm({
         {/* Security Notice */}
         <div className="flex items-center gap-2 text-sm text-primary-600 p-4 bg-primary-50 rounded-lg mb-6">
           <Lock size={16} />
-          <span>Your payment information is secure and encrypted by Stripe</span>
+          <span>
+            Your payment information is secure and encrypted by Stripe
+          </span>
         </div>
 
         {/* Submit Button */}
@@ -99,6 +101,5 @@ export default function StripePaymentForm({
         </Button>
       </div>
     </form>
-  )
+  );
 }
-

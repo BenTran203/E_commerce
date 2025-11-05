@@ -1,29 +1,29 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UIState {
-  isMobileMenuOpen: boolean
-  isSearchOpen: boolean
-  isFiltersOpen: boolean
-  theme: 'light' | 'dark'
+  isMobileMenuOpen: boolean;
+  isSearchOpen: boolean;
+  isFiltersOpen: boolean;
+  theme: "light" | "dark";
   loading: {
-    global: boolean
-    products: boolean
-    auth: boolean
-    checkout: boolean
-  }
+    global: boolean;
+    products: boolean;
+    auth: boolean;
+    checkout: boolean;
+  };
   notifications: Array<{
-    id: string
-    type: 'success' | 'error' | 'warning' | 'info'
-    message: string
-    timestamp: number
-  }>
+    id: string;
+    type: "success" | "error" | "warning" | "info";
+    message: string;
+    timestamp: number;
+  }>;
 }
 
 const initialState: UIState = {
   isMobileMenuOpen: false,
   isSearchOpen: false,
   isFiltersOpen: false,
-  theme: 'light',
+  theme: "light",
   loading: {
     global: false,
     products: false,
@@ -31,52 +31,62 @@ const initialState: UIState = {
     checkout: false,
   },
   notifications: [],
-}
+};
 
 const uiSlice = createSlice({
-  name: 'ui',
+  name: "ui",
   initialState,
   reducers: {
     toggleMobileMenu: (state) => {
-      state.isMobileMenuOpen = !state.isMobileMenuOpen
+      state.isMobileMenuOpen = !state.isMobileMenuOpen;
     },
     closeMobileMenu: (state) => {
-      state.isMobileMenuOpen = false
+      state.isMobileMenuOpen = false;
     },
     toggleSearch: (state) => {
-      state.isSearchOpen = !state.isSearchOpen
+      state.isSearchOpen = !state.isSearchOpen;
     },
     closeSearch: (state) => {
-      state.isSearchOpen = false
+      state.isSearchOpen = false;
     },
     toggleFilters: (state) => {
-      state.isFiltersOpen = !state.isFiltersOpen
+      state.isFiltersOpen = !state.isFiltersOpen;
     },
     closeFilters: (state) => {
-      state.isFiltersOpen = false
+      state.isFiltersOpen = false;
     },
-    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
-      state.theme = action.payload
+    setTheme: (state, action: PayloadAction<"light" | "dark">) => {
+      state.theme = action.payload;
     },
-    setLoading: (state, action: PayloadAction<{ key: keyof UIState['loading']; value: boolean }>) => {
-      state.loading[action.payload.key] = action.payload.value
+    setLoading: (
+      state,
+      action: PayloadAction<{ key: keyof UIState["loading"]; value: boolean }>,
+    ) => {
+      state.loading[action.payload.key] = action.payload.value;
     },
-    addNotification: (state, action: PayloadAction<Omit<UIState['notifications'][0], 'id' | 'timestamp'>>) => {
+    addNotification: (
+      state,
+      action: PayloadAction<
+        Omit<UIState["notifications"][0], "id" | "timestamp">
+      >,
+    ) => {
       const notification = {
         ...action.payload,
         id: Date.now().toString(),
         timestamp: Date.now(),
-      }
-      state.notifications.push(notification)
+      };
+      state.notifications.push(notification);
     },
     removeNotification: (state, action: PayloadAction<string>) => {
-      state.notifications = state.notifications.filter(n => n.id !== action.payload)
+      state.notifications = state.notifications.filter(
+        (n) => n.id !== action.payload,
+      );
     },
     clearAllNotifications: (state) => {
-      state.notifications = []
+      state.notifications = [];
     },
   },
-})
+});
 
 export const {
   toggleMobileMenu,
@@ -90,6 +100,6 @@ export const {
   addNotification,
   removeNotification,
   clearAllNotifications,
-} = uiSlice.actions
+} = uiSlice.actions;
 
-export default uiSlice.reducer 
+export default uiSlice.reducer;

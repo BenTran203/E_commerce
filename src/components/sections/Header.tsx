@@ -1,48 +1,48 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Search, 
-  ShoppingBag, 
-  User, 
-  Menu, 
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  ShoppingBag,
+  User,
+  Menu,
   X,
   Heart,
   LogOut,
   Settings,
-  Package
-} from 'lucide-react'
-import { useCart } from '@/hooks/useCart'
-import { useAuth } from '@/hooks/useAuth'
-import { useTranslation } from 'react-i18next'
+  Package,
+} from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 // import { cn } from '@/utils'
-import Button from '@/components/ui/Button'
-import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
+import Button from "@/components/ui/Button";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const { itemCount, toggle: toggleCart } = useCart()
-  const { user, isAuthenticated, signOut } = useAuth()
-  const { t } = useTranslation()
-  const router = useRouter()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { itemCount, toggle: toggleCart } = useCart();
+  const { user, isAuthenticated, signOut } = useAuth();
+  const { t } = useTranslation();
+  const router = useRouter();
 
   const navigationItems = [
-    { name: t('nav.shop'), href: '/pages/shop' },
-    { name: t('nav.collections'), href: '/pages/collections' },
-    { name: t('nav.about'), href: '/pages/about' },
-    { name: t('nav.contact'), href: '/pages/contact' },
-  ]
+    { name: t("nav.shop"), href: "/pages/shop" },
+    { name: t("nav.collections"), href: "/pages/collections" },
+    { name: t("nav.about"), href: "/pages/about" },
+    { name: t("nav.contact"), href: "/pages/contact" },
+  ];
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle search logic here
-    setIsSearchOpen(false)
-  }
+    setIsSearchOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-luxury-cream border-b border-primary-200 backdrop-blur-luxury">
@@ -120,7 +120,9 @@ const Header: React.FC = () => {
                           <p className="text-sm font-medium text-primary-900">
                             {user?.firstName} {user?.lastName}
                           </p>
-                          <p className="text-xs text-primary-600">{user?.email}</p>
+                          <p className="text-xs text-primary-600">
+                            {user?.email}
+                          </p>
                         </div>
                         <Link
                           href="/account"
@@ -140,8 +142,8 @@ const Header: React.FC = () => {
                         </Link>
                         <button
                           onClick={() => {
-                            signOut()
-                            setIsUserMenuOpen(false)
+                            signOut();
+                            setIsUserMenuOpen(false);
                           }}
                           className="flex items-center w-full px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
                         >
@@ -188,7 +190,7 @@ const Header: React.FC = () => {
           {isMenuOpen && (
             <motion.nav
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden border-t border-primary-200 py-4"
             >
@@ -240,7 +242,7 @@ const Header: React.FC = () => {
         )}
       </AnimatePresence>
     </header>
-  )
-}
+  );
+};
 
-export default Header 
+export default Header;

@@ -1,42 +1,57 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, CreditCard, Lock } from 'lucide-react'
-import { useCart } from '@/hooks/useCart'
-import Button from '@/components/ui/Button'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Trash2,
+  Plus,
+  Minus,
+  ShoppingBag,
+  ArrowLeft,
+  CreditCard,
+  Lock,
+} from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import Button from "@/components/ui/Button";
+import Image from "next/image";
+import Link from "next/link";
 export default function CartPage() {
-  const router = useRouter()
-  const { items, total, itemCount, removeItem, updateItemQuantity, clearAllItems } = useCart()
-  const [promoCode, setPromoCode] = useState('')
-  const [discount, setDiscount] = useState(0)
+  const router = useRouter();
+  const {
+    items,
+    total,
+    itemCount,
+    removeItem,
+    updateItemQuantity,
+    clearAllItems,
+  } = useCart();
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
 
-  const shippingCost = total > 100 ? 0 : 10
-  const tax = total * 0.1 // 10% tax
-  const finalTotal = total + shippingCost + tax - discount
+  const shippingCost = total > 100 ? 0 : 10;
+  const tax = total * 0.1; // 10% tax
+  const finalTotal = total + shippingCost + tax - discount;
 
   const handleApplyPromo = () => {
     // Simple promo code logic
-    if (promoCode.toUpperCase() === 'SAVE10') {
-      setDiscount(total * 0.1)
-    } else if (promoCode.toUpperCase() === 'SAVE20') {
-      setDiscount(total * 0.2)
+    if (promoCode.toUpperCase() === "SAVE10") {
+      setDiscount(total * 0.1);
+    } else if (promoCode.toUpperCase() === "SAVE20") {
+      setDiscount(total * 0.2);
     } else {
-      alert('Invalid promo code')
+      alert("Invalid promo code");
     }
-  }
+  };
 
   const handleCheckout = () => {
     if (items.length === 0) {
-      alert('Your cart is empty!')
-      return
+      alert("Your cart is empty!");
+      return;
     }
     // Navigate to checkout page (you can create this later)
-    router.push('/pages/checkout')
-  }
+    router.push("/pages/checkout");
+  };
 
   if (items.length === 0) {
     return (
@@ -48,8 +63,13 @@ export default function CartPage() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <ShoppingBag size={80} className="mx-auto text-primary-300 mb-4" />
-              <h1 className="text-3xl font-serif text-primary-900 mb-4">Your Cart is Empty</h1>
+              <ShoppingBag
+                size={80}
+                className="mx-auto text-primary-300 mb-4"
+              />
+              <h1 className="text-3xl font-serif text-primary-900 mb-4">
+                Your Cart is Empty
+              </h1>
               <p className="text-primary-600 mb-8">
                 Looks like you haven't added any items to your cart yet.
               </p>
@@ -60,7 +80,7 @@ export default function CartPage() {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -79,9 +99,11 @@ export default function CartPage() {
             <ArrowLeft size={20} />
             Continue Shopping
           </button>
-          <h1 className="text-3xl md:text-4xl font-serif text-primary-900">Shopping Cart</h1>
+          <h1 className="text-3xl md:text-4xl font-serif text-primary-900">
+            Shopping Cart
+          </h1>
           <p className="text-primary-600 mt-2">
-            {itemCount} {itemCount === 1 ? 'item' : 'items'} in your cart
+            {itemCount} {itemCount === 1 ? "item" : "items"} in your cart
           </p>
         </motion.div>
 
@@ -100,7 +122,7 @@ export default function CartPage() {
                 >
                   <div className="flex gap-4 md:gap-6">
                     {/* Product Image */}
-                    <div 
+                    <div
                       className="relative w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer"
                       onClick={() => router.push(`/product/${item.product.id}`)}
                     >
@@ -115,23 +137,35 @@ export default function CartPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex-1">
-                          <h3 
+                          <h3
                             className="text-lg font-semibold text-primary-900 mb-1 cursor-pointer hover:text-primary-700"
-                            onClick={() => router.push(`/product/${item.product.id}`)}
+                            onClick={() =>
+                              router.push(`/product/${item.product.id}`)
+                            }
                           >
                             {item.product.name}
                           </h3>
                           <p className="text-sm text-primary-600 mb-2">
                             {item.product.brand.name}
                           </p>
-                          
+
                           {/* Size & Color */}
                           <div className="flex gap-4 text-sm text-primary-600 mb-3">
                             {item.size && (
-                              <span>Size: <span className="font-medium text-primary-900">{item.size}</span></span>
+                              <span>
+                                Size:{" "}
+                                <span className="font-medium text-primary-900">
+                                  {item.size}
+                                </span>
+                              </span>
                             )}
                             {item.color && (
-                              <span>Color: <span className="font-medium text-primary-900">{item.color}</span></span>
+                              <span>
+                                Color:{" "}
+                                <span className="font-medium text-primary-900">
+                                  {item.color}
+                                </span>
+                              </span>
                             )}
                           </div>
                         </div>
@@ -149,18 +183,26 @@ export default function CartPage() {
                       {/* Quantity & Price */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span className="text-sm text-primary-600">Quantity:</span>
+                          <span className="text-sm text-primary-600">
+                            Quantity:
+                          </span>
                           <div className="flex items-center border border-primary-200 rounded-lg">
                             <button
-                              onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                              onClick={() =>
+                                updateItemQuantity(item.id, item.quantity - 1)
+                              }
                               className="p-2 hover:bg-primary-50 transition-colors"
                               aria-label="Decrease quantity"
                             >
                               <Minus size={16} />
                             </button>
-                            <span className="px-4 font-semibold">{item.quantity}</span>
+                            <span className="px-4 font-semibold">
+                              {item.quantity}
+                            </span>
                             <button
-                              onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
+                              onClick={() =>
+                                updateItemQuantity(item.id, item.quantity + 1)
+                              }
                               className="p-2 hover:bg-primary-50 transition-colors"
                               aria-label="Increase quantity"
                             >
@@ -204,7 +246,9 @@ export default function CartPage() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-xl p-6 shadow-sm sticky top-24"
             >
-              <h2 className="text-2xl font-serif text-primary-900 mb-6">Order Summary</h2>
+              <h2 className="text-2xl font-serif text-primary-900 mb-6">
+                Order Summary
+              </h2>
 
               {/* Promo Code */}
               <div className="mb-6">
@@ -219,7 +263,11 @@ export default function CartPage() {
                     placeholder="Enter code"
                     className="flex-1 px-4 py-2 border border-primary-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                   />
-                  <Button onClick={handleApplyPromo} variant="secondary" size="sm">
+                  <Button
+                    onClick={handleApplyPromo}
+                    variant="secondary"
+                    size="sm"
+                  >
                     Apply
                   </Button>
                 </div>
@@ -236,8 +284,14 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between text-primary-600">
                   <span>Shipping</span>
-                  <span className={shippingCost === 0 ? 'text-green-600 font-medium' : ''}>
-                    {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
+                  <span
+                    className={
+                      shippingCost === 0 ? "text-green-600 font-medium" : ""
+                    }
+                  >
+                    {shippingCost === 0
+                      ? "FREE"
+                      : `$${shippingCost.toFixed(2)}`}
                   </span>
                 </div>
                 <div className="flex justify-between text-primary-600">
@@ -254,7 +308,9 @@ export default function CartPage() {
 
               {/* Total */}
               <div className="flex justify-between items-center mb-6">
-                <span className="text-xl font-semibold text-primary-900">Total</span>
+                <span className="text-xl font-semibold text-primary-900">
+                  Total
+                </span>
                 <span className="text-2xl font-bold text-primary-900">
                   ${finalTotal.toFixed(2)}
                 </span>
@@ -264,7 +320,11 @@ export default function CartPage() {
               {total < 100 && (
                 <div className="bg-primary-50 border border-primary-200 rounded-lg p-3 mb-4">
                   <p className="text-sm text-primary-700">
-                    Add <span className="font-semibold">${(100 - total).toFixed(2)}</span> more for FREE shipping!
+                    Add{" "}
+                    <span className="font-semibold">
+                      ${(100 - total).toFixed(2)}
+                    </span>{" "}
+                    more for FREE shipping!
                   </p>
                 </div>
               )}
@@ -287,7 +347,9 @@ export default function CartPage() {
 
               {/* Payment Methods */}
               <div className="mt-6 pt-6 border-t border-primary-200">
-                <p className="text-xs text-primary-500 text-center mb-3">We Accept</p>
+                <p className="text-xs text-primary-500 text-center mb-3">
+                  We Accept
+                </p>
                 <div className="flex justify-center gap-3 opacity-60">
                   <div className="w-12 h-8 bg-primary-200 rounded flex items-center justify-center text-xs font-bold">
                     VISA
@@ -308,6 +370,5 @@ export default function CartPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

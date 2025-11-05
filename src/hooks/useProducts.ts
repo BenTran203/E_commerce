@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '@/store'
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
 import {
   setProducts,
   setFeaturedProducts,
@@ -13,106 +13,120 @@ import {
   setFilters,
   clearFilters,
   setCurrentPage,
-} from '@/store/slices/productsSlice'
-import productsData from '@/data/products.json'
-import { Product, ProductFilters } from '@/types'
-import { useQuery } from 'react-query'
+} from "@/store/slices/productsSlice";
+import productsData from "@/data/products.json";
+import { Product, ProductFilters } from "@/types";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const productsAPI = {
-  getProducts: async ({ filters, searchQuery, sortBy, page }: { filters: ProductFilters; searchQuery: string; sortBy: "name" | "price-low" | "price-high" | "newest"; page: number }): Promise<Product[]> => {
-    let filteredProducts = productsData.products.map(product => ({
+  getProducts: async ({
+    filters,
+    searchQuery,
+    sortBy,
+    page,
+  }: {
+    filters: ProductFilters;
+    searchQuery: string;
+    sortBy: "name" | "price-low" | "price-high" | "newest";
+    page: number;
+  }): Promise<Product[]> => {
+    let filteredProducts = productsData.products.map((product) => ({
       ...product,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    })) as Product[]
+    })) as Product[];
 
     // Apply search query
-    if (searchQuery && searchQuery.trim() !== '') {
-      const query = searchQuery.toLowerCase().trim()
-      filteredProducts = filteredProducts.filter(product => {
+    if (searchQuery && searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase().trim();
+      filteredProducts = filteredProducts.filter((product) => {
         const searchableText = [
           product.name,
           product.description,
           product.brand.name,
           product.category.name,
           ...product.tags,
-          product.sku
-        ].join(' ').toLowerCase()
-        
-        return searchableText.includes(query)
-      })
+          product.sku,
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return searchableText.includes(query);
+      });
     }
 
     // Apply category filter
     if (filters.categories && filters.categories.length > 0) {
-      filteredProducts = filteredProducts.filter(product =>
-        filters.categories!.includes(product.category.id)
-      )
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.categories!.includes(product.category.id),
+      );
     }
 
     // Apply brand filter
     if (filters.brands && filters.brands.length > 0) {
-      filteredProducts = filteredProducts.filter(product =>
-        filters.brands!.includes(product.brand.name)
-      )
+      filteredProducts = filteredProducts.filter((product) =>
+        filters.brands!.includes(product.brand.name),
+      );
     }
 
     // Apply price range filter
     if (filters.priceRange) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.price >= filters.priceRange![0] &&
-        product.price <= filters.priceRange![1]
-      )
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.price >= filters.priceRange![0] &&
+          product.price <= filters.priceRange![1],
+      );
     }
 
     // Apply color filter
     if (filters.colors && filters.colors.length > 0) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.colors.some(color => filters.colors!.includes(color.name))
-      )
+      filteredProducts = filteredProducts.filter((product) =>
+        product.colors.some((color) => filters.colors!.includes(color.name)),
+      );
     }
 
     // Apply size filter
     if (filters.sizes && filters.sizes.length > 0) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.sizes.some(size => filters.sizes!.includes(size.value))
-      )
+      filteredProducts = filteredProducts.filter((product) =>
+        product.sizes.some((size) => filters.sizes!.includes(size.value)),
+      );
     }
 
     // Apply sorting
     switch (sortBy) {
-      case 'price-low':
-        filteredProducts.sort((a, b) => a.price - b.price)
-        break
-      case 'price-high':
-        filteredProducts.sort((a, b) => b.price - a.price)
-        break
-      case 'name':
-        filteredProducts.sort((a, b) => a.name.localeCompare(b.name))
-        break
-      case 'newest':
+      case "price-low":
+        filteredProducts.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filteredProducts.sort((a, b) => b.price - a.price);
+        break;
+      case "name":
+        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "newest":
       default:
         // Keep default order (newest first)
-        break
+        break;
     }
 
-    return filteredProducts
+    return filteredProducts;
   },
 
   getFeaturedProducts: async (): Promise<Product[]> => {
     // Get 6 products that are on sale
     return productsData.products
-      .filter(product => product.isOnSale)
-      .map(product => ({
+      .filter((product) => product.isOnSale)
+      .map((product) => ({
         ...product,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       }))
-      .slice(0, 10) as Product[]
+      .slice(0, 10) as Product[];
   },
 
   getProductById: async (id: string): Promise<Product | null> => {
-    const product = productsData.products.find(p => p.id === id);
+    const product = productsData.products.find((p) => p.id === id);
     if (!product) return null;
     return {
       ...product,
@@ -120,10 +134,10 @@ const productsAPI = {
       updatedAt: new Date().toISOString(),
     } as Product;
   },
-}
+};
 
 export function useProducts() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     products,
     featuredProducts,
@@ -135,67 +149,109 @@ export function useProducts() {
     sortBy,
     currentPage,
     totalPages,
-  } = useSelector((state: RootState) => state.products)
+  } = useSelector((state: RootState) => state.products);
 
   // Fetch products with filters
-  const { refetch: fetchProducts } = useQuery(
-    ['products', filters, searchQuery, sortBy, currentPage],
-    () => productsAPI.getProducts({filters,searchQuery,sortBy,page: currentPage}),
-    {
-      onSuccess: (data) => {
-        dispatch(setProducts(data))
-      },
-      onError: (err) => {
-        dispatch(setError(err instanceof Error ? err.message : 'Failed to fetch products'))
-      },
-      enabled: false, // Manual fetch
-    }
-  )
+  const {
+    data: productsData,
+    error: productsError,
+    refetch: fetchProducts,
+  } = useQuery({
+    queryKey: ["products", filters, searchQuery, sortBy, currentPage],
+    queryFn: () =>
+      productsAPI.getProducts({
+        filters,
+        searchQuery,
+        sortBy,
+        page: currentPage,
+      }),
+    enabled: false, // Manual fetch
+  });
 
   // Fetch featured products
-  const { refetch: fetchFeaturedProducts } = useQuery(
-    ['featured-products'],
-    productsAPI.getFeaturedProducts,
-    {
-      onSuccess: (data) => {
-        dispatch(setFeaturedProducts(data))
-      },
-      onError: (err) => {
-        dispatch(setError(err instanceof Error ? err.message : 'Failed to fetch featured products'))
-      },
+  const {
+    data: featuredData,
+    error: featuredError,
+    refetch: fetchFeaturedProducts,
+  } = useQuery({
+    queryKey: ["featured-products"],
+    queryFn: productsAPI.getFeaturedProducts,
+  });
+
+  // Handle products data changes
+  useEffect(() => {
+    if (productsData) {
+      dispatch(setProducts(productsData));
     }
-  )
+  }, [productsData, dispatch]);
+
+  // Handle products error changes
+  useEffect(() => {
+    if (productsError) {
+      dispatch(
+        setError(
+          productsError instanceof Error
+            ? productsError.message
+            : "Failed to fetch products",
+        ),
+      );
+    }
+  }, [productsError, dispatch]);
+
+  // Handle featured products data changes
+  useEffect(() => {
+    if (featuredData) {
+      dispatch(setFeaturedProducts(featuredData));
+    }
+  }, [featuredData, dispatch]);
+
+  // Handle featured products error changes
+  useEffect(() => {
+    if (featuredError) {
+      dispatch(
+        setError(
+          featuredError instanceof Error
+            ? featuredError.message
+            : "Failed to fetch featured products",
+        ),
+      );
+    }
+  }, [featuredError, dispatch]);
 
   // Fetch single product
   const fetchProduct = async (id: string) => {
     try {
-      dispatch(setLoading(true))
-      const product = await productsAPI.getProductById(id)
-      dispatch(setCurrentProduct(product))
+      dispatch(setLoading(true));
+      const product = await productsAPI.getProductById(id);
+      dispatch(setCurrentProduct(product));
     } catch (err) {
-      dispatch(setError(err instanceof Error ? err.message : 'Failed to fetch product'))
+      dispatch(
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch product",
+        ),
+      );
     }
-  }
+  };
 
   const updateSearchQuery = (query: string) => {
-    dispatch(setSearchQuery(query))
-  }
+    dispatch(setSearchQuery(query));
+  };
 
   const updateSortBy = (sort: typeof sortBy) => {
-    dispatch(setSortBy(sort))
-  }
+    dispatch(setSortBy(sort));
+  };
 
   const updateFilters = (newFilters: Partial<ProductFilters>) => {
-    dispatch(setFilters(newFilters))
-  }
+    dispatch(setFilters(newFilters));
+  };
 
   const resetFilters = () => {
-    dispatch(clearFilters())
-  }
+    dispatch(clearFilters());
+  };
 
   const changePage = (page: number) => {
-    dispatch(setCurrentPage(page))
-  }
+    dispatch(setCurrentPage(page));
+  };
 
   return {
     products,
@@ -216,5 +272,5 @@ export function useProducts() {
     updateFilters,
     resetFilters,
     changePage,
-  }
+  };
 }

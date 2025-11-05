@@ -9,6 +9,7 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 ## ✨ **Features**
 
 ### Frontend
+
 - 🎨 **Minimalist Luxury Design** - Clean, sophisticated UI inspired by premium brands
 - 📱 **Fully Responsive** - Optimized for all devices and screen sizes
 - 🛒 **Shopping Cart & Checkout** - Smooth shopping experience with Stripe integration
@@ -21,6 +22,7 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 - 🚀 **Smooth Animations** - Framer Motion powered transitions
 
 ### Backend
+
 - 🔐 **Secure Authentication** - JWT with bcrypt password hashing
 - 💳 **Payment Processing** - Stripe integration for secure payments
 - 📊 **Database Management** - PostgreSQL with Prisma ORM
@@ -33,6 +35,7 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 ## 🛠️ **Technology Stack**
 
 ### Frontend
+
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
 - **Styling**: TailwindCSS with custom design system
@@ -43,6 +46,7 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 - **HTTP Client**: Axios with React Query
 
 ### Backend
+
 - **Runtime**: Node.js
 - **Framework**: Express.js with TypeScript
 - **Database**: PostgreSQL with Prisma ORM
@@ -122,12 +126,14 @@ npm run db:seed
 ### 5. Start Development Servers
 
 **Terminal 1 - Frontend:**
+
 ```bash
 # In the root directory
 npm run dev
 ```
 
 **Terminal 2 - Backend:**
+
 ```bash
 # In the backend directory
 cd backend
@@ -199,10 +205,12 @@ FRONTEND_URL="http://localhost:3000"
 ### 1. Install PostgreSQL
 
 **Windows:**
+
 - Download from [PostgreSQL Official Site](https://www.postgresql.org/download/windows/)
 - Run the installer and follow the setup wizard
 
 **macOS:**
+
 ```bash
 # Using Homebrew
 brew install postgresql
@@ -210,6 +218,7 @@ brew services start postgresql
 ```
 
 **Linux (Ubuntu/Debian):**
+
 ```bash
 sudo apt update
 sudo apt install postgresql postgresql-contrib
@@ -347,6 +356,7 @@ npm run db:deploy  # Deploy migrations to production
 ## 🛒 **E-commerce Features Implementation**
 
 ### Current Features
+
 - ✅ Project structure and design system
 - ✅ User authentication (frontend UI)
 - ✅ Product catalog display
@@ -356,6 +366,7 @@ npm run db:deploy  # Deploy migrations to production
 - ✅ Database schema
 
 ### Next Implementation Steps
+
 1. **Authentication System** - Complete JWT implementation
 2. **Product Management** - Full CRUD operations
 3. **Order Processing** - Checkout and order management
@@ -395,21 +406,25 @@ Once the backend is running, you can access:
 ### Common Issues
 
 **Frontend won't start:**
+
 - Ensure Node.js v18+ is installed
 - Delete `node_modules` and run `npm install`
 - Check for port conflicts (default: 3000)
 
 **Backend won't start:**
+
 - Ensure PostgreSQL is running
 - Check database connection string
 - Verify all environment variables are set
 
 **Database connection issues:**
+
 - Verify PostgreSQL service is running
 - Check database credentials
 - Ensure database exists
 
 **Build errors:**
+
 - Run `npm run type-check` to identify TypeScript issues
 - Check for missing dependencies
 - Verify all imports are correct
@@ -428,4 +443,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Happy coding! 🚀**
 
-For questions or support, please open an issue in the repository. 
+For questions or support, please open an issue in the repository.

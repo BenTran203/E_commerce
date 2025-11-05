@@ -1,66 +1,80 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/store'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
-import { useTranslation } from 'react-i18next'
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import { useTranslation } from "react-i18next";
 
 const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Please enter a valid phone number').optional(),
-  subject: z.string().min(5, 'Subject must be at least 5 characters'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  agreeToTerms: z.boolean().refine(val => val, 'You must agree to our terms')
-})
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Please enter a valid phone number").optional(),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  agreeToTerms: z.boolean().refine((val) => val, "You must agree to our terms"),
+});
 
-type ContactFormData = z.infer<typeof contactSchema>
+type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function ContactPage() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-const contactInfo = [
-  {
-    icon: Mail,
-    titleKey: 'contact.info.email.title',
-    descKey: 'contact.info.email.description',
-    valueKey: 'contact.info.email.value',
-    action: 'mailto:hello@timeless.com'
-  },
-  {
-    icon: Phone,
-    titleKey: 'contact.info.phone.title',
-    descKey: 'contact.info.phone.description',
-    valueKey: 'contact.info.phone.value',
-    action: 'tel:+84123456789'
-  },
-  {
-    icon: MapPin,
-    titleKey: 'contact.info.visit.title',
-    descKey: 'contact.info.visit.description',
-    valueKey: 'contact.info.visit.value',
-    action: null
-  }
-]
+  const contactInfo = [
+    {
+      icon: Mail,
+      titleKey: "contact.info.email.title",
+      descKey: "contact.info.email.description",
+      valueKey: "contact.info.email.value",
+      action: "mailto:hello@timeless.com",
+    },
+    {
+      icon: Phone,
+      titleKey: "contact.info.phone.title",
+      descKey: "contact.info.phone.description",
+      valueKey: "contact.info.phone.value",
+      action: "tel:+84123456789",
+    },
+    {
+      icon: MapPin,
+      titleKey: "contact.info.visit.title",
+      descKey: "contact.info.visit.description",
+      valueKey: "contact.info.visit.value",
+      action: null,
+    },
+  ];
 
-const faqs = [
-  { questionKey: 'contact.faq.questions.return.question', answerKey: 'contact.faq.questions.return.answer' },
-  { questionKey: 'contact.faq.questions.shipping.question', answerKey: 'contact.faq.questions.shipping.answer' },
-  { questionKey: 'contact.faq.questions.international.question', answerKey: 'contact.faq.questions.international.answer' },
-  { questionKey: 'contact.faq.questions.tracking.question', answerKey: 'contact.faq.questions.tracking.answer' }
-]
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  
-  const { user, isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const faqs = [
+    {
+      questionKey: "contact.faq.questions.return.question",
+      answerKey: "contact.faq.questions.return.answer",
+    },
+    {
+      questionKey: "contact.faq.questions.shipping.question",
+      answerKey: "contact.faq.questions.shipping.answer",
+    },
+    {
+      questionKey: "contact.faq.questions.international.question",
+      answerKey: "contact.faq.questions.international.answer",
+    },
+    {
+      questionKey: "contact.faq.questions.tracking.question",
+      answerKey: "contact.faq.questions.tracking.answer",
+    },
+  ];
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const {
     register,
@@ -68,43 +82,43 @@ const faqs = [
     formState: { errors },
     setValue,
     watch,
-    reset
+    reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-      agreeToTerms: false
-    }
-  })
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+      agreeToTerms: false,
+    },
+  });
 
   // Auto-fill form if user is logged in
   useEffect(() => {
     if (isAuthenticated && user) {
-      setValue('name', `${user.firstName} ${user.lastName}`)
-      setValue('email', user.email)
+      setValue("name", `${user.firstName} ${user.lastName}`);
+      setValue("email", user.email);
     }
-  }, [isAuthenticated, user, setValue])
+  }, [isAuthenticated, user, setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true)
-    
+    setIsSubmitting(true);
+
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      console.log('Form submitted:', data)
-      setIsSubmitted(true)
-      reset()
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Form submitted:", data);
+      setIsSubmitted(true);
+      reset();
     } catch (error) {
-      console.error('Error submitting form:', error)
+      console.error("Error submitting form:", error);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   if (isSubmitted) {
     return (
@@ -116,17 +130,17 @@ const faqs = [
         >
           <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-serif text-primary-900 mb-4">
-            {t('contact.form.success.title')}
+            {t("contact.form.success.title")}
           </h2>
           <p className="text-primary-600 mb-6">
-            {t('contact.form.success.description')}
+            {t("contact.form.success.description")}
           </p>
           <Button onClick={() => setIsSubmitted(false)}>
-            {t('contact.form.success.another')}
+            {t("contact.form.success.another")}
           </Button>
         </motion.div>
       </div>
-    )
+    );
   }
 
   return (
@@ -140,7 +154,7 @@ const faqs = [
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-serif text-primary-900 mb-6"
           >
-            {t('contact.hero.title')}
+            {t("contact.hero.title")}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -148,7 +162,7 @@ const faqs = [
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl text-primary-600 max-w-2xl mx-auto"
           >
-            {t('contact.hero.description')}
+            {t("contact.hero.description")}
           </motion.p>
         </div>
       </section>
@@ -158,7 +172,7 @@ const faqs = [
         <div className="container-luxury">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {contactInfo.map((info, index) => {
-              const Icon = info.icon
+              const Icon = info.icon;
               return (
                 <motion.div
                   key={info.titleKey}
@@ -187,7 +201,7 @@ const faqs = [
                     </span>
                   )}
                 </motion.div>
-              )
+              );
             })}
           </div>
         </div>
@@ -205,13 +219,13 @@ const faqs = [
               className="bg-white p-8 rounded-2xl shadow-sm"
             >
               <h2 className="text-2xl font-serif text-primary-900 mb-6">
-                {t('contact.form.title')}
+                {t("contact.form.title")}
               </h2>
-              
+
               {isAuthenticated && user && (
                 <div className="bg-primary-50 p-4 rounded-lg mb-6">
                   <p className="text-sm text-primary-700">
-                    {t('contact.form.prefilled')}
+                    {t("contact.form.prefilled")}
                   </p>
                 </div>
               )}
@@ -223,14 +237,16 @@ const faqs = [
                       Name *
                     </label>
                     <input
-                      {...register('name')}
+                      {...register("name")}
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
-                        errors.name ? 'border-red-500' : 'border-primary-200'
+                        errors.name ? "border-red-500" : "border-primary-200"
                       }`}
                       placeholder="Your full name"
                     />
                     {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.name.message}
+                      </p>
                     )}
                   </div>
 
@@ -239,15 +255,17 @@ const faqs = [
                       Email *
                     </label>
                     <input
-                      {...register('email')}
+                      {...register("email")}
                       type="email"
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
-                        errors.email ? 'border-red-500' : 'border-primary-200'
+                        errors.email ? "border-red-500" : "border-primary-200"
                       }`}
                       placeholder="your@email.com"
                     />
                     {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.email.message}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -257,15 +275,17 @@ const faqs = [
                     Phone Number
                   </label>
                   <input
-                    {...register('phone')}
+                    {...register("phone")}
                     type="tel"
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
-                      errors.phone ? 'border-red-500' : 'border-primary-200'
+                      errors.phone ? "border-red-500" : "border-primary-200"
                     }`}
                     placeholder="+84 123 456 789"
                   />
                   {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.phone.message}
+                    </p>
                   )}
                 </div>
 
@@ -274,9 +294,9 @@ const faqs = [
                     Subject *
                   </label>
                   <select
-                    {...register('subject')}
+                    {...register("subject")}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
-                      errors.subject ? 'border-red-500' : 'border-primary-200'
+                      errors.subject ? "border-red-500" : "border-primary-200"
                     }`}
                   >
                     <option value="">Select a subject</option>
@@ -289,7 +309,9 @@ const faqs = [
                     <option value="Other">Other</option>
                   </select>
                   {errors.subject && (
-                    <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.subject.message}
+                    </p>
                   )}
                 </div>
 
@@ -298,37 +320,47 @@ const faqs = [
                     Message *
                   </label>
                   <textarea
-                    {...register('message')}
+                    {...register("message")}
                     rows={5}
                     className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors ${
-                      errors.message ? 'border-red-500' : 'border-primary-200'
+                      errors.message ? "border-red-500" : "border-primary-200"
                     }`}
                     placeholder="Tell us how we can help you..."
                   />
                   {errors.message && (
-                    <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.message.message}
+                    </p>
                   )}
                 </div>
 
                 <div className="flex items-start">
                   <input
-                    {...register('agreeToTerms')}
+                    {...register("agreeToTerms")}
                     type="checkbox"
                     className="mt-1 mr-2"
                   />
                   <label className="text-sm text-primary-700">
-                    I agree to the{' '}
-                    <a href="/terms" className="text-primary-900 hover:underline">
+                    I agree to the{" "}
+                    <a
+                      href="/terms"
+                      className="text-primary-900 hover:underline"
+                    >
                       Terms of Service
-                    </a>{' '}
-                    and{' '}
-                    <a href="/privacy" className="text-primary-900 hover:underline">
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="/privacy"
+                      className="text-primary-900 hover:underline"
+                    >
                       Privacy Policy
                     </a>
                   </label>
                 </div>
                 {errors.agreeToTerms && (
-                  <p className="text-red-500 text-sm">{errors.agreeToTerms.message}</p>
+                  <p className="text-red-500 text-sm">
+                    {errors.agreeToTerms.message}
+                  </p>
                 )}
 
                 <Button
@@ -338,7 +370,9 @@ const faqs = [
                   className="w-full"
                   size="lg"
                 >
-                  {isSubmitting ? 'Sending...' : (
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
                     <>
                       Send Message
                       <Send size={16} className="ml-2" />
@@ -355,9 +389,9 @@ const faqs = [
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className="text-2xl font-serif text-primary-900 mb-6">
-                {t('contact.faq.title')}
+                {t("contact.faq.title")}
               </h2>
-              
+
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
                   <div
@@ -365,24 +399,28 @@ const faqs = [
                     className="bg-white rounded-lg border border-primary-100 overflow-hidden"
                   >
                     <button
-                      onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                      onClick={() =>
+                        setOpenFaq(openFaq === index ? null : index)
+                      }
                       className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-primary-50 transition-colors"
                     >
                       <span className="font-medium text-primary-900">
                         {t(faq.questionKey)}
                       </span>
-                      <span className={`transform transition-transform ${
-                        openFaq === index ? 'rotate-180' : ''
-                      }`}>
+                      <span
+                        className={`transform transition-transform ${
+                          openFaq === index ? "rotate-180" : ""
+                        }`}
+                      >
                         ▼
                       </span>
                     </button>
-                    
+
                     <motion.div
                       initial={false}
                       animate={{
-                        height: openFaq === index ? 'auto' : 0,
-                        opacity: openFaq === index ? 1 : 0
+                        height: openFaq === index ? "auto" : 0,
+                        opacity: openFaq === index ? 1 : 0,
                       }}
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
@@ -397,13 +435,13 @@ const faqs = [
 
               <div className="mt-8 p-6 bg-primary-900 text-white rounded-2xl">
                 <h3 className="text-xl font-semibold mb-2">
-                  {t('contact.faq.help.title')}
+                  {t("contact.faq.help.title")}
                 </h3>
                 <p className="text-primary-100 mb-4">
-                  {t('contact.faq.help.description')}
+                  {t("contact.faq.help.description")}
                 </p>
                 <Button variant="secondary" size="sm">
-                  {t('contact.faq.help.button')}
+                  {t("contact.faq.help.button")}
                 </Button>
               </div>
             </motion.div>
@@ -411,5 +449,5 @@ const faqs = [
         </div>
       </section>
     </div>
-  )
+  );
 }

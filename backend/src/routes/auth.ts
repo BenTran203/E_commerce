@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router } from "express";
 import {
   register,
   login,
@@ -8,27 +8,27 @@ import {
   verifyEmail,
   logout,
   getCurrentUser,
-  socialLogin
-} from '../controllers/auth'
-import { authenticate } from '../middleware/auth'
+  socialLogin,
+} from "../controllers/auth";
+import { authenticate } from "../middleware/auth";
 
-const router = Router()
+const router = Router();
 
 // Public routes
 const routes = [
-    {path: '/register', handler: register},
-    {path: '/login', handler: login },
-    {path: '/social-login', handler: socialLogin},
-    {path: '/refresh', handler: refreshToken},
-    {path: '/forgot-password', handler: forgotPassword},
-    {path: '/reset-password', handler: resetPassword},
-    {path: '/verify-email', handler: verifyEmail},
-    {path: '/logout', handler: verifyEmail},
-]
-routes.forEach(r => router.post(r.path, r.handler))
+  { path: "/register", handler: register },
+  { path: "/login", handler: login },
+  { path: "/social-login", handler: socialLogin },
+  { path: "/refresh", handler: refreshToken },
+  { path: "/forgot-password", handler: forgotPassword },
+  { path: "/reset-password", handler: resetPassword },
+  { path: "/verify-email", handler: verifyEmail },
+  { path: "/logout", handler: verifyEmail },
+];
+routes.forEach((r) => router.post(r.path, r.handler));
 
 // Protected routes
-router.post('/logout', authenticate, logout)
-router.get('/me', authenticate, getCurrentUser)
+router.post("/logout", authenticate, logout);
+router.get("/me", authenticate, getCurrentUser);
 
-export default router
+export default router;

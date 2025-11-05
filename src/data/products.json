@@ -15,8 +15,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
-      "brand": { "id": "1", "name": "Timeless", "slug": "timeless", "isActive": true },
+      "category": {
+        "id": "1",
+        "name": "Casual",
+        "slug": "casual",
+        "isActive": true
+      },
+      "brand": {
+        "id": "1",
+        "name": "Timeless",
+        "slug": "timeless",
+        "isActive": true
+      },
       "sizes": [
         { "id": "1", "name": "Small", "value": "S", "category": "clothing" },
         { "id": "2", "name": "Medium", "value": "M", "category": "clothing" },
@@ -27,7 +37,11 @@
         { "id": "2", "name": "Black", "hex": "#000000" }
       ],
       "materials": [
-        { "id": "1", "name": "100% Cotton", "properties": ["Breathable", "Soft"] }
+        {
+          "id": "1",
+          "name": "100% Cotton",
+          "properties": ["Breathable", "Soft"]
+        }
       ],
       "care": ["Machine wash cold", "Tumble dry low"],
       "features": ["Pre-shrunk", "Side-seamed"],
@@ -68,8 +82,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "2", "name": "Winter", "slug": "winter", "isActive": true },
-      "brand": { "id": "2", "name": "Heritage", "slug": "heritage", "isActive": true },
+      "category": {
+        "id": "2",
+        "name": "Winter",
+        "slug": "winter",
+        "isActive": true
+      },
+      "brand": {
+        "id": "2",
+        "name": "Heritage",
+        "slug": "heritage",
+        "isActive": true
+      },
       "sizes": [
         { "id": "4", "name": "Small", "value": "S", "category": "clothing" },
         { "id": "5", "name": "Medium", "value": "M", "category": "clothing" },
@@ -81,8 +105,16 @@
         { "id": "4", "name": "Olive", "hex": "#556B2F" }
       ],
       "materials": [
-        { "id": "2", "name": "Polyester Shell", "properties": ["Water-resistant", "Durable"] },
-        { "id": "3", "name": "Synthetic Insulation", "properties": ["Warm", "Lightweight"] }
+        {
+          "id": "2",
+          "name": "Polyester Shell",
+          "properties": ["Water-resistant", "Durable"]
+        },
+        {
+          "id": "3",
+          "name": "Synthetic Insulation",
+          "properties": ["Warm", "Lightweight"]
+        }
       ],
       "care": ["Spot clean", "Do not bleach", "Tumble dry low"],
       "features": ["Packable", "Insulated", "Water-resistant shell"],
@@ -123,8 +155,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "3", "name": "Formal", "slug": "formal", "isActive": true },
-      "brand": { "id": "3", "name": "Aurum Tailoring", "slug": "aurum", "isActive": true },
+      "category": {
+        "id": "3",
+        "name": "Formal",
+        "slug": "formal",
+        "isActive": true
+      },
+      "brand": {
+        "id": "3",
+        "name": "Aurum Tailoring",
+        "slug": "aurum",
+        "isActive": true
+      },
       "sizes": [
         { "id": "8", "name": "38R", "value": "38R", "category": "clothing" },
         { "id": "9", "name": "40R", "value": "40R", "category": "clothing" },
@@ -135,7 +177,11 @@
         { "id": "6", "name": "Navy", "hex": "#1F3A93" }
       ],
       "materials": [
-        { "id": "4", "name": "Wool Blend", "properties": ["Breathable", "Wrinkle-resistant"] }
+        {
+          "id": "4",
+          "name": "Wool Blend",
+          "properties": ["Breathable", "Wrinkle-resistant"]
+        }
       ],
       "care": ["Dry clean only"],
       "features": ["Tailored fit", "Half-canvas construction"],
@@ -175,16 +221,34 @@
           "order": 1
         }
       ],
-      "category": { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
-      "brand": { "id": "4", "name": "Aurum Timepieces", "slug": "aurum-time", "isActive": true },
+      "category": {
+        "id": "4",
+        "name": "Accessories",
+        "slug": "accessories",
+        "isActive": true
+      },
+      "brand": {
+        "id": "4",
+        "name": "Aurum Timepieces",
+        "slug": "aurum-time",
+        "isActive": true
+      },
       "sizes": [],
       "colors": [
         { "id": "7", "name": "Silver", "hex": "#C0C0C0" },
         { "id": "8", "name": "Gold", "hex": "#D4AF37" }
       ],
       "materials": [
-        { "id": "5", "name": "Stainless Steel", "properties": ["Durable", "Corrosion-resistant"] },
-        { "id": "6", "name": "Leather Strap", "properties": ["Comfortable", "Premium"] }
+        {
+          "id": "5",
+          "name": "Stainless Steel",
+          "properties": ["Durable", "Corrosion-resistant"]
+        },
+        {
+          "id": "6",
+          "name": "Leather Strap",
+          "properties": ["Comfortable", "Premium"]
+        }
       ],
       "care": ["Wipe clean with a soft cloth", "Avoid water exposure"],
       "features": ["Quartz movement", "3ATM water resistance"],
@@ -225,8 +289,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "5", "name": "Summer", "slug": "summer", "isActive": true },
-      "brand": { "id": "5", "name": "Coastal", "slug": "coastal", "isActive": true },
+      "category": {
+        "id": "5",
+        "name": "Summer",
+        "slug": "summer",
+        "isActive": true
+      },
+      "brand": {
+        "id": "5",
+        "name": "Coastal",
+        "slug": "coastal",
+        "isActive": true
+      },
       "sizes": [
         { "id": "11", "name": "Small", "value": "S", "category": "clothing" },
         { "id": "12", "name": "Medium", "value": "M", "category": "clothing" },
@@ -239,10 +313,18 @@
         { "id": "11", "name": "Sage Green", "hex": "#9CAF88" }
       ],
       "materials": [
-        { "id": "7", "name": "100% Linen", "properties": ["Breathable", "Natural", "Lightweight"] }
+        {
+          "id": "7",
+          "name": "100% Linen",
+          "properties": ["Breathable", "Natural", "Lightweight"]
+        }
       ],
       "care": ["Machine wash cold", "Air dry", "Iron while damp"],
-      "features": ["Relaxed fit", "Natural wrinkle texture", "Moisture-wicking"],
+      "features": [
+        "Relaxed fit",
+        "Natural wrinkle texture",
+        "Moisture-wicking"
+      ],
       "stock": 35,
       "isOnSale": true,
       "salePercentage": 25,
@@ -280,8 +362,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true },
-      "brand": { "id": "6", "name": "Urban Edge", "slug": "urban-edge", "isActive": true },
+      "category": {
+        "id": "6",
+        "name": "Street Style",
+        "slug": "street-style",
+        "isActive": true
+      },
+      "brand": {
+        "id": "6",
+        "name": "Urban Edge",
+        "slug": "urban-edge",
+        "isActive": true
+      },
       "sizes": [
         { "id": "15", "name": "28", "value": "28", "category": "clothing" },
         { "id": "16", "name": "30", "value": "30", "category": "clothing" },
@@ -294,7 +386,11 @@
         { "id": "14", "name": "Olive Drab", "hex": "#6B8E23" }
       ],
       "materials": [
-        { "id": "8", "name": "Cotton Canvas", "properties": ["Durable", "Comfortable", "Structured"] }
+        {
+          "id": "8",
+          "name": "Cotton Canvas",
+          "properties": ["Durable", "Comfortable", "Structured"]
+        }
       ],
       "care": ["Machine wash cold", "Tumble dry low", "Do not bleach"],
       "features": ["Multiple pockets", "Adjustable straps", "Relaxed fit"],
@@ -335,8 +431,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
-      "brand": { "id": "8", "name": "Craftsmen Co.", "slug": "craftsmen", "isActive": true },
+      "category": {
+        "id": "4",
+        "name": "Accessories",
+        "slug": "accessories",
+        "isActive": true
+      },
+      "brand": {
+        "id": "8",
+        "name": "Craftsmen Co.",
+        "slug": "craftsmen",
+        "isActive": true
+      },
       "sizes": [],
       "colors": [
         { "id": "18", "name": "Tan", "hex": "#D2B48C" },
@@ -344,9 +450,17 @@
         { "id": "20", "name": "Dark Brown", "hex": "#654321" }
       ],
       "materials": [
-        { "id": "10", "name": "Full Grain Leather", "properties": ["Durable", "Ages beautifully", "Natural"] }
+        {
+          "id": "10",
+          "name": "Full Grain Leather",
+          "properties": ["Durable", "Ages beautifully", "Natural"]
+        }
       ],
-      "care": ["Clean with leather conditioner", "Avoid excessive moisture", "Store in dust bag"],
+      "care": [
+        "Clean with leather conditioner",
+        "Avoid excessive moisture",
+        "Store in dust bag"
+      ],
       "features": ["Handcrafted", "Multiple compartments", "Adjustable strap"],
       "stock": 15,
       "isOnSale": true,
@@ -385,8 +499,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
-      "brand": { "id": "9", "name": "Professional", "slug": "professional", "isActive": true },
+      "category": {
+        "id": "1",
+        "name": "Casual",
+        "slug": "casual",
+        "isActive": true
+      },
+      "brand": {
+        "id": "9",
+        "name": "Professional",
+        "slug": "professional",
+        "isActive": true
+      },
       "sizes": [
         { "id": "23", "name": "36R", "value": "36R", "category": "clothing" },
         { "id": "24", "name": "38R", "value": "38R", "category": "clothing" },
@@ -399,9 +523,17 @@
         { "id": "23", "name": "Burgundy", "hex": "#800020" }
       ],
       "materials": [
-        { "id": "11", "name": "Cotton Blend", "properties": ["Wrinkle-resistant", "Comfortable", "Structured"] }
+        {
+          "id": "11",
+          "name": "Cotton Blend",
+          "properties": ["Wrinkle-resistant", "Comfortable", "Structured"]
+        }
       ],
-      "care": ["Dry clean recommended", "Steam to remove wrinkles", "Store on hanger"],
+      "care": [
+        "Dry clean recommended",
+        "Steam to remove wrinkles",
+        "Store on hanger"
+      ],
       "features": ["Unstructured", "Two-button closure", "Notched lapel"],
       "stock": 22,
       "isOnSale": true,
@@ -440,8 +572,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "2", "name": "Winter", "slug": "winter", "isActive": true },
-      "brand": { "id": "10", "name": "Nordic", "slug": "nordic", "isActive": true },
+      "category": {
+        "id": "2",
+        "name": "Winter",
+        "slug": "winter",
+        "isActive": true
+      },
+      "brand": {
+        "id": "10",
+        "name": "Nordic",
+        "slug": "nordic",
+        "isActive": true
+      },
       "sizes": [],
       "colors": [
         { "id": "24", "name": "Camel", "hex": "#C19A6B" },
@@ -449,7 +591,11 @@
         { "id": "26", "name": "Burgundy", "hex": "#800020" }
       ],
       "materials": [
-        { "id": "12", "name": "Cashmere Wool Blend", "properties": ["Soft", "Warm", "Lightweight"] }
+        {
+          "id": "12",
+          "name": "Cashmere Wool Blend",
+          "properties": ["Soft", "Warm", "Lightweight"]
+        }
       ],
       "care": ["Hand wash cold", "Lay flat to dry", "Do not wring"],
       "features": ["Oversized", "Fringed edges", "Reversible pattern"],
@@ -490,21 +636,37 @@
           "order": 1
         }
       ],
-      "category": { "id": "3", "name": "Formal", "slug": "formal", "isActive": true },
-      "brand": { "id": "11", "name": "Executive", "slug": "executive", "isActive": true },
+      "category": {
+        "id": "3",
+        "name": "Formal",
+        "slug": "formal",
+        "isActive": true
+      },
+      "brand": {
+        "id": "11",
+        "name": "Executive",
+        "slug": "executive",
+        "isActive": true
+      },
       "sizes": [
         { "id": "27", "name": "14.5", "value": "14.5", "category": "clothing" },
         { "id": "28", "name": "15", "value": "15", "category": "clothing" },
         { "id": "29", "name": "15.5", "value": "15.5", "category": "clothing" },
         { "id": "30", "name": "16", "value": "16", "category": "clothing" }
       ],
-      "colors": [
-        { "id": "27", "name": "White", "hex": "#FFFFFF" }
-      ],
+      "colors": [{ "id": "27", "name": "White", "hex": "#FFFFFF" }],
       "materials": [
-        { "id": "13", "name": "Egyptian Cotton", "properties": ["Breathable", "Wrinkle-resistant", "Premium"] }
+        {
+          "id": "13",
+          "name": "Egyptian Cotton",
+          "properties": ["Breathable", "Wrinkle-resistant", "Premium"]
+        }
       ],
-      "care": ["Machine wash cold", "Professional press recommended", "Hang to dry"],
+      "care": [
+        "Machine wash cold",
+        "Professional press recommended",
+        "Hang to dry"
+      ],
       "features": ["French cuffs", "Spread collar", "Tailored fit"],
       "stock": 28,
       "isOnSale": true,
@@ -543,8 +705,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
-      "brand": { "id": "12", "name": "Vintage Co.", "slug": "vintage-co", "isActive": true },
+      "category": {
+        "id": "1",
+        "name": "Casual",
+        "slug": "casual",
+        "isActive": true
+      },
+      "brand": {
+        "id": "12",
+        "name": "Vintage Co.",
+        "slug": "vintage-co",
+        "isActive": true
+      },
       "sizes": [
         { "id": "31", "name": "Small", "value": "S", "category": "clothing" },
         { "id": "32", "name": "Medium", "value": "M", "category": "clothing" },
@@ -557,7 +729,11 @@
         { "id": "30", "name": "Black", "hex": "#000000" }
       ],
       "materials": [
-        { "id": "14", "name": "100% Cotton Denim", "properties": ["Durable", "Classic", "Comfortable"] }
+        {
+          "id": "14",
+          "name": "100% Cotton Denim",
+          "properties": ["Durable", "Classic", "Comfortable"]
+        }
       ],
       "care": ["Machine wash cold", "Turn inside out", "Air dry recommended"],
       "features": ["Classic fit", "Button closure", "Chest pockets"],
@@ -598,8 +774,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "5", "name": "Summer", "slug": "summer", "isActive": true },
-      "brand": { "id": "13", "name": "Bloom", "slug": "bloom", "isActive": true },
+      "category": {
+        "id": "5",
+        "name": "Summer",
+        "slug": "summer",
+        "isActive": true
+      },
+      "brand": {
+        "id": "13",
+        "name": "Bloom",
+        "slug": "bloom",
+        "isActive": true
+      },
       "sizes": [
         { "id": "35", "name": "XS", "value": "XS", "category": "clothing" },
         { "id": "36", "name": "Small", "value": "S", "category": "clothing" },
@@ -612,10 +798,18 @@
         { "id": "33", "name": "Mint Green", "hex": "#98FB98" }
       ],
       "materials": [
-        { "id": "15", "name": "Cotton Voile", "properties": ["Lightweight", "Breathable", "Soft"] }
+        {
+          "id": "15",
+          "name": "Cotton Voile",
+          "properties": ["Lightweight", "Breathable", "Soft"]
+        }
       ],
       "care": ["Gentle machine wash", "Hang to dry", "Low iron if needed"],
-      "features": ["Floral print", "A-line silhouette", "Three-quarter sleeves"],
+      "features": [
+        "Floral print",
+        "A-line silhouette",
+        "Three-quarter sleeves"
+      ],
       "stock": 18,
       "isOnSale": true,
       "salePercentage": 20,
@@ -653,8 +847,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true },
-      "brand": { "id": "14", "name": "Metro", "slug": "metro", "isActive": true },
+      "category": {
+        "id": "6",
+        "name": "Street Style",
+        "slug": "street-style",
+        "isActive": true
+      },
+      "brand": {
+        "id": "14",
+        "name": "Metro",
+        "slug": "metro",
+        "isActive": true
+      },
       "sizes": [
         { "id": "39", "name": "7", "value": "7", "category": "shoes" },
         { "id": "40", "name": "8", "value": "8", "category": "shoes" },
@@ -668,10 +872,22 @@
         { "id": "36", "name": "Grey", "hex": "#808080" }
       ],
       "materials": [
-        { "id": "16", "name": "Synthetic Leather", "properties": ["Durable", "Easy to clean", "Comfortable"] },
-        { "id": "17", "name": "Rubber Sole", "properties": ["Non-slip", "Shock-absorbing", "Flexible"] }
+        {
+          "id": "16",
+          "name": "Synthetic Leather",
+          "properties": ["Durable", "Easy to clean", "Comfortable"]
+        },
+        {
+          "id": "17",
+          "name": "Rubber Sole",
+          "properties": ["Non-slip", "Shock-absorbing", "Flexible"]
+        }
       ],
-      "care": ["Wipe clean with damp cloth", "Air dry", "Avoid harsh chemicals"],
+      "care": [
+        "Wipe clean with damp cloth",
+        "Air dry",
+        "Avoid harsh chemicals"
+      ],
       "features": ["Cushioned sole", "Breathable lining", "Lace-up closure"],
       "stock": 42,
       "isOnSale": true,
@@ -710,8 +926,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
-      "brand": { "id": "15", "name": "Gentleman", "slug": "gentleman", "isActive": true },
+      "category": {
+        "id": "4",
+        "name": "Accessories",
+        "slug": "accessories",
+        "isActive": true
+      },
+      "brand": {
+        "id": "15",
+        "name": "Gentleman",
+        "slug": "gentleman",
+        "isActive": true
+      },
       "sizes": [],
       "colors": [
         { "id": "37", "name": "Navy", "hex": "#1F3A93" },
@@ -719,7 +945,11 @@
         { "id": "39", "name": "Forest Green", "hex": "#228B22" }
       ],
       "materials": [
-        { "id": "18", "name": "100% Silk", "properties": ["Luxurious", "Smooth", "Elegant"] }
+        {
+          "id": "18",
+          "name": "100% Silk",
+          "properties": ["Luxurious", "Smooth", "Elegant"]
+        }
       ],
       "care": ["Dry clean only", "Store flat", "Iron on low heat"],
       "features": ["Hand-rolled edges", "Classic patterns", "Premium silk"],
@@ -760,8 +990,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
-      "brand": { "id": "16", "name": "EcoWear", "slug": "ecowear", "isActive": true },
+      "category": {
+        "id": "4",
+        "name": "Accessories",
+        "slug": "accessories",
+        "isActive": true
+      },
+      "brand": {
+        "id": "16",
+        "name": "EcoWear",
+        "slug": "ecowear",
+        "isActive": true
+      },
       "sizes": [
         { "id": "44", "name": "S", "value": "S", "category": "accessories" },
         { "id": "45", "name": "M", "value": "M", "category": "accessories" },
@@ -773,7 +1013,11 @@
         { "id": "42", "name": "Navy", "hex": "#1F3A93" }
       ],
       "materials": [
-        { "id": "19", "name": "Bamboo Fiber", "properties": ["Antibacterial", "Moisture-wicking", "Eco-friendly"] }
+        {
+          "id": "19",
+          "name": "Bamboo Fiber",
+          "properties": ["Antibacterial", "Moisture-wicking", "Eco-friendly"]
+        }
       ],
       "care": ["Machine wash cold", "Tumble dry low", "Do not bleach"],
       "features": ["Cushioned sole", "Seamless toe", "Odor-resistant"],
@@ -814,8 +1058,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "2", "name": "Winter", "slug": "winter", "isActive": true },
-      "brand": { "id": "18", "name": "Arctic Pro", "slug": "arctic-pro", "isActive": true },
+      "category": {
+        "id": "2",
+        "name": "Winter",
+        "slug": "winter",
+        "isActive": true
+      },
+      "brand": {
+        "id": "18",
+        "name": "Arctic Pro",
+        "slug": "arctic-pro",
+        "isActive": true
+      },
       "sizes": [
         { "id": "47", "name": "Small", "value": "S", "category": "clothing" },
         { "id": "48", "name": "Medium", "value": "M", "category": "clothing" },
@@ -828,10 +1082,18 @@
         { "id": "46", "name": "Grey", "hex": "#808080" }
       ],
       "materials": [
-        { "id": "21", "name": "Merino Wool Blend", "properties": ["Insulating", "Moisture-wicking", "Odor-resistant"] }
+        {
+          "id": "21",
+          "name": "Merino Wool Blend",
+          "properties": ["Insulating", "Moisture-wicking", "Odor-resistant"]
+        }
       ],
       "care": ["Machine wash cold", "Lay flat to dry", "Do not iron"],
-      "features": ["Seamless construction", "Four-way stretch", "Thermal regulation"],
+      "features": [
+        "Seamless construction",
+        "Four-way stretch",
+        "Thermal regulation"
+      ],
       "stock": 38,
       "isOnSale": true,
       "salePercentage": 25,
@@ -869,8 +1131,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
-      "brand": { "id": "19", "name": "Denim Dreams", "slug": "denim-dreams", "isActive": true },
+      "category": {
+        "id": "1",
+        "name": "Casual",
+        "slug": "casual",
+        "isActive": true
+      },
+      "brand": {
+        "id": "19",
+        "name": "Denim Dreams",
+        "slug": "denim-dreams",
+        "isActive": true
+      },
       "sizes": [
         { "id": "51", "name": "25", "value": "25", "category": "clothing" },
         { "id": "52", "name": "26", "value": "26", "category": "clothing" },
@@ -884,7 +1156,11 @@
         { "id": "49", "name": "Black", "hex": "#000000" }
       ],
       "materials": [
-        { "id": "22", "name": "Stretch Denim", "properties": ["Flexible", "Comfortable", "Durable"] }
+        {
+          "id": "22",
+          "name": "Stretch Denim",
+          "properties": ["Flexible", "Comfortable", "Durable"]
+        }
       ],
       "care": ["Machine wash cold", "Turn inside out", "Hang to dry"],
       "features": ["High-waisted", "Skinny fit", "Five-pocket styling"],
@@ -925,8 +1201,18 @@
           "order": 1
         }
       ],
-      "category": { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true },
-      "brand": { "id": "20", "name": "Future Gear", "slug": "future-gear", "isActive": true },
+      "category": {
+        "id": "6",
+        "name": "Street Style",
+        "slug": "street-style",
+        "isActive": true
+      },
+      "brand": {
+        "id": "20",
+        "name": "Future Gear",
+        "slug": "future-gear",
+        "isActive": true
+      },
       "sizes": [],
       "colors": [
         { "id": "50", "name": "Black", "hex": "#000000" },
@@ -934,10 +1220,22 @@
         { "id": "52", "name": "Olive", "hex": "#556B2F" }
       ],
       "materials": [
-        { "id": "23", "name": "Technical Nylon", "properties": ["Water-resistant", "Lightweight", "Durable"] }
+        {
+          "id": "23",
+          "name": "Technical Nylon",
+          "properties": ["Water-resistant", "Lightweight", "Durable"]
+        }
       ],
-      "care": ["Wipe clean with damp cloth", "Air dry", "Avoid harsh chemicals"],
-      "features": ["Multiple compartments", "Adjustable strap", "Water-resistant"],
+      "care": [
+        "Wipe clean with damp cloth",
+        "Air dry",
+        "Avoid harsh chemicals"
+      ],
+      "features": [
+        "Multiple compartments",
+        "Adjustable strap",
+        "Water-resistant"
+      ],
       "stock": 24,
       "isOnSale": true,
       "salePercentage": 24,
@@ -1021,28 +1319,73 @@
     { "id": "1", "name": "Casual", "slug": "casual", "isActive": true },
     { "id": "2", "name": "Winter", "slug": "winter", "isActive": true },
     { "id": "3", "name": "Formal", "slug": "formal", "isActive": true },
-    { "id": "4", "name": "Accessories", "slug": "accessories", "isActive": true },
+    {
+      "id": "4",
+      "name": "Accessories",
+      "slug": "accessories",
+      "isActive": true
+    },
     { "id": "5", "name": "Summer", "slug": "summer", "isActive": true },
-    { "id": "6", "name": "Street Style", "slug": "street-style", "isActive": true }
+    {
+      "id": "6",
+      "name": "Street Style",
+      "slug": "street-style",
+      "isActive": true
+    }
   ],
   "brands": [
     { "id": "1", "name": "Timeless", "slug": "timeless", "isActive": true },
     { "id": "2", "name": "Heritage", "slug": "heritage", "isActive": true },
     { "id": "3", "name": "Aurum Tailoring", "slug": "aurum", "isActive": true },
-    { "id": "4", "name": "Aurum Timepieces", "slug": "aurum-time", "isActive": true },
+    {
+      "id": "4",
+      "name": "Aurum Timepieces",
+      "slug": "aurum-time",
+      "isActive": true
+    },
     { "id": "5", "name": "Coastal", "slug": "coastal", "isActive": true },
     { "id": "6", "name": "Urban Edge", "slug": "urban-edge", "isActive": true },
-    { "id": "8", "name": "Craftsmen Co.", "slug": "craftsmen", "isActive": true },
-    { "id": "9", "name": "Professional", "slug": "professional", "isActive": true },
+    {
+      "id": "8",
+      "name": "Craftsmen Co.",
+      "slug": "craftsmen",
+      "isActive": true
+    },
+    {
+      "id": "9",
+      "name": "Professional",
+      "slug": "professional",
+      "isActive": true
+    },
     { "id": "10", "name": "Nordic", "slug": "nordic", "isActive": true },
     { "id": "11", "name": "Executive", "slug": "executive", "isActive": true },
-    { "id": "12", "name": "Vintage Co.", "slug": "vintage-co", "isActive": true },
+    {
+      "id": "12",
+      "name": "Vintage Co.",
+      "slug": "vintage-co",
+      "isActive": true
+    },
     { "id": "13", "name": "Bloom", "slug": "bloom", "isActive": true },
     { "id": "14", "name": "Metro", "slug": "metro", "isActive": true },
     { "id": "15", "name": "Gentleman", "slug": "gentleman", "isActive": true },
     { "id": "16", "name": "EcoWear", "slug": "ecowear", "isActive": true },
-    { "id": "18", "name": "Arctic Pro", "slug": "arctic-pro", "isActive": true },
-    { "id": "19", "name": "Denim Dreams", "slug": "denim-dreams", "isActive": true },
-    { "id": "20", "name": "Future Gear", "slug": "future-gear", "isActive": true }
+    {
+      "id": "18",
+      "name": "Arctic Pro",
+      "slug": "arctic-pro",
+      "isActive": true
+    },
+    {
+      "id": "19",
+      "name": "Denim Dreams",
+      "slug": "denim-dreams",
+      "isActive": true
+    },
+    {
+      "id": "20",
+      "name": "Future Gear",
+      "slug": "future-gear",
+      "isActive": true
+    }
   ]
 }

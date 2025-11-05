@@ -1,21 +1,21 @@
 /**
  * ORDERS CONTROLLER
- * 
+ *
  * Handles order management operations
  */
 
-import { Request, Response } from 'express'
-import { PrismaClient } from '@prisma/client'
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 /**
  * Generate unique order number
  */
 function generateOrderNumber(): string {
-  const timestamp = Date.now().toString(36).toUpperCase()
-  const random = Math.random().toString(36).substring(2, 6).toUpperCase()
-  return `ORD-${timestamp}-${random}`
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `ORD-${timestamp}-${random}`;
 }
 
 /**
@@ -26,24 +26,24 @@ export const createOrder = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
     const {
       items,
       shippingAddressId,
       billingAddressId,
-      paymentMethod = 'CARD',
-      customerNotes
-    } = req.body
+      paymentMethod = "CARD",
+      customerNotes,
+    } = req.body;
 
     if (!items || items.length === 0) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Order must contain at least one item'
-      })
+        status: "error",
+        message: "Order must contain at least one item",
+      });
     }
 
     // Validate addresses
@@ -51,56 +51,56 @@ export const createOrder = async (req: Request, res: Response) => {
       prisma.address.findFirst({
         where: {
           id: shippingAddressId,
-          userId: req.user.id
-        }
+          userId: req.user.id,
+        },
       }),
       prisma.address.findFirst({
         where: {
           id: billingAddressId,
-          userId: req.user.id
-        }
-      })
-    ])
+          userId: req.user.id,
+        },
+      }),
+    ]);
 
     if (!shippingAddress || !billingAddress) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Invalid shipping or billing address'
-      })
+        status: "error",
+        message: "Invalid shipping or billing address",
+      });
     }
 
     // Calculate totals and validate items
-    let subtotal = 0
-    const orderItems: any[] = []
+    let subtotal = 0;
+    const orderItems: any[] = [];
 
     for (const item of items) {
       const product = await prisma.product.findUnique({
         where: { id: item.productId },
         include: {
           images: { where: { isPrimary: true }, take: 1 },
-          vendor: true
-        }
-      })
+          vendor: true,
+        },
+      });
 
       if (!product || !product.isActive) {
         return res.status(400).json({
-          status: 'error',
-          message: `Product ${item.productId} not found or inactive`
-        })
+          status: "error",
+          message: `Product ${item.productId} not found or inactive`,
+        });
       }
 
       // Check stock
       if (product.trackInventory && product.stock < item.quantity) {
         return res.status(400).json({
-          status: 'error',
-          message: `Insufficient stock for ${product.name}`
-        })
+          status: "error",
+          message: `Insufficient stock for ${product.name}`,
+        });
       }
 
-      const price = product.price
-      const total = price * item.quantity
+      const price = product.price;
+      const total = price * item.quantity;
 
-      subtotal += total
+      subtotal += total;
 
       orderItems.push({
         productId: product.id,
@@ -111,14 +111,14 @@ export const createOrder = async (req: Request, res: Response) => {
         price,
         total,
         variantId: item.variantId,
-        vendorId: product.vendorId
-      })
+        vendorId: product.vendorId,
+      });
     }
 
     // Calculate additional costs
-    const shipping = subtotal > 100 ? 0 : 10
-    const tax = subtotal * 0.1 // 10% tax
-    const total = subtotal + shipping + tax
+    const shipping = subtotal > 100 ? 0 : 10;
+    const tax = subtotal * 0.1; // 10% tax
+    const total = subtotal + shipping + tax;
 
     // Create order
     const order = await prisma.order.create({
@@ -134,24 +134,24 @@ export const createOrder = async (req: Request, res: Response) => {
         total,
         customerNotes,
         items: {
-          create: orderItems
-        }
+          create: orderItems,
+        },
       },
       include: {
         items: {
           include: {
             product: {
               include: {
-                images: { where: { isPrimary: true }, take: 1 }
-              }
+                images: { where: { isPrimary: true }, take: 1 },
+              },
             },
-            variant: true
-          }
+            variant: true,
+          },
         },
         shippingAddress: true,
-        billingAddress: true
-      }
-    })
+        billingAddress: true,
+      },
+    });
 
     // Update product stock
     for (const item of items) {
@@ -159,33 +159,32 @@ export const createOrder = async (req: Request, res: Response) => {
         where: { id: item.productId },
         data: {
           stock: { decrement: item.quantity },
-          salesCount: { increment: item.quantity }
-        }
-      })
+          salesCount: { increment: item.quantity },
+        },
+      });
     }
 
     // Clear cart items
     await prisma.cartItem.deleteMany({
       where: {
         userId: req.user.id,
-        productId: { in: items.map((i: any) => i.productId) }
-      }
-    })
+        productId: { in: items.map((i: any) => i.productId) },
+      },
+    });
 
     res.status(201).json({
-      status: 'success',
-      message: 'Order created successfully',
-      data: { order }
-    })
-
+      status: "success",
+      message: "Order created successfully",
+      data: { order },
+    });
   } catch (error) {
-    console.error('Create order error:', error)
+    console.error("Create order error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to create order'
-    })
+      status: "error",
+      message: "Failed to create order",
+    });
   }
-}
+};
 
 /**
  * GET USER ORDERS
@@ -195,23 +194,23 @@ export const getUserOrders = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { page = '1', limit = '10', status } = req.query
+    const { page = "1", limit = "10", status } = req.query;
 
-    const pageNum = parseInt(page as string)
-    const limitNum = parseInt(limit as string)
-    const skip = (pageNum - 1) * limitNum
+    const pageNum = parseInt(page as string);
+    const limitNum = parseInt(limit as string);
+    const skip = (pageNum - 1) * limitNum;
 
     const where: any = {
-      userId: req.user.id
-    }
+      userId: req.user.id,
+    };
 
     if (status) {
-      where.status = status
+      where.status = status;
     }
 
     const [orders, total] = await Promise.all([
@@ -219,7 +218,7 @@ export const getUserOrders = async (req: Request, res: Response) => {
         where,
         skip,
         take: limitNum,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         include: {
           items: {
             include: {
@@ -227,38 +226,37 @@ export const getUserOrders = async (req: Request, res: Response) => {
                 select: {
                   id: true,
                   name: true,
-                  slug: true
-                }
-              }
-            }
+                  slug: true,
+                },
+              },
+            },
           },
-          shippingAddress: true
-        }
+          shippingAddress: true,
+        },
       }),
-      prisma.order.count({ where })
-    ])
+      prisma.order.count({ where }),
+    ]);
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         orders,
         pagination: {
           page: pageNum,
           limit: limitNum,
           total,
-          pages: Math.ceil(total / limitNum)
-        }
-      }
-    })
-
+          pages: Math.ceil(total / limitNum),
+        },
+      },
+    });
   } catch (error) {
-    console.error('Get orders error:', error)
+    console.error("Get orders error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch orders'
-    })
+      status: "error",
+      message: "Failed to fetch orders",
+    });
   }
-}
+};
 
 /**
  * GET ORDER BY ID
@@ -268,62 +266,61 @@ export const getOrderById = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
 
     const order = await prisma.order.findFirst({
       where: {
         id,
-        userId: req.user.id
+        userId: req.user.id,
       },
       include: {
         items: {
           include: {
             product: {
               include: {
-                images: { where: { isPrimary: true }, take: 1 }
-              }
+                images: { where: { isPrimary: true }, take: 1 },
+              },
             },
             variant: true,
             vendor: {
               select: {
                 id: true,
                 name: true,
-                slug: true
-              }
-            }
-          }
+                slug: true,
+              },
+            },
+          },
         },
         shippingAddress: true,
         billingAddress: true,
-        payments: true
-      }
-    })
+        payments: true,
+      },
+    });
 
     if (!order) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Order not found'
-      })
+        status: "error",
+        message: "Order not found",
+      });
     }
 
     res.status(200).json({
-      status: 'success',
-      data: { order }
-    })
-
+      status: "success",
+      data: { order },
+    });
   } catch (error) {
-    console.error('Get order error:', error)
+    console.error("Get order error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to fetch order'
-    })
+      status: "error",
+      message: "Failed to fetch order",
+    });
   }
-}
+};
 
 /**
  * CANCEL ORDER
@@ -333,43 +330,43 @@ export const cancelOrder = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
+    const { id } = req.params;
 
     const order = await prisma.order.findFirst({
       where: {
         id,
-        userId: req.user.id
+        userId: req.user.id,
       },
-      include: { items: true }
-    })
+      include: { items: true },
+    });
 
     if (!order) {
       return res.status(404).json({
-        status: 'error',
-        message: 'Order not found'
-      })
+        status: "error",
+        message: "Order not found",
+      });
     }
 
     // Can only cancel pending or confirmed orders
-    if (!['PENDING', 'CONFIRMED'].includes(order.status)) {
+    if (!["PENDING", "CONFIRMED"].includes(order.status)) {
       return res.status(400).json({
-        status: 'error',
-        message: 'Order cannot be cancelled at this stage'
-      })
+        status: "error",
+        message: "Order cannot be cancelled at this stage",
+      });
     }
 
     // Update order status
     const updatedOrder = await prisma.order.update({
       where: { id },
       data: {
-        status: 'CANCELLED'
-      }
-    })
+        status: "CANCELLED",
+      },
+    });
 
     // Restore product stock
     for (const item of order.items) {
@@ -377,25 +374,24 @@ export const cancelOrder = async (req: Request, res: Response) => {
         where: { id: item.productId },
         data: {
           stock: { increment: item.quantity },
-          salesCount: { decrement: item.quantity }
-        }
-      })
+          salesCount: { decrement: item.quantity },
+        },
+      });
     }
 
     res.status(200).json({
-      status: 'success',
-      message: 'Order cancelled successfully',
-      data: { order: updatedOrder }
-    })
-
+      status: "success",
+      message: "Order cancelled successfully",
+      data: { order: updatedOrder },
+    });
   } catch (error) {
-    console.error('Cancel order error:', error)
+    console.error("Cancel order error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to cancel order'
-    })
+      status: "error",
+      message: "Failed to cancel order",
+    });
   }
-}
+};
 
 /**
  * UPDATE ORDER STATUS (ADMIN/VENDOR)
@@ -405,42 +401,40 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Authentication required'
-      })
+        status: "error",
+        message: "Authentication required",
+      });
     }
 
-    const { id } = req.params
-    const { status, trackingNumber } = req.body
+    const { id } = req.params;
+    const { status, trackingNumber } = req.body;
 
-    const updateData: any = { status }
+    const updateData: any = { status };
 
-    if (status === 'SHIPPED' && trackingNumber) {
-      updateData.trackingNumber = trackingNumber
-      updateData.shippedAt = new Date()
+    if (status === "SHIPPED" && trackingNumber) {
+      updateData.trackingNumber = trackingNumber;
+      updateData.shippedAt = new Date();
     }
 
-    if (status === 'DELIVERED') {
-      updateData.deliveredAt = new Date()
+    if (status === "DELIVERED") {
+      updateData.deliveredAt = new Date();
     }
 
     const order = await prisma.order.update({
       where: { id },
-      data: updateData
-    })
+      data: updateData,
+    });
 
     res.status(200).json({
-      status: 'success',
-      message: 'Order status updated',
-      data: { order }
-    })
-
+      status: "success",
+      message: "Order status updated",
+      data: { order },
+    });
   } catch (error) {
-    console.error('Update order status error:', error)
+    console.error("Update order status error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Failed to update order status'
-    })
+      status: "error",
+      message: "Failed to update order status",
+    });
   }
-}
-
+};

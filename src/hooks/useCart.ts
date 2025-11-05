@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '@/store'
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
 import {
   addToCart,
   removeFromCart,
@@ -10,73 +10,83 @@ import {
   toggleCart,
   openCart,
   closeCart,
-} from '@/store/slices/cartSlice'
-import { Product } from '@/types'
-import toast from 'react-hot-toast'
+} from "@/store/slices/cartSlice";
+import { Product } from "@/types";
+import toast from "react-hot-toast";
 // import { cartAPI } from '@/lib/api' // Uncomment when backend is ready
 
 export function useCart() {
-  const dispatch = useDispatch()
-  const { items, total, itemCount, isOpen } = useSelector((state: RootState) => state.cart)
+  const dispatch = useDispatch();
+  const { items, total, itemCount, isOpen } = useSelector(
+    (state: RootState) => state.cart,
+  );
 
   const addItem = (
     product: Product,
     quantity: number = 1,
     size?: string,
-    color?: string
+    color?: string,
   ) => {
-    dispatch(addToCart({ product, quantity, size, color }))
-    toast.success(`${product.name} added to cart`)
-  }
+    dispatch(addToCart({ product, quantity, size, color }));
+    toast.success(`${product.name} added to cart`);
+  };
 
   const removeItem = (itemId: string) => {
-    dispatch(removeFromCart(itemId))
-    toast.success('Item removed from cart')
-  }
+    dispatch(removeFromCart(itemId));
+    toast.success("Item removed from cart");
+  };
 
   const updateItemQuantity = (itemId: string, quantity: number) => {
-    dispatch(updateQuantity({ id: itemId, quantity }))
-  }
+    dispatch(updateQuantity({ id: itemId, quantity }));
+  };
 
   const clearAllItems = () => {
-    dispatch(clearCart())
-    toast.success('Cart cleared')
-  }
+    dispatch(clearCart());
+    toast.success("Cart cleared");
+  };
 
   const toggle = () => {
-    dispatch(toggleCart())
-  }
+    dispatch(toggleCart());
+  };
 
   const open = () => {
-    dispatch(openCart())
-  }
+    dispatch(openCart());
+  };
 
   const close = () => {
-    dispatch(closeCart())
-  }
+    dispatch(closeCart());
+  };
 
   const getItemById = (itemId: string) => {
-    return items.find(item => item.id === itemId)
-  }
+    return items.find((item) => item.id === itemId);
+  };
 
-  const isProductInCart = (productId: string, size?: string, color?: string) => {
+  const isProductInCart = (
+    productId: string,
+    size?: string,
+    color?: string,
+  ) => {
     return items.some(
-      item =>
+      (item) =>
         item.product.id === productId &&
         item.size === size &&
-        item.color === color
-    )
-  }
+        item.color === color,
+    );
+  };
 
-  const getProductQuantity = (productId: string, size?: string, color?: string) => {
+  const getProductQuantity = (
+    productId: string,
+    size?: string,
+    color?: string,
+  ) => {
     const item = items.find(
-      item =>
+      (item) =>
         item.product.id === productId &&
         item.size === size &&
-        item.color === color
-    )
-    return item?.quantity || 0
-  }
+        item.color === color,
+    );
+    return item?.quantity || 0;
+  };
 
   return {
     items,
@@ -93,5 +103,5 @@ export function useCart() {
     getItemById,
     isProductInCart,
     getProductQuantity,
-  }
-} 
+  };
+}
