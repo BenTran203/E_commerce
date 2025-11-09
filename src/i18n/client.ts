@@ -10,23 +10,23 @@ import vi from "@/utils/i18n/translation/vi.json";
 const isProd = process.env.NODE_ENV === "production";
 
 // Initialize i18next once (client-side)
-if (!i18n.isInitialized) {
+if (typeof window !== 'undefined' && !i18n.isInitialized) {
   i18n
     .use(LanguageDetector) // Add language detector to automatically persist language
-    .use(LocizeBackend)
     .use(initReactI18next)
     .init({
       fallbackLng: "en",
       supportedLngs: ["en", "vi"],
       ns: ["translation"],
       defaultNS: "translation",
-      // Auto-create missing keys in Locize during development
-      saveMissing: !isProd,
+      debug: !isProd,
       resources: {
-        en: { translation: en as any },
-        vi: { translation: vi as any },
+        en: { translation: en },
+        vi: { translation: vi },
       },
-      interpolation: { escapeValue: false },
+      interpolation: { 
+        escapeValue: false 
+      },
       // Language detection configuration
       detection: {
         // Order of detection methods
@@ -47,8 +47,10 @@ if (!i18n.isInitialized) {
         private: false,
       },
       // Avoid async suspense for simple client usage
-      react: { useSuspense: false },
-    });
+      react: { 
+        useSuspense: false 
+      },
+    })
 }
 
 export default i18n;
