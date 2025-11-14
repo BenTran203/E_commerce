@@ -25,21 +25,25 @@
     "lookMore": "Look for more",
     "items": "items",
     "categories": {
-      "unique": {
-        "name": "Unique",
-        "description": "Timeless unique items that form the foundation for every wardrobe"
+      "casual-everyday": {
+        "name": "Casual Everyday",
+        "description": "Comfortable and stylish pieces for daily wear"
       },
-      "outerwear": {
-        "name": "Outerwear",
-        "description": "Sophisticated layers for every season and occasion"
+      "formal-excellence": {
+        "name": "Formal Excellence",
+        "description": "Sophisticated formal wear for business and special occasions"
       },
-      "formal": {
-        "name": "Formal",
-        "description": "Elegant pieces for professional and special occasions"
+      "premium-accessories": {
+        "name": "Premium Accessories",
+        "description": "Luxury accessories that elevate any outfit"
       },
-      "accessories": {
-        "name": "Accessories",
-        "description": "Carefully curated accessories to complete your look"
+      "winter-warmth": {
+        "name": "Winter Warmth",
+        "description": "Stay warm and stylish during the colder months"
+      },
+      "street-style-culture": {
+        "name": "Street Style Culture",
+        "description": "Urban-inspired fashion for the modern city dweller"
       }
     }
   },

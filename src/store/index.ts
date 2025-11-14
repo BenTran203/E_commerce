@@ -28,27 +28,7 @@ const storage =
     ? createWebStorage("local")
     : createNoopStorage();
 
-// Create a noop storage for SSR
-const createNoopStorage = () => {
-  return {
-    getItem(_key: string) {
-      return Promise.resolve(null)
-    },
-    setItem(_key: string, value: any) {
-      return Promise.resolve(value)
-    },
-    removeItem(_key: string) {
-      return Promise.resolve()
-    },
-  }
-}
-
 // Use noop storage on server, localStorage on client
-const storage =
-  typeof window !== 'undefined'
-    ? createWebStorage('local')
-    : createNoopStorage()
-
 const persistConfig = {
   key: "timeless-root",
   storage,
@@ -79,3 +59,6 @@ export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// Ensure this file is treated as a module
+export {};

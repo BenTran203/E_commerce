@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import assetsData from "@/data/assest.json";
 
 interface Category {
   id: string;
@@ -15,36 +16,7 @@ interface Category {
 
 const Categories: React.FC = () => {
   const { t } = useTranslation();
-  const categories: Category[] = [
-    {
-      id: "1",
-      slug: "unique",
-      image:
-        "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=774&auto=format&fit=crop",
-      itemCount: 0,
-    },
-    {
-      id: "2",
-      slug: "outerwear",
-      image:
-        "https://images.unsplash.com/photo-1706765779494-2705542ebe74?w=500&auto=format&fit=crop&q=60",
-      itemCount: 0,
-    },
-    {
-      id: "3",
-      slug: "formal",
-      image:
-        "https://images.unsplash.com/photo-1426523038054-a260f3ef5bc9?q=60&w=1545&auto=format&fit=crop",
-      itemCount: 0,
-    },
-    {
-      id: "4",
-      slug: "accessories",
-      image:
-        "https://images.unsplash.com/3/www.madebyvadim.com.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8QWNjZXNzb3JpZXN8ZW58MHx8MHx8fDI%3D",
-      itemCount: 0,
-    },
-  ];
+  const categories: Category[] = assetsData.assest;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -101,8 +73,8 @@ const Categories: React.FC = () => {
               variants={itemVariants}
               className="group"
             >
-              <Link href={`/shop/${category.slug}`}>
-                <div className="relative overflow-hidden bg-primary-50 aspect-[3/4] mb-4">
+              <Link href={`/pages/collections/${category.slug}`}>
+                <div className="relative overflow-hidden bg-primary-50 aspect-[3/4] mb-4 rounded-md">
                   {/* Category Image */}
                   <div
                     className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -110,7 +82,7 @@ const Categories: React.FC = () => {
                   />
 
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-black opacity-0  group-hover:opacity-20 transition-opacity duration-300" />
 
                   {/* Hover text */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
@@ -146,7 +118,7 @@ const Categories: React.FC = () => {
           viewport={{ once: true }}
         >
           <Link
-            href="/shop"
+            href="/pages/collections"
             className="inline-flex items-center text-primary-700 hover:text-primary-900 font-medium group transition-colors duration-200"
           >
             {t("categories.viewAll")}

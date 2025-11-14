@@ -25,21 +25,25 @@
     "lookMore": "Xem thêm",
     "items": "sản phẩm",
     "categories": {
-      "unique": {
-        "name": "Độc Đáo",
-        "description": "Các món đồ độc đáo vượt thời gian tạo nên nền tảng cho mọi tủ quần áo"
+      "casual-everyday": {
+        "name": "Hằng Ngày Thoải Mái",
+        "description": "Những món đồ thoải mái và phong cách cho trang phục hàng ngày"
       },
-      "outerwear": {
-        "name": "Áo Khoác",
-        "description": "Những lớp áo tinh tế cho mọi mùa và dịp"
+      "formal-excellence": {
+        "name": "Quý Phái",
+        "description": "Trang phục trang trọng tinh tế cho công việc và dịp đặc biệt"
       },
-      "formal": {
-        "name": "Trang Phục Lịch Sự",
-        "description": "Những món đồ thanh lịch cho công việc và những dịp đặc biệt"
+      "premium-accessories": {
+        "name": "Phụ Kiện Cao Cấp",
+        "description": "Phụ kiện sang trọng nâng tầm mọi trang phục"
       },
-      "accessories": {
-        "name": "Phụ Kiện",
-        "description": "Phụ kiện được tuyển chọn cẩn thận để hoàn thiện vẻ ngoài của bạn"
+      "winter-warmth": {
+        "name": "Ấm Áp Mùa Đông",
+        "description": "Giữ ấm và phong cách trong những tháng lạnh giá"
+      },
+      "street-style-culture": {
+        "name": "Văn Hóa Phong Cách Đường Phố",
+        "description": "Thời trang lấy cảm hứng từ đô thị cho người sống ở thành phố hiện đại"
       }
     }
   },
