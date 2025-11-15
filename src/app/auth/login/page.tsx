@@ -5,9 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { setAuthToken } from "@/lib/api";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "@/store/slices/authSlice";
 
 function LoginForm() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/";
 
@@ -54,14 +57,26 @@ function LoginForm() {
       // Store token
       setAuthToken(data.data.tokens.accessToken);
 
-      // Store user info
+      // Store user info in localStorage
       localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      // Update Redux store
+      dispatch(
+        loginSuccess({
+          user: data.data.user,
+          token: data.data.tokens.accessToken,
+        })
+      );
 
       // Show success message
       toast.success(`Welcome back, ${data.data.user.firstName}!`);
 
-      // Redirect
-      router.push(redirectTo);
+      // Redirect based on user role
+      if (data.data.user.role === "ADMIN" || data.data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push(redirectTo);
+      }
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Login failed. Please try again.");

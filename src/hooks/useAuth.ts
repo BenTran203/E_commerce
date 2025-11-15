@@ -67,9 +67,8 @@ const authAPI = {
 export function useAuth() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { user, token, isAuthenticated, isLoading, error } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const { user, token, isAuthenticated, isLoading, isHydrated, error } =
+    useSelector((state: RootState) => state.auth);
 
   const login = async (credentials: LoginForm) => {
     try {
@@ -123,6 +122,7 @@ export function useAuth() {
     token,
     isAuthenticated,
     isLoading,
+    isHydrated,
     error,
     login,
     register,

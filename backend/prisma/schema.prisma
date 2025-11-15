@@ -75,6 +75,9 @@ model User {
   // Support messages
   supportMessages SupportMessage[]
   
+  // Refresh tokens
+  refreshTokens RefreshToken[]
+  
   @@map("users")
 }
 
@@ -83,6 +86,19 @@ enum UserRole {
   VENDOR
   ADMIN
   SUPER_ADMIN
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
 }
 
 model Address {
@@ -654,20 +670,3 @@ model SearchQuery {
   
   @@map("search_queries")
 }
-
-/**
- * IMPLEMENTATION NOTES:
- * 
- * 1. **Indexes**: Add indexes for frequently queried fields
- * 2. **Constraints**: Set up proper foreign key constraints
- * 3. **Triggers**: Consider database triggers for audit logs
- * 4. **Views**: Create database views for complex queries
- * 5. **Partitioning**: Consider partitioning large tables (orders, analytics)
- * 
- * NEXT STEPS:
- * 1. Run `npx prisma generate`
- * 2. Run `npx prisma migrate dev --name init`
- * 3. Create seed data (prisma/seed.ts)
- * 4. Set up database connection in your app
- * 5. Implement CRUD operations for each model
- */ 

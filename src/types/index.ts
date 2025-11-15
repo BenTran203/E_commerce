@@ -6,7 +6,7 @@ export interface User {
   lastName: string;
   avatar?: string;
   phone?: string;
-  role: "customer" | "vendor" | "admin";
+  role: "CUSTOMER" | "VENDOR" | "ADMIN" | "customer" | "vendor" | "admin"; // Support both uppercase and lowercase
   isEmailVerified: boolean;
   createdAt: string;
   updatedAt: string;
