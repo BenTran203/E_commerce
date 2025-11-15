@@ -187,6 +187,14 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Verify password
+    // Check if user has a password (social auth users don't have passwords)
+    if (!user.password) {
+      return res.status(401).json({
+        status: "error",
+        message: "This account uses social login. Please login with your social provider.",
+      });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -581,6 +589,7 @@ export const socialLogin = async (req: Request, res: Response) => {
       user = await prisma.user.create({
         data: {
           email: email.toLowerCase(),
+          emailRaw: email, // Store original email format
           firstName: firstName || "User",
           lastName: lastNameParts.join(" ") || firstName || "Name",
           provider,

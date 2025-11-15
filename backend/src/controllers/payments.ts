@@ -15,6 +15,12 @@ import Stripe from "stripe";
 const prisma = new PrismaClient();
 
 // Initialize Stripe
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error(
+    "⚠️  STRIPE_SECRET_KEY is not set in environment variables. Please add it to your .env file."
+  );
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2025-07-30.basil",
 });
@@ -84,6 +90,7 @@ export const createPaymentIntent = async (req: Request, res: Response) => {
  * CONFIRM PAYMENT
  * POST /api/payments/confirm
  */
+
 export const confirmPayment = async (req: Request, res: Response) => {
   try {
     if (!req.user) {

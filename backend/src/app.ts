@@ -42,7 +42,9 @@ import paymentRoutes from "./routes/payments";
 // import { authenticate } from '@/middleware/auth'
 
 // Load environment variables
-dotenv.config();
+// Load .env.local first (if exists), then fall back to .env
+dotenv.config({ path: ".env.local" });
+dotenv.config(); // This won't override existing variables
 connectRedis();
 /**
  * CREATE EXPRESS APPLICATION
