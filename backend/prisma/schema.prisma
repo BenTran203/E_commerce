@@ -5,12 +5,10 @@
  * TIMELESS E-COMMERCE DATABASE SCHEMA
  * 
  * This schema defines the complete database structure for the e-commerce platform.
- * It includes all entities needed for a multi-vendor e-commerce application.
  * 
  * LEARNING OBJECTIVES:
  * - Understand database relationships (1:1, 1:N, N:M)
  * - Learn about database constraints and indexes
- * - Implement multi-vendor architecture
  * - Design for scalability and performance
  * 
  * IMPLEMENTATION STEPS:
@@ -55,6 +53,10 @@ model User {
   emailVerifiedAt DateTime?
   lastLoginAt     DateTime?
   
+  // Email verification
+  verificationToken  String?   @unique
+  verificationExpiry DateTime?
+  
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,9 +71,6 @@ model User {
   wishlistItems WishlistItem[]
   notifications Notification[]
   
-  // Vendor relationship (if user is a vendor)
-  vendor        Vendor?
-  
   // Support messages
   supportMessages SupportMessage[]
   
@@ -83,7 +82,6 @@ model User {
 
 enum UserRole {
   CUSTOMER
-  VENDOR
   ADMIN
   SUPER_ADMIN
 }
@@ -129,51 +127,6 @@ model Address {
   @@map("addresses")
 }
 
-// ===============================
-// VENDOR MANAGEMENT (Multi-vendor)
-// ===============================
-
-model Vendor {
-  id          String  @id @default(cuid())
-  name        String
-  slug        String  @unique
-  description String?
-  logo        String?
-  banner      String?
-  website     String?
-  phone       String?
-  
-  // Business information
-  businessName        String?
-  businessRegistration String?
-  taxNumber          String?
-  
-  // Status and verification
-  isActive    Boolean @default(false)
-  isVerified  Boolean @default(false)
-  verifiedAt  DateTime?
-  
-  // Performance metrics
-  rating       Float   @default(0)
-  reviewCount  Int     @default(0)
-  totalSales   Float   @default(0)
-  totalOrders  Int     @default(0)
-  
-  // Commission (percentage taken by platform)
-  commission Float @default(15.0)
-  
-  // Relationships
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  products   Product[]
-  orderItems OrderItem[]
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@map("vendors")
-}
 
 // ===============================
 // PRODUCT CATALOG
@@ -265,9 +218,6 @@ model Product {
   
   brandId String?
   brand   Brand?  @relation(fields: [brandId], references: [id])
-  
-  vendorId String
-  vendor   Vendor @relation(fields: [vendorId], references: [id])
   
   images          ProductImage[]
   variants        ProductVariant[]
@@ -457,9 +407,6 @@ model OrderItem {
   
   variantId String?
   variant   ProductVariant? @relation(fields: [variantId], references: [id])
-  
-  vendorId String
-  vendor   Vendor @relation(fields: [vendorId], references: [id])
   
   createdAt DateTime @default(now())
   
