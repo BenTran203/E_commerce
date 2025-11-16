@@ -1,22 +1,12 @@
 /**
  * TIMELESS E-COMMERCE BACKEND
  * Main Express Application Setup
- *
- * This file is the entry point for your Express.js backend application.
- *
  * LEARNING OBJECTIVES:
  * - Understand Express.js application structure
  * - Learn about middleware and their order of execution
  * - Implement security best practices
  * - Set up API routing structure
- *
- * IMPLEMENTATION STEPS:
- * 1. Import required dependencies
- * 2. Initialize Express app
- * 3. Configure middleware (order matters!)
- * 4. Set up routes
- * 5. Implement error handling
- * 6. Start the server
+
  */
 
 import express, { Application, Request, Response, NextFunction } from "express";
@@ -33,7 +23,6 @@ import categoryRoutes from "./routes/categories";
 import cartRoutes from "./routes/cart";
 import orderRoutes from "./routes/orders";
 import reviewRoutes from "./routes/reviews";
-import vendorRoutes from "./routes/vendors";
 import paymentRoutes from "./routes/payments";
 
 // Import middleware (implement these step by step)
@@ -121,7 +110,6 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
  * 4. Add shopping cart functionality
  * 5. Implement order processing
  * 6. Add payment integration
- * 7. Implement vendor features
  * 8. Add review system
  * 9. Integrate AI chatbot
  */
@@ -149,7 +137,6 @@ app.get("/api", (req: Request, res: Response) => {
       orders: "/api/orders",
       cart: "/api/cart",
       payments: "/api/payments",
-      vendors: "/api/vendors",
       reviews: "/api/reviews",
       chatbot: "/api/chatbot",
     },
@@ -179,9 +166,6 @@ app.use("/api/cart", cartRoutes);
 
 // Order management routes
 app.use("/api/orders", orderRoutes);
-
-// Vendor management routes (multi-vendor support)
-app.use("/api/vendors", vendorRoutes);
 
 // Review and rating routes
 app.use("/api/reviews", reviewRoutes);
@@ -280,9 +264,7 @@ export default app;
  * 5. Add product management routes
  * 6. Implement shopping cart functionality
  * 7. Add order processing
- * 8. Integrate payment gateway
- * 9. Add vendor management
- * 10. Implement review system
+ * 8. Integrate payment gateway * 10. Implement review system
  * 11. Integrate AI features
  *
  * Remember to test each feature as you implement it!

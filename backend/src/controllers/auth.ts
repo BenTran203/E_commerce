@@ -26,6 +26,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import crypto from "crypto";
 import {
   generateToken,
   generateRefreshToken,
@@ -38,6 +39,9 @@ const prisma = new PrismaClient();
 /*Register a new user account*/
 export const register = async (req: Request, res: Response) => {
   try {
+    // Log incoming request data for debugging
+    console.log("Registration request body:", JSON.stringify(req.body, null, 2));
+
     const {
       email,
       password,
@@ -46,11 +50,21 @@ export const register = async (req: Request, res: Response) => {
       role = "CUSTOMER",
     } = req.body;
     const validate = registerValidator.safeParse(req.body);
+    
+    // Log validation result
     if (!validate.success) {
+      console.log("Validation failed:", JSON.stringify(validate.error.errors, null, 2));
+    }
+    if (!validate.success) {
+      // Format validation errors for user-friendly display
+      const formattedErrors = validate.error.errors.map((err) => {
+        const field = err.path.join(".");
+        return `${field}: ${err.message}`;
+      });
+
       return res.status(400).json({
         status: "error",
-        message:
-          "Validation has failed, check your validation method for register",
+        message: formattedErrors.join(", "),
         errors: validate.error.errors,
       });
     }
@@ -70,6 +84,10 @@ export const register = async (req: Request, res: Response) => {
     // Hash password
     const hashedPass = await bcrypt.hash(password, 15);
 
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     // Create user
     const user = await prisma.user.create({
       data: {
@@ -79,6 +97,8 @@ export const register = async (req: Request, res: Response) => {
         firstName,
         lastName,
         role,
+        verificationToken,
+        verificationExpiry,
       },
       select: {
         id: true,
@@ -96,16 +116,24 @@ export const register = async (req: Request, res: Response) => {
     const accessToken = generateToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
 
-    // TODO: Send verification email not finish
-    await sendEmail({
-      to: user.email,
-      subject: "Welcome to Timeless - Verify Your Email",
-      template: "email-verification",
-      data: {
-        firstName: user.firstName,
-        verificationUrl: `${process.env.FRONTEND_URL}/verify-email?token=${verifyRefreshToken}`,
-      },
-    });
+    // Send verification email
+    const verificationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/verify-email?token=${verificationToken}`;
+    
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Welcome to Timeless - Verify Your Email",
+        template: "email-verification",
+        data: {
+          firstName: user.firstName,
+          verificationUrl,
+        },
+      });
+      console.log(`Verification email sent to ${user.email}`);
+    } catch (emailError) {
+      console.error("Failed to send verification email:", emailError);
+      // Don't fail registration if email fails
+    }
 
     res.status(201).json({
       status: "success",
@@ -669,6 +697,153 @@ export const socialLogin = async (req: Request, res: Response) => {
     res.status(500).json({
       status: "error",
       message: "Social login failed. Please try again.",
+    });
+  }
+};
+
+/**
+ * Verify user email with token
+ */
+export const verifyEmail = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({
+        status: "error",
+        message: "Verification token is required",
+      });
+    }
+
+    // Find user with this verification token
+    const user = await prisma.user.findUnique({
+      where: { verificationToken: token },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid or expired verification token",
+      });
+    }
+
+    // Check if token has expired
+    if (user.verificationExpiry && user.verificationExpiry < new Date()) {
+      return res.status(400).json({
+        status: "error",
+        message: "Verification token has expired. Please request a new one.",
+      });
+    }
+
+    // Check if already verified
+    if (user.isEmailVerified) {
+      return res.status(200).json({
+        status: "success",
+        message: "Email is already verified",
+      });
+    }
+
+    // Update user as verified
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isEmailVerified: true,
+        emailVerifiedAt: new Date(),
+        verificationToken: null,
+        verificationExpiry: null,
+      },
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Email verified successfully",
+    });
+  } catch (error) {
+    console.error("Email verification error:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error during email verification",
+    });
+  }
+};
+
+/**
+ * Resend verification email
+ */
+export const resendVerificationEmail = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user?.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        status: "error",
+        message: "Unauthorized",
+      });
+    }
+
+    // Get user details
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        message: "User not found",
+      });
+    }
+
+    // Check if already verified
+    if (user.isEmailVerified) {
+      return res.status(400).json({
+        status: "error",
+        message: "Email is already verified",
+      });
+    }
+
+    // Generate new verification token
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Update user with new token
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        verificationToken,
+        verificationExpiry,
+      },
+    });
+
+    // Send verification email
+    const verificationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/verify-email?token=${verificationToken}`;
+    
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Timeless - Verify Your Email",
+        template: "email-verification",
+        data: {
+          firstName: user.firstName,
+          verificationUrl,
+        },
+      });
+      
+      res.status(200).json({
+        status: "success",
+        message: "Verification email sent successfully",
+      });
+    } catch (emailError) {
+      console.error("Failed to send verification email:", emailError);
+      res.status(500).json({
+        status: "error",
+        message: "Failed to send verification email. Please try again later.",
+      });
+    }
+  } catch (error) {
+    console.error("Resend verification email error:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
     });
   }
 };

@@ -4,7 +4,7 @@
 
 ## 🎯 **Project Overview**
 
-Timeless is a sophisticated e-commerce platform designed for medium/high-end clothing brands, similar to Uniqlo and H&M. It features a clean, minimalist design with luxury aesthetics, multi-vendor support, AI-powered features, and comprehensive e-commerce functionality.
+Timeless is a sophisticated e-commerce platform designed for medium/high-end clothing brands, similar to Uniqlo and H&M. It features a clean, minimalist design with luxury aesthetics, AI-powered features, and comprehensive e-commerce functionality.
 
 ## ✨ **Features**
 
@@ -17,7 +17,6 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 - 👤 **User Authentication** - Secure login/registration with JWT
 - ❤️ **Wishlist & Favorites** - Save products for later
 - ⭐ **Reviews & Ratings** - Customer feedback system
-- 🎯 **Multi-vendor Support** - Platform for multiple clothing brands
 - 🤖 **AI Chatbot** - Customer support with OpenAI integration
 - 🚀 **Smooth Animations** - Framer Motion powered transitions
 
@@ -26,11 +25,10 @@ Timeless is a sophisticated e-commerce platform designed for medium/high-end clo
 - 🔐 **Secure Authentication** - JWT with bcrypt password hashing
 - 💳 **Payment Processing** - Stripe integration for secure payments
 - 📊 **Database Management** - PostgreSQL with Prisma ORM
-- 🏪 **Multi-vendor System** - Support for multiple vendors/brands
 - 📧 **Email Notifications** - Automated email workflows
 - 🤖 **AI Integration** - OpenAI-powered chatbot and search
 - 📈 **Analytics & Tracking** - User behavior and sales analytics
-- 🔒 **Role-based Access Control** - Admin, vendor, and customer roles
+- 🔒 **Role-based Access Control** - Admin, and customer roles
 
 ## 🛠️ **Technology Stack**
 
@@ -371,7 +369,6 @@ npm run db:deploy  # Deploy migrations to production
 2. **Product Management** - Full CRUD operations
 3. **Order Processing** - Checkout and order management
 4. **Payment Integration** - Stripe payment processing
-5. **Multi-vendor System** - Vendor dashboard and management
 6. **AI Features** - Chatbot and enhanced search
 7. **Email System** - Notifications and transactional emails
 8. **Admin Dashboard** - Complete admin interface

@@ -78,7 +78,6 @@ export const createOrder = async (req: Request, res: Response) => {
         where: { id: item.productId },
         include: {
           images: { where: { isPrimary: true }, take: 1 },
-          vendor: true,
         },
       });
 
@@ -111,7 +110,6 @@ export const createOrder = async (req: Request, res: Response) => {
         price,
         total,
         variantId: item.variantId,
-        vendorId: product.vendorId,
       });
     }
 
@@ -287,13 +285,6 @@ export const getOrderById = async (req: Request, res: Response) => {
               },
             },
             variant: true,
-            vendor: {
-              select: {
-                id: true,
-                name: true,
-                slug: true,
-              },
-            },
           },
         },
         shippingAddress: true,
@@ -394,7 +385,7 @@ export const cancelOrder = async (req: Request, res: Response) => {
 };
 
 /**
- * UPDATE ORDER STATUS (ADMIN/VENDOR)
+ * UPDATE ORDER STATUS (ADMIN)
  * PUT /api/orders/:id/status
  */
 export const updateOrderStatus = async (req: Request, res: Response) => {

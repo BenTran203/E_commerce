@@ -27,7 +27,6 @@ const prisma = new PrismaClient();
 // Define UserRole enum-like object (matches Prisma schema enum)
 const UserRole = {
   CUSTOMER: "CUSTOMER",
-  VENDOR: "VENDOR",
   ADMIN: "ADMIN",
   SUPER_ADMIN: "SUPER_ADMIN",
 } as const;
@@ -243,69 +242,6 @@ export const optionalAuth = async (
 };
 
 /**
- * VENDOR AUTHORIZATION MIDDLEWARE
- *
- * Checks if the user is a vendor and optionally if they own a specific resource
- */
-export const authorizeVendor = (checkOwnership = false) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // Check if user is authenticated
-      if (!req.user) {
-        return res.status(401).json({
-          status: "error",
-          message: "Authentication required",
-        });
-      }
-
-      // Check if user is a vendor
-      if (req.user.role !== UserRole.VENDOR) {
-        return res.status(403).json({
-          status: "error",
-          message: "Vendor access required",
-        });
-      }
-
-      // If ownership check is required
-      if (checkOwnership) {
-        const vendorId = req.params.vendorId || req.body.vendorId;
-
-        if (!vendorId) {
-          return res.status(400).json({
-            status: "error",
-            message: "Vendor ID is required",
-          });
-        }
-
-        // Check if the authenticated user owns this vendor account
-        const vendor = await prisma.vendor.findUnique({
-          where: {
-            id: vendorId,
-            userId: req.user.id,
-          },
-        });
-
-        if (!vendor) {
-          return res.status(403).json({
-            status: "error",
-            message:
-              "Access denied: You can only access your own vendor resources",
-          });
-        }
-      }
-
-      next();
-    } catch (error) {
-      console.error("Vendor authorization error:", error);
-      return res.status(500).json({
-        status: "error",
-        message: "Internal server error during authorization",
-      });
-    }
-  };
-};
-
-/**
  * Generate JWT token for user
  */
 type JwtExpires = NonNullable<SignOptions["expiresIn"]>;
@@ -385,9 +321,6 @@ export const verifyRefreshToken = (token: string): { userId: string } => {
  *
  * // Admin only access
  * app.delete('/api/users/:id', authenticate, authorize(UserRole.ADMIN), deleteUser)
- *
- * // Vendor access with ownership check
- * app.put('/api/vendors/:vendorId', authenticate, authorizeVendor(true), updateVendor)
  *
  * // Optional authentication
  * app.get('/api/products', optionalAuth, getProducts)

@@ -6,6 +6,7 @@ import {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  resendVerificationEmail,
   logout,
   getCurrentUser,
   socialLogin,
@@ -23,12 +24,12 @@ const routes = [
   { path: "/forgot-password", handler: forgotPassword },
   { path: "/reset-password", handler: resetPassword },
   { path: "/verify-email", handler: verifyEmail },
-  { path: "/logout", handler: verifyEmail },
 ];
 routes.forEach((r) => router.post(r.path, r.handler));
 
 // Protected routes
 router.post("/logout", authenticate, logout);
 router.get("/me", authenticate, getCurrentUser);
+router.post("/resend-verification", authenticate, resendVerificationEmail);
 
 export default router;

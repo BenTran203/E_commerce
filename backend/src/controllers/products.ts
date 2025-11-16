@@ -4,9 +4,9 @@
  * Handles all product-related operations including:
  * - Product listing with filters, search, and pagination
  * - Product details
- * - Product creation (vendor/admin)
- * - Product updates (vendor/admin)
- * - Product deletion (vendor/admin)
+ * - Product creation (admin)
+ * - Product updates (admin)
+ * - Product deletion (admin)
  */
 
 import { Request, Response } from "express";
@@ -127,14 +127,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
               slug: true,
             },
           },
-          vendor: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              rating: true,
-            },
-          },
           images: {
             where: { isPrimary: true },
             take: 1,
@@ -178,15 +170,6 @@ export const getProductById = async (req: Request, res: Response) => {
       include: {
         category: true,
         brand: true,
-        vendor: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            rating: true,
-            reviewCount: true,
-          },
-        },
         images: {
           orderBy: { sortOrder: "asc" },
         },
@@ -241,7 +224,7 @@ export const getProductById = async (req: Request, res: Response) => {
  * CREATE PRODUCT
  * POST /api/products
  *
- * Requires: VENDOR or ADMIN role
+ * Requires: ADMIN role
  */
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -275,30 +258,6 @@ export const createProduct = async (req: Request, res: Response) => {
       specifications,
     } = req.body;
 
-    // Get or create vendor for user
-    let vendor = await prisma.vendor.findUnique({
-      where: { userId: req.user.id },
-    });
-
-    if (!vendor && req.user.role === "VENDOR") {
-      return res.status(403).json({
-        status: "error",
-        message:
-          "Vendor account not found. Please complete vendor registration.",
-      });
-    }
-
-    // If admin, use first vendor or create placeholder
-    if (req.user.role === "ADMIN" && !vendor) {
-      vendor = await prisma.vendor.findFirst();
-    }
-
-    if (!vendor) {
-      return res.status(400).json({
-        status: "error",
-        message: "No vendor available",
-      });
-    }
 
     // Generate slug from name
     const slug = name
@@ -320,7 +279,6 @@ export const createProduct = async (req: Request, res: Response) => {
         sku,
         categoryId,
         brandId,
-        vendorId: vendor.id,
         tags,
         weight,
         dimensions,
@@ -351,9 +309,7 @@ export const createProduct = async (req: Request, res: Response) => {
       },
       include: {
         category: true,
-        brand: true,
-        vendor: true,
-        images: true,
+        brand: true,        images: true,
         variants: true,
         specifications: true,
       },
@@ -377,7 +333,7 @@ export const createProduct = async (req: Request, res: Response) => {
  * UPDATE PRODUCT
  * PUT /api/products/:id
  *
- * Requires: VENDOR (owner) or ADMIN role
+ * Requires: ADMIN role
  */
 export const updateProduct = async (req: Request, res: Response) => {
   try {
@@ -392,8 +348,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     // Check product ownership
     const existingProduct = await prisma.product.findUnique({
-      where: { id },
-      include: { vendor: true },
+      where: { id }
     });
 
     if (!existingProduct) {
@@ -404,15 +359,6 @@ export const updateProduct = async (req: Request, res: Response) => {
     }
 
     // Check authorization
-    if (
-      req.user.role === "VENDOR" &&
-      existingProduct.vendor.userId !== req.user.id
-    ) {
-      return res.status(403).json({
-        status: "error",
-        message: "You can only update your own products",
-      });
-    }
 
     const {
       name,
@@ -471,7 +417,7 @@ export const updateProduct = async (req: Request, res: Response) => {
  * DELETE PRODUCT
  * DELETE /api/products/:id
  *
- * Requires: VENDOR (owner) or ADMIN role
+ * Requires: ADMIN role
  */
 export const deleteProduct = async (req: Request, res: Response) => {
   try {
@@ -487,21 +433,12 @@ export const deleteProduct = async (req: Request, res: Response) => {
     // Check product ownership
     const product = await prisma.product.findUnique({
       where: { id },
-      include: { vendor: true },
     });
 
     if (!product) {
       return res.status(404).json({
         status: "error",
         message: "Product not found",
-      });
-    }
-
-    // Check authorization
-    if (req.user.role === "VENDOR" && product.vendor.userId !== req.user.id) {
-      return res.status(403).json({
-        status: "error",
-        message: "You can only delete your own products",
       });
     }
 

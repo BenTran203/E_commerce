@@ -16,13 +16,13 @@ router.get("/", getAllProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/:id", getProductById);
 
-// Protected routes (Vendor/Admin only)
-router.post("/", authenticate, authorize("VENDOR", "ADMIN"), createProduct);
-router.put("/:id", authenticate, authorize("VENDOR", "ADMIN"), updateProduct);
+// Protected routes (Admin only)
+router.post("/", authenticate, authorize("ADMIN"), createProduct);
+router.put("/:id", authenticate, authorize("ADMIN"), updateProduct);
 router.delete(
   "/:id",
   authenticate,
-  authorize("VENDOR", "ADMIN"),
+  authorize("ADMIN"),
   deleteProduct,
 );
 

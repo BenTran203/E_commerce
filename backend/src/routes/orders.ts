@@ -18,7 +18,7 @@ router.get("/", getUserOrders);
 router.get("/:id", getOrderById);
 router.post("/:id/cancel", cancelOrder);
 
-// Admin/Vendor only
-router.put("/:id/status", authorize("ADMIN", "VENDOR"), updateOrderStatus);
+// Admin only
+router.put("/:id/status", authorize("ADMIN"), updateOrderStatus);
 
 export default router;
