@@ -101,6 +101,22 @@ export const authAPI = {
     }
     return response.data;
   },
+
+  
+  verifyEmail: async (token: string) => {
+    const response = await apiFetch("/auth/verify-email", {
+      method: "POST",
+      body: JSON.stringify({ token }),
+    });
+    return response;
+  },
+
+  resendVerification: async () => {
+    const response = await apiFetch("/auth/resend-verification", {
+      method: "POST",
+    });
+    return response;
+  },
 };
 
 // Products API

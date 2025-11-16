@@ -6,7 +6,7 @@ export interface User {
   lastName: string;
   avatar?: string;
   phone?: string;
-  role: "CUSTOMER" | "VENDOR" | "ADMIN" | "customer" | "vendor" | "admin"; // Support both uppercase and lowercase
+  role: "CUSTOMER" | "ADMIN" | "customer" | "admin"; // Support both uppercase and lowercase
   isEmailVerified: boolean;
   createdAt: string;
   updatedAt: string;
@@ -43,9 +43,7 @@ export interface Product {
   reviewCount: number;
   sku: string;
   tags: string[];
-  isActive: boolean;
-  vendor: Vendor;
-  createdAt: string;
+  isActive: boolean;  createdAt: string;
   updatedAt: string;
 }
 
@@ -97,28 +95,6 @@ export interface Material {
   name: string;
   description?: string;
   properties: string[];
-}
-
-// Vendor Types (Multi-vendor support)
-export interface Vendor {
-  id: string;
-  name: string;
-  slug: string;
-  email: string;
-  phone?: string;
-  description?: string;
-  logo?: string;
-  banner?: string;
-  address: Address;
-  rating: number;
-  reviewCount: number;
-  totalProducts: number;
-  totalSales: number;
-  isVerified: boolean;
-  isActive: boolean;
-  commission: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // Cart Types
@@ -174,10 +150,6 @@ export interface OrderItem {
   price: number;
   size?: string;
   color?: string;
-  vendor: {
-    id: string;
-    name: string;
-  };
 }
 
 export enum OrderStatus {

@@ -75,7 +75,9 @@ function LoginForm() {
       if (data.data.user.role === "ADMIN" || data.data.user.role === "admin") {
         router.push("/admin");
       } else {
-        router.push(redirectTo);
+        // Redirect to account page for customers (or custom redirect if provided)
+        const destination = redirectTo === "/" ? "/account" : redirectTo;
+        router.push(destination);
       }
     } catch (err: any) {
       console.error("Login error:", err);

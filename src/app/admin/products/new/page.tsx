@@ -423,7 +423,7 @@ export default function NewProductPage() {
         return;
       }
 
-      // Get user data to determine vendor
+      // Get user data to determine
       const user = userStr ? JSON.parse(userStr) : null;
       if (!user) {
         toast.error("User data not found. Please log in again.");
@@ -441,43 +441,8 @@ export default function NewProductPage() {
         isActive: true,
       }));
 
-      // CHECK FOR VENDORS
-      // For admin users, the backend will automatically use the first available vendor
-      // We just need to check if ANY vendors exist in the system
-      let vendorsAvailable = false;
-      
-      try {
-        // Check if any vendors exist
-        const vendorResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/vendors`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        
-        const vendorData = await vendorResponse.json();
-        
-        if (vendorData.status === "success" && vendorData.data.vendors && vendorData.data.vendors.length > 0) {
-          vendorsAvailable = true;
-          console.log("Vendors available in system:", vendorData.data.vendors.length);
-        } else {
-          // No vendors in the system at all
-          toast.error("No vendors found in the system. Please create a vendor account first or seed the database.");
-          setLoading(false);
-          return;
-        }
-      } catch (vendorError) {
-        console.error("Error checking vendors:", vendorError);
-        toast.error("Failed to check vendor availability");
-        setLoading(false);
-        return;
-      }
-
       // BUILD PRODUCT DATA OBJECT
       // Convert form data to format expected by backend
-      // Note: vendorId is NOT included - backend auto-assigns for admins
       const productData = {
         name: formData.name,
         description: formData.description,
