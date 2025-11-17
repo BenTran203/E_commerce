@@ -132,14 +132,27 @@ const Header: React.FC = () => {
                           <Settings size={16} className="mr-2" />
                           Account
                         </Link>
-                        <Link
-                          href="/orders"
-                          className="flex items-center px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
-                          onClick={() => setIsUserMenuOpen(false)}
-                        >
-                          <Package size={16} className="mr-2" />
-                          Orders
-                        </Link>
+                        {/* Admin Dashboard Link - Only visible for admins */}
+                        {user?.role?.toLowerCase() === "admin" && (
+                          <Link
+                            href="/admin"
+                            className="flex items-center px-4 py-2 text-sm text-primary-700 hover:bg-primary-50 border-l-2 border-blue-600"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <span className="font-medium">Admin Dashboard</span>
+                          </Link>
+                        )}
+                        {/* Orders Link - Only visible for non-admin users */}
+                        {user?.role?.toLowerCase() !== "admin" && (
+                          <Link
+                            href="/orders"
+                            className="flex items-center px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
+                            onClick={() => setIsUserMenuOpen(false)}
+                          >
+                            <Package size={16} className="mr-2" />
+                            Orders
+                          </Link>
+                        )}
                         <button
                           onClick={() => {
                             signOut();

@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
 import { setAuthToken } from "@/lib/api";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "@/store/slices/authSlice";
 
 function LoginForm() {
   const router = useRouter();
@@ -54,7 +56,7 @@ function LoginForm() {
         throw new Error(data.message || "Login failed");
       }
 
-      // Dispatch to Redux store (this will also save to localStorage)
+      // Dispatch to Redux store (redux-persist will save to localStorage automatically)
       dispatch(loginSuccess({
         user: data.data.user,
         token: data.data.tokens.accessToken,
@@ -63,8 +65,14 @@ function LoginForm() {
       // Show success message
       toast.success(`Welcome back, ${data.data.user.firstName}!`);
 
-      // Redirect
-      router.push(redirectTo);
+      // Redirect based on user role
+      if (data.data.user.role === "ADMIN" || data.data.user.role === "admin") {
+        router.push("/admin");
+      } else {
+        // Redirect to account page for customers (or custom redirect if provided)
+        const destination = redirectTo === "/" ? "/account" : redirectTo;
+        router.push(destination);
+      }
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Login failed. Please try again.");

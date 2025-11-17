@@ -156,11 +156,11 @@ export const changePassword = async (req: Request, res: Response) => {
       });
     }
 
-    // Check if user has a password (social auth users don't)
+    // Check if user has a password (social auth users don't have passwords)
     if (!user.password) {
       return res.status(400).json({
         status: "error",
-        message: "Cannot change password for social authentication users",
+        message: "This account uses social login and doesn't have a password.",
       });
     }
 

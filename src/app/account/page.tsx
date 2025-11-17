@@ -3,13 +3,19 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, Calendar, Edit2, Save, X } from "lucide-react";
+import { User, Mail, Phone, Calendar, Edit2, Save, X, Send } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { authAPI } from "@/lib/api";
 
 export default function ProfilePage() {
   const { user, isLoading } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isSendingVerification, setIsSendingVerification] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const [formData, setFormData] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -35,6 +41,28 @@ export default function ProfilePage() {
       avatar: user?.avatar || "",
     });
     setIsEditing(false);
+  };
+
+  const handleResendVerification = async () => {
+    setIsSendingVerification(true);
+    setVerificationMessage(null);
+
+    try {
+      await authAPI.resendVerification();
+      setVerificationMessage({
+        type: "success",
+        text: "Verification email sent! Please check your inbox.",
+      });
+    } catch (error: any) {
+      setVerificationMessage({
+        type: "error",
+        text: error.message || "Failed to send verification email",
+      });
+    } finally {
+      setIsSendingVerification(false);
+      // Clear message after 5 seconds
+      setTimeout(() => setVerificationMessage(null), 5000);
+    }
   };
 
   if (isLoading) {
@@ -180,18 +208,44 @@ export default function ProfilePage() {
                 <Mail size={16} className="inline mr-2" />
                 Email Address
               </label>
-              <p className="text-primary-900 py-2 px-3 bg-primary-50 rounded">
-                {user.email}
-                {user.isEmailVerified ? (
-                  <span className="ml-2 text-green-600 text-sm">
-                    ✓ Verified
-                  </span>
-                ) : (
-                  <span className="ml-2 text-yellow-600 text-sm">
-                    ⚠ Not verified
-                  </span>
+              <div className="flex items-center gap-2">
+                <p className="flex-1 text-primary-900 py-2 px-3 bg-primary-50 rounded">
+                  {user.email}
+                  {user.isEmailVerified ? (
+                    <span className="ml-2 text-green-600 text-sm">
+                      ✓ Verified
+                    </span>
+                  ) : (
+                    <span className="ml-2 text-yellow-600 text-sm">
+                      ⚠ Not verified
+                    </span>
+                  )}
+                </p>
+                {!user.isEmailVerified && (
+                  <Button
+                    variant="secondary"
+                    onClick={handleResendVerification}
+                    disabled={isSendingVerification}
+                    className="flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <Send size={16} />
+                    {isSendingVerification ? "Sending..." : "Verify Email"}
+                  </Button>
                 )}
-              </p>
+              </div>
+              {verificationMessage && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`mt-2 p-2 rounded text-sm ${
+                    verificationMessage.type === "success"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {verificationMessage.text}
+                </motion.div>
+              )}
             </div>
 
             <div className="space-y-2">

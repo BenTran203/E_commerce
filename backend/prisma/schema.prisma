@@ -5,12 +5,10 @@
  * TIMELESS E-COMMERCE DATABASE SCHEMA
  * 
  * This schema defines the complete database structure for the e-commerce platform.
- * It includes all entities needed for a multi-vendor e-commerce application.
  * 
  * LEARNING OBJECTIVES:
  * - Understand database relationships (1:1, 1:N, N:M)
  * - Learn about database constraints and indexes
- * - Implement multi-vendor architecture
  * - Design for scalability and performance
  * 
  * IMPLEMENTATION STEPS:
@@ -85,6 +83,19 @@ model User {
 enum UserRole {
   CUSTOMER
   ADMIN
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
 }
 
 model RefreshToken {
@@ -618,20 +629,3 @@ model SearchQuery {
   
   @@map("search_queries")
 }
-
-/**
- * IMPLEMENTATION NOTES:
- * 
- * 1. **Indexes**: Add indexes for frequently queried fields
- * 2. **Constraints**: Set up proper foreign key constraints
- * 3. **Triggers**: Consider database triggers for audit logs
- * 4. **Views**: Create database views for complex queries
- * 5. **Partitioning**: Consider partitioning large tables (orders, analytics)
- * 
- * NEXT STEPS:
- * 1. Run `npx prisma generate`
- * 2. Run `npx prisma migrate dev --name init`
- * 3. Create seed data (prisma/seed.ts)
- * 4. Set up database connection in your app
- * 5. Implement CRUD operations for each model
- */ 
