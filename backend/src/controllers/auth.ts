@@ -454,40 +454,6 @@ export const resetPassword = async (req: Request, res: Response) => {
 };
 
 /**
- * VERIFY EMAIL
- *
- * POST /api/auth/verify-email
- *
- * Verify user email address
- */
-export const verifyEmail = async (req: Request, res: Response) => {
-  try {
-    const { token } = req.body;
-
-    if (!token) {
-      return res.status(400).json({
-        status: "error",
-        message: "Verification token is required",
-      });
-    }
-
-    // TODO: Verify email verification token
-    // This would typically involve decoding the token and updating the user record
-
-    res.status(200).json({
-      status: "success",
-      message: "Email verified successfully",
-    });
-  } catch (error) {
-    console.error("Email verification error:", error);
-    res.status(500).json({
-      status: "error",
-      message: "Internal server error during email verification",
-    });
-  }
-};
-
-/**
  * LOGOUT
  *
  * POST /api/auth/logout
@@ -718,6 +684,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
     // Find user with this verification token
     const user = await prisma.user.findUnique({
       where: { verificationToken: token },
+      select: {
+        id: true,
+        email: true,
+        isEmailVerified: true,
+        verificationToken: true,
+        verificationExpiry: true,
+      },
     });
 
     if (!user) {

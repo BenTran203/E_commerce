@@ -156,6 +156,14 @@ export const changePassword = async (req: Request, res: Response) => {
       });
     }
 
+    // Check if user has a password (social auth users don't)
+    if (!user.password) {
+      return res.status(400).json({
+        status: "error",
+        message: "Cannot change password for social authentication users",
+      });
+    }
+
     // Verify current password
     const isPasswordValid = await bcrypt.compare(
       currentPassword,

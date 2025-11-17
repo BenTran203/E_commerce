@@ -6,22 +6,37 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
-// Helper function to get auth token
+// Helper function to get auth token from Redux persisted state
 function getAuthToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("auth_token");
+  
+  try {
+    // Get from redux-persist store
+    const persistedState = localStorage.getItem("persist:timeless-root");
+    if (persistedState) {
+      const parsed = JSON.parse(persistedState);
+      if (parsed.auth) {
+        const authState = JSON.parse(parsed.auth);
+        return authState.token;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to get auth token:", error);
+  }
+  
+  return null;
 }
 
-// Helper function to set auth token
+// Helper function to set auth token (deprecated - use Redux dispatch instead)
 export function setAuthToken(token: string) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem("auth_token", token);
+  // This is kept for backward compatibility but Redux should handle persistence
+  console.warn("setAuthToken is deprecated. Use Redux dispatch(loginSuccess) instead.");
 }
 
-// Helper function to remove auth token
+// Helper function to remove auth token (deprecated - use Redux dispatch instead)
 export function removeAuthToken() {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem("auth_token");
+  // This is kept for backward compatibility but Redux should handle persistence
+  console.warn("removeAuthToken is deprecated. Use Redux dispatch(logout) instead.");
 }
 
 // Base fetch function with auth headers

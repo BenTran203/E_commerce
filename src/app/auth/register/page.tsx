@@ -3,11 +3,14 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
 import { setAuthToken } from "@/lib/api";
 
 function RegisterForm() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/";
 
@@ -76,11 +79,11 @@ function RegisterForm() {
         throw new Error(data.message || "Registration failed");
       }
 
-      // Store token
-      setAuthToken(data.data.tokens.accessToken);
-
-      // Store user info
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+      // Dispatch to Redux store (this will also save to localStorage)
+      dispatch(loginSuccess({
+        user: data.data.user,
+        token: data.data.tokens.accessToken,
+      }));
 
       // Show success message
       toast.success(
