@@ -6,9 +6,6 @@ import { signIn } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
-import { setAuthToken } from "@/lib/api";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "@/store/slices/authSlice";
 
 function LoginForm() {
   const router = useRouter();
