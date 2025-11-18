@@ -11,6 +11,96 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 /**
+ * GET ALL USERS (ADMIN ONLY)
+ * GET /api/users/all
+ */
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    // Check if user is admin
+    if (!req.user || req.user.role !== "ADMIN") {
+      return res.status(403).json({
+        status: "error",
+        message: "Admin access required",
+      });
+    }
+
+    // Parse pagination parameters
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 50;
+    const skip = (page - 1) * limit;
+    
+    // Parse search and filter parameters
+    const search = req.query.search as string;
+    const role = req.query.role as string;
+
+    // Build query filters
+    const where: any = {};
+    
+    if (search) {
+      where.OR = [
+        { email: { contains: search, mode: "insensitive" } },
+        { firstName: { contains: search, mode: "insensitive" } },
+        { lastName: { contains: search, mode: "insensitive" } },
+      ];
+    }
+    
+    if (role && role !== "all") {
+      where.role = role;
+    }
+
+    // Fetch users with pagination
+    const [users, totalCount] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          avatar: true,
+          phone: true,
+          role: true,
+          isEmailVerified: true,
+          emailVerifiedAt: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: {
+            select: {
+              orders: true,
+              addresses: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.user.count({ where }),
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        users,
+        pagination: {
+          page,
+          limit,
+          totalPages: Math.ceil(totalCount / limit),
+          totalCount,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Failed to fetch users",
+    });
+  }
+};
+
+/**
  * GET USER PROFILE
  * GET /api/users/profile
  */

@@ -10,13 +10,17 @@ import {
   getUserWishlist,
   addToWishlist,
   removeFromWishlist,
+  getAllUsers,
 } from "../controllers/users";
-import { authenticate } from "../middleware/auth";
+import { authenticate, authorize } from "../middleware/auth";
 
 const router = Router();
 
 // All user routes require authentication
 router.use(authenticate);
+
+// Admin routes
+router.get("/all", authorize("ADMIN"), getAllUsers);
 
 // Profile routes
 router.get("/profile", getUserProfile);

@@ -28,7 +28,12 @@ yarn-error.log*
 # Local env files
 .env*.local
 .env
-/backend/.env.example
+backend/.env
+
+# Keep example files
+!.env.example
+!.env.local.example
+!backend/.env.example
 
 # Vercel
 .vercel

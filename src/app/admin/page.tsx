@@ -305,14 +305,14 @@ export default function AdminDashboard() {
         </a>
 
         <a
-          href="/admin/analytics"
+          href="/admin/users"
           className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
         >
           <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors">
-            <TrendingUp className="text-purple-600" size={24} />
+            <Users className="text-purple-600" size={24} />
           </div>
-          <h3 className="font-semibold text-gray-900 mb-2">View Analytics</h3>
-          <p className="text-sm text-gray-600">Detailed sales reports</p>
+          <h3 className="font-semibold text-gray-900 mb-2">Manage Users</h3>
+          <p className="text-sm text-gray-600">View registered users</p>
         </a>
       </div>
     </div>

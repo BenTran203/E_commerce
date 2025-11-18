@@ -1,443 +1,343 @@
-# Timeless E-commerce Platform
+# 🛍️ Timeless E-Commerce Platform
 
-> A modern, minimalist luxury e-commerce platform built with Next.js, TypeScript, and Express.js
+A modern, full-stack e-commerce platform built with Next.js, Node.js, PostgreSQL, and Stripe integration. Features a complete shopping experience with user authentication, admin dashboard, payment processing, and more.
 
-## 🎯 **Project Overview**
+![Project Status](https://img.shields.io/badge/status-active-success.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Timeless is a sophisticated e-commerce platform designed for medium/high-end clothing brands, similar to Uniqlo and H&M. It features a clean, minimalist design with luxury aesthetics, AI-powered features, and comprehensive e-commerce functionality.
+## ✨ Features
 
-## ✨ **Features**
+### Customer Features
+- 🔐 **User Authentication** - Secure registration, login, and session management
+- 🛒 **Shopping Cart** - Add, update, and manage cart items with persistent storage
+- 💳 **Stripe Payment Integration** - Secure checkout with test and production modes
+- 📦 **Order Management** - View order history and track order status
+- 🔍 **Product Search & Filtering** - Advanced search with category, brand, price filters
+- 💝 **Wishlist** - Save favorite products for later
+- 📱 **Responsive Design** - Optimized for mobile, tablet, and desktop
+- 🌐 **Multi-language Support** - i18n ready (English & Vietnamese)
+
+### Admin Features
+- 📊 **Admin Dashboard** - Comprehensive analytics and overview
+- 📝 **Product Management** - Create, update, and delete products
+- 👥 **User Management** - View and manage customer accounts
+- 📋 **Order Management** - View and update order statuses
+- 🏷️ **Category Management** - Organize products into categories
+- 📈 **Sales Analytics** - Track revenue and performance metrics
+
+### Technical Features
+- ⚡ **Modern Tech Stack** - Next.js 16 with Turbopack, Node.js, TypeScript
+- 🐳 **Docker Support** - Containerized development and deployment
+- 🗄️ **PostgreSQL Database** - Prisma ORM for type-safe database access
+- 🚀 **Redis Caching** - Fast data retrieval and session management
+- 🔒 **Security** - JWT authentication, bcrypt password hashing, CORS protection
+- 🎨 **Tailwind CSS** - Modern, responsive UI styling
+- 🔄 **State Management** - Redux Toolkit with persistence
+- ✅ **Form Validation** - Client and server-side validation
+
+## 🏗️ Tech Stack
 
 ### Frontend
-
-- 🎨 **Minimalist Luxury Design** - Clean, sophisticated UI inspired by premium brands
-- 📱 **Fully Responsive** - Optimized for all devices and screen sizes
-- 🛒 **Shopping Cart & Checkout** - Smooth shopping experience with Stripe integration
-- 🔍 **Advanced Search & Filtering** - AI-enhanced product discovery
-- 👤 **User Authentication** - Secure login/registration with JWT
-- ❤️ **Wishlist & Favorites** - Save products for later
-- ⭐ **Reviews & Ratings** - Customer feedback system
-- 🤖 **AI Chatbot** - Customer support with OpenAI integration
-- 🚀 **Smooth Animations** - Framer Motion powered transitions
-
-### Backend
-
-- 🔐 **Secure Authentication** - JWT with bcrypt password hashing
-- 💳 **Payment Processing** - Stripe integration for secure payments
-- 📊 **Database Management** - PostgreSQL with Prisma ORM
-- 📧 **Email Notifications** - Automated email workflows
-- 🤖 **AI Integration** - OpenAI-powered chatbot and search
-- 📈 **Analytics & Tracking** - User behavior and sales analytics
-- 🔒 **Role-based Access Control** - Admin, and customer roles
-
-## 🛠️ **Technology Stack**
-
-### Frontend
-
-- **Framework**: Next.js 14 with App Router
-- **Language**: TypeScript
-- **Styling**: TailwindCSS with custom design system
-- **State Management**: Redux Toolkit with persistence
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Forms**: React Hook Form with Zod validation
-- **HTTP Client**: Axios with React Query
+- **Framework:** Next.js 16 (React 19)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **State Management:** Redux Toolkit
+- **Forms:** React Hook Form
+- **HTTP Client:** Fetch API
+- **UI Components:** Custom components with Lucide Icons
+- **Animation:** Framer Motion
+- **Payment:** Stripe React SDK
 
 ### Backend
+- **Runtime:** Node.js with Express
+- **Language:** TypeScript
+- **Database:** PostgreSQL
+- **ORM:** Prisma
+- **Cache:** Redis
+- **Authentication:** JWT (jsonwebtoken)
+- **Password Hashing:** bcrypt
+- **Validation:** Express Validator
+- **Payment Processing:** Stripe API
 
-- **Runtime**: Node.js
-- **Framework**: Express.js with TypeScript
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: JWT with bcrypt
-- **Payment**: Stripe API integration
-- **AI**: OpenAI APIs
-- **File Storage**: AWS S3 integration
-- **Email**: Nodemailer
-- **Validation**: Joi
+### DevOps
+- **Containerization:** Docker & Docker Compose
+- **Database UI:** pgAdmin
+- **Redis UI:** Redis Commander
+- **Development:** Nodemon, Hot Reload
 
-## 📋 **Prerequisites**
+## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
+- **Node.js** 18+ 
+- **Docker** & Docker Compose
+- **Git**
+- **Stripe Account** (for payment processing)
 
-- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
-- **npm** or **yarn** package manager
-- **PostgreSQL** (v13 or higher) - [Download here](https://postgresql.org/)
-- **Git** - [Download here](https://git-scm.com/)
-
-## 🚀 **Quick Start**
+## 🚀 Quick Start
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone <your-repo-url>
 cd E_commerce
 ```
 
-### 2. Frontend Setup
+### 2. Environment Setup
+
+We use **ONE `.env.example` file** for all configurations. Copy it to create your environment files:
 
 ```bash
-# Navigate to the project root (frontend)
-cd E_commerce
+# Frontend environment
+cp .env.example .env.local
 
-# Install dependencies
+# Backend environment
+cp .env.example backend/.env
+```
+
+Then edit each file and **keep only the relevant sections**:
+- **`.env.local`** - Keep FRONTEND section only
+- **`backend/.env`** - Keep BACKEND section only
+- **`.env`** (optional) - Keep DOCKER section only if using docker-compose
+
+> 💡 **Tip:** The `.env.example` file has all variables with clear sections. Just copy what you need!
+
+### 3. Start Docker Services
+
+```bash
+docker-compose up -d
+```
+
+This will start:
+- PostgreSQL (port 5432)
+- Redis (port 6379)
+- Backend API (port 3001)
+- pgAdmin (port 5050)
+- Redis Commander (port 8081)
+
+### 4. Seed the Database
+
+```bash
+# Seed admin user
+docker-compose exec backend npx ts-node prisma/seed-admin.ts
+
+# Seed products
+docker-compose exec backend npx ts-node prisma/seed-products.ts
+```
+
+### 5. Start Frontend Development Server
+
+```bash
 npm install
-
-# Create environment file
-cp .env.local.example .env.local
-
-# Edit .env.local with your configuration
-# NEXT_PUBLIC_API_URL=http://localhost:3001/api
-# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key_here
-```
-
-### 3. Backend Setup
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Install dependencies
-npm install
-
-# Create environment file
-cp .env.example .env
-
-# Edit .env with your configuration (see Backend Configuration section)
-```
-
-### 4. Database Setup
-
-```bash
-# In the backend directory
-cd backend
-
-# Generate Prisma client
-npm run db:generate
-
-# Run database migrations
-npm run db:migrate
-
-# (Optional) Seed the database with sample data
-npm run db:seed
-```
-
-### 5. Start Development Servers
-
-**Terminal 1 - Frontend:**
-
-```bash
-# In the root directory
 npm run dev
 ```
 
-**Terminal 2 - Backend:**
+Visit http://localhost:3000 🎉
 
-```bash
-# In the backend directory
-cd backend
-npm run dev
+## 🔑 Default Credentials
+
+### Admin Account
+- **Email:** admin@timeless.com
+- **Password:** Admin@123456
+
+### Test Stripe Card
+- **Card Number:** 4242 4242 4242 4242
+- **Expiry:** Any future date (e.g., 12/34)
+- **CVC:** Any 3 digits (e.g., 123)
+
+## 📂 Project Structure
+
+```
+E_commerce/
+├── backend/                 # Backend API
+│   ├── prisma/             # Database schema & migrations
+│   ├── src/
+│   │   ├── controllers/    # Route controllers
+│   │   ├── middleware/     # Auth, validation
+│   │   ├── routes/         # API routes
+│   │   ├── services/       # Business logic
+│   │   └── utils/          # Helper functions
+│   └── Dockerfile
+├── src/                    # Frontend Next.js app
+│   ├── app/               # App router pages
+│   ├── components/        # React components
+│   ├── hooks/             # Custom hooks
+│   ├── lib/               # API client
+│   ├── store/             # Redux store
+│   ├── types/             # TypeScript types
+│   └── utils/             # Utility functions
+├── docs/                   # Documentation
+├── .env.example           # ALL environment variables template
+├── docker-compose.yml      # Docker services config
+└── README.md
 ```
 
-### 6. Access the Application
+## 🔧 Development
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-- **API Documentation**: http://localhost:3001/api
-- **Health Check**: http://localhost:3001/health
+### Available Scripts
 
-## ⚙️ **Environment Configuration**
-
-### Frontend Environment Variables (.env.local)
-
-```env
-# API Configuration
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
-
-# Stripe Configuration
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_key_here
-
-# NextAuth Configuration
-NEXTAUTH_SECRET=your_nextauth_secret_here
-NEXTAUTH_URL=http://localhost:3000
-```
-
-### Backend Environment Variables (.env)
-
-```env
-# Server Configuration
-PORT=3001
-NODE_ENV=development
-
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/timeless_db"
-
-# JWT
-JWT_SECRET="your-super-secret-jwt-key"
-JWT_EXPIRES_IN="7d"
-
-# Stripe
-STRIPE_SECRET_KEY="sk_test_your_stripe_secret_key"
-STRIPE_WEBHOOK_SECRET="whsec_your_webhook_secret"
-
-# OpenAI (for AI features)
-OPENAI_API_KEY="your-openai-api-key"
-
-# AWS S3 (for file uploads)
-AWS_ACCESS_KEY_ID="your-aws-access-key"
-AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
-AWS_REGION="us-east-1"
-AWS_S3_BUCKET="timeless-uploads"
-
-# Email
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT=587
-SMTP_USER="your-email@gmail.com"
-SMTP_PASS="your-app-password"
-
-# Frontend URL
-FRONTEND_URL="http://localhost:3000"
-```
-
-## 🗄️ **Database Setup**
-
-### 1. Install PostgreSQL
-
-**Windows:**
-
-- Download from [PostgreSQL Official Site](https://www.postgresql.org/download/windows/)
-- Run the installer and follow the setup wizard
-
-**macOS:**
-
-```bash
-# Using Homebrew
-brew install postgresql
-brew services start postgresql
-```
-
-**Linux (Ubuntu/Debian):**
-
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-sudo systemctl start postgresql
-```
-
-### 2. Create Database
-
-```bash
-# Connect to PostgreSQL
-psql -U postgres
-
-# Create database
-CREATE DATABASE timeless_db;
-
-# Create user (optional)
-CREATE USER timeless_user WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE timeless_db TO timeless_user;
-
-# Exit
-\q
-```
-
-### 3. Update Database URL
-
-Update the `DATABASE_URL` in your backend `.env` file:
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/timeless_db"
-```
-
-### 4. Run Migrations
-
-```bash
-cd backend
-npm run db:migrate
-```
-
-## 🔧 **Available Scripts**
-
-### Frontend Scripts
-
+#### Frontend
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
-npm run type-check   # Run TypeScript type checking
 ```
 
-### Backend Scripts
-
+#### Backend
 ```bash
-npm run dev          # Start development server with nodemon
-npm run build        # Compile TypeScript to JavaScript
+cd backend
+npm run dev          # Start with nodemon
+npm run build        # Compile TypeScript
 npm run start        # Start production server
-npm run test         # Run tests
-npm run db:generate  # Generate Prisma client
-npm run db:migrate   # Run database migrations
-npm run db:reset     # Reset database
-npm run db:seed      # Seed database with sample data
-npm run db:studio    # Open Prisma Studio
+npx prisma studio    # Open Prisma Studio
 ```
 
-## 📁 **Project Structure**
-
-```
-E_commerce/
-├── src/                          # Frontend source code
-│   ├── app/                      # Next.js App Router
-│   ├── components/               # Reusable UI components
-│   │   ├── ui/                   # Basic UI components
-│   │   ├── layout/               # Layout components
-│   │   └── sections/             # Page sections
-│   ├── hooks/                    # Custom React hooks
-│   ├── store/                    # Redux store and slices
-│   ├── types/                    # TypeScript type definitions
-│   └── utils/                    # Utility functions
-├── backend/                      # Backend source code
-│   ├── src/                      # Backend source files
-│   │   ├── controllers/          # Route handlers
-│   │   ├── middleware/           # Custom middleware
-│   │   ├── routes/               # API routes
-│   │   ├── services/             # Business logic
-│   │   ├── utils/                # Utility functions
-│   │   └── types/                # TypeScript types
-│   ├── prisma/                   # Database schema and migrations
-│   └── tests/                    # Test files
-├── public/                       # Static assets
-├── package.json                  # Frontend dependencies
-└── README.md                     # This file
-```
-
-## 🧪 **Testing**
-
-### Frontend Testing
+### Database Management
 
 ```bash
-# Run tests (when implemented)
-npm run test
-npm run test:watch
-npm run test:coverage
+# Run migrations
+docker-compose exec backend npx prisma migrate dev
+
+# Open Prisma Studio
+docker-compose exec backend npx prisma studio
+
+# Reset database
+docker-compose exec backend npx prisma migrate reset
 ```
 
-### Backend Testing
+### Docker Commands
 
 ```bash
-cd backend
-npm run test
-npm run test:watch
-npm run test:coverage
+# Start services
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f backend
+
+# Restart a service
+docker-compose restart backend
 ```
 
-## 🚀 **Deployment**
+## 🧪 Testing
 
-### Frontend Deployment (Vercel)
+### Manual Testing Checklist
 
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on git push
+- [ ] User Registration & Login
+- [ ] Browse Products & Collections
+- [ ] Add/Remove items from Cart
+- [ ] Checkout Flow with Stripe
+- [ ] Order History
+- [ ] Admin Dashboard Access
+- [ ] Product Management (CRUD)
+- [ ] Order Status Updates
 
-### Backend Deployment (Railway/Heroku)
+## 📚 API Documentation
 
-1. Set up PostgreSQL database
-2. Configure environment variables
-3. Deploy using platform-specific methods
-
-### Database Deployment
-
-```bash
-cd backend
-npm run db:deploy  # Deploy migrations to production
+### Base URL
+```
+http://localhost:3001/api
 ```
 
-## 🛒 **E-commerce Features Implementation**
+### Key Endpoints
 
-### Current Features
+#### Authentication
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - User login
+- `POST /auth/refresh` - Refresh access token
 
-- ✅ Project structure and design system
-- ✅ User authentication (frontend UI)
-- ✅ Product catalog display
-- ✅ Shopping cart functionality
-- ✅ Responsive design
-- ✅ Backend API structure
-- ✅ Database schema
+#### Products
+- `GET /products` - List all products
+- `GET /products/:id` - Get product details
+- `POST /products` - Create product (Admin)
+- `PUT /products/:id` - Update product (Admin)
 
-### Next Implementation Steps
+#### Cart
+- `GET /cart` - Get user cart
+- `POST /cart` - Add item to cart
+- `PUT /cart/:id` - Update cart item
+- `DELETE /cart/:id` - Remove cart item
 
-1. **Authentication System** - Complete JWT implementation
-2. **Product Management** - Full CRUD operations
-3. **Order Processing** - Checkout and order management
-4. **Payment Integration** - Stripe payment processing
-6. **AI Features** - Chatbot and enhanced search
-7. **Email System** - Notifications and transactional emails
-8. **Admin Dashboard** - Complete admin interface
+#### Orders
+- `POST /orders` - Create new order
+- `GET /orders` - Get user orders
+- `GET /orders/:id` - Get order details
 
-## 🤝 **Contributing**
+#### Payments
+- `POST /payments/create-intent` - Create Stripe payment intent
+- `POST /payments/confirm` - Confirm payment
+
+[Full API documentation](./docs/API.md)
+
+## 🚀 Deployment
+
+### Production Checklist
+
+1. ✅ Update environment variables
+2. ✅ Change JWT secrets
+3. ✅ Update database credentials
+4. ✅ Configure Stripe production keys
+5. ✅ Set up SSL certificates
+6. ✅ Configure CORS for production domain
+7. ✅ Set NODE_ENV=production
+8. ✅ Build Next.js app (`npm run build`)
+9. ✅ Run database migrations
+10. ✅ Seed production database
+
+### Deployment Options
+
+- **Vercel** (Frontend) + **Railway/Render** (Backend)
+- **DigitalOcean** App Platform
+- **AWS** (EC2 + RDS + ElastiCache)
+- **Docker** on VPS
+
+[Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)
+
+## 🔒 Security Features
+
+- JWT-based authentication with refresh tokens
+- Bcrypt password hashing (15 rounds)
+- CORS protection
+- Rate limiting on API endpoints
+- SQL injection protection (Prisma ORM)
+- XSS protection
+- Secure HTTP headers
+- Environment variable validation
+- Input sanitization
+
+## 🤝 Contributing
+
+This is a portfolio project, but suggestions are welcome!
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 **API Documentation**
+## 📝 License
 
-Once the backend is running, you can access:
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-- **API Overview**: http://localhost:3001/api
-- **Health Check**: http://localhost:3001/health
-- **Swagger Documentation**: http://localhost:3001/api/docs (when implemented)
+## 👤 Author
 
-## 🔗 **Useful Links**
+**Your Name**
+- Portfolio: [your-portfolio-url]
+- LinkedIn: [your-linkedin]
+- GitHub: [@your-username]
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [TailwindCSS Documentation](https://tailwindcss.com/docs)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [Express.js Documentation](https://expressjs.com/)
-- [Stripe API Documentation](https://stripe.com/docs/api)
-- [OpenAI API Documentation](https://platform.openai.com/docs)
+## 🙏 Acknowledgments
 
-## ❓ **Troubleshooting**
+- Stripe for payment processing
+- Unsplash for product images
+- Next.js team for the amazing framework
+- Open source community
 
-### Common Issues
+## 📞 Support
 
-**Frontend won't start:**
-
-- Ensure Node.js v18+ is installed
-- Delete `node_modules` and run `npm install`
-- Check for port conflicts (default: 3000)
-
-**Backend won't start:**
-
-- Ensure PostgreSQL is running
-- Check database connection string
-- Verify all environment variables are set
-
-**Database connection issues:**
-
-- Verify PostgreSQL service is running
-- Check database credentials
-- Ensure database exists
-
-**Build errors:**
-
-- Run `npm run type-check` to identify TypeScript issues
-- Check for missing dependencies
-- Verify all imports are correct
-
-## 📄 **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 **Acknowledgments**
-
-- Design inspiration from Uniqlo and H&M
-- Built with modern web technologies
-- Community-driven development
+For support, email your-email@example.com or open an issue in the repository.
 
 ---
 
-**Happy coding! 🚀**
-
-For questions or support, please open an issue in the repository.
+**Note:** This is a demonstration project for portfolio purposes. Not intended for actual commercial use without proper modifications and security audits.

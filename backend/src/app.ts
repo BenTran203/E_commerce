@@ -1,13 +1,4 @@
-/**
- * TIMELESS E-COMMERCE BACKEND
- * Main Express Application Setup
- * LEARNING OBJECTIVES:
- * - Understand Express.js application structure
- * - Learn about middleware and their order of execution
- * - Implement security best practices
- * - Set up API routing structure
 
- */
 
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
@@ -25,27 +16,15 @@ import orderRoutes from "./routes/orders";
 import reviewRoutes from "./routes/reviews";
 import paymentRoutes from "./routes/payments";
 
-// Import middleware (implement these step by step)
-// import { errorHandler } from '@/middleware/errorHandler'
-// import { notFound } from '@/middleware/notFound'
-// import { authenticate } from '@/middleware/auth'
 
-// Load environment variables
+
 // Load .env.local first (if exists), then fall back to .env
 dotenv.config({ path: ".env.local" });
-dotenv.config(); // This won't override existing variables
+dotenv.config(); 
 connectRedis();
-/**
- * CREATE EXPRESS APPLICATION
- */
+
 const app: Application = express();
 
-/**
- * MIDDLEWARE CONFIGURATION
- *
- * The order of middleware is CRUCIAL in Express.js
- * Each middleware function executes in the order they are defined
- */
 
 // 1. SECURITY MIDDLEWARE
 // Helmet helps secure Express apps by setting various HTTP headers
@@ -99,20 +78,6 @@ if (process.env.NODE_ENV === "development") {
 // Parse JSON bodies (limit size for security)
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-
-/**
- * API ROUTES
- *
- * IMPLEMENTATION ORDER (follow this sequence):
- * 1. Start with authentication routes
- * 2. Add user management
- * 3. Implement product management
- * 4. Add shopping cart functionality
- * 5. Implement order processing
- * 6. Add payment integration
- * 8. Add review system
- * 9. Integrate AI chatbot
- */
 
 // Health check endpoint
 app.get("/health", (req: Request, res: Response) => {

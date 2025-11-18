@@ -10,7 +10,6 @@ import {
   ShoppingCart,
   Users,
   FolderTree,
-  BarChart3,
   Settings,
   LogOut,
   Menu,
@@ -76,7 +75,6 @@ export default function AdminLayout({
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Categories", href: "/admin/categories", icon: FolderTree },
     { name: "Users", href: "/admin/users", icon: Users },
-    { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
