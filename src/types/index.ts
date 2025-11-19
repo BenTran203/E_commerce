@@ -43,8 +43,9 @@ export interface Product {
   reviewCount: number;
   sku: string;
   tags: string[];
-  isActive: boolean;  createdAt: string;
-  updatedAt: string;
+  isActive: boolean;  
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProductImage {
