@@ -6,10 +6,12 @@ import { motion } from "framer-motion";
 import { CheckCircle, XCircle, Loader } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { authAPI } from "@/lib/api";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function VerifyEmailPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { refreshUser } = useAuth();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
@@ -31,6 +33,8 @@ export default function VerifyEmailPage() {
         setMessage(
           response.message || "Email verified successfully! You can now log in."
         );
+        // Refresh user data to update verification status
+        await refreshUser();
       } catch (error: any) {
         setStatus("error");
         setMessage(
@@ -41,7 +45,7 @@ export default function VerifyEmailPage() {
     };
 
     verifyToken();
-  }, [searchParams]);
+  }, [searchParams, refreshUser]);
 
   return (
     <div className="min-h-screen bg-luxury-cream flex items-center justify-center p-4">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import {
@@ -12,57 +13,7 @@ import {
 import { User, LoginForm, RegisterForm } from "@/types";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
-// Mock API functions - replace with actual API calls
-const authAPI = {
-  login: async (
-    credentials: LoginForm,
-  ): Promise<{ user: User; token: string }> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // Mock successful login
-    return {
-      user: {
-        id: "1",
-        email: credentials.email,
-        firstName: "John",
-        lastName: "Doe",
-        role: "customer",
-        isEmailVerified: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      token: "mock-jwt-token",
-    };
-  },
-
-  register: async (
-    userData: RegisterForm,
-  ): Promise<{ user: User; token: string }> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return {
-      user: {
-        id: "1",
-        email: userData.email,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        role: "customer",
-        isEmailVerified: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      token: "mock-jwt-token",
-    };
-  },
-
-  logout: async (): Promise<void> => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  },
-};
+import { authAPI as realAuthAPI } from "@/lib/api";
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -70,15 +21,33 @@ export function useAuth() {
   const { user, token, isAuthenticated, isLoading, isHydrated, error } =
     useSelector((state: RootState) => state.auth);
 
+  // Fetch current user on mount if authenticated
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      if (token && !user && isHydrated) {
+        try {
+          const currentUser = await realAuthAPI.getCurrentUser();
+          dispatch(loginSuccess({ user: currentUser, token }));
+        } catch (err) {
+          console.error("Failed to fetch current user:", err);
+          // If token is invalid, logout
+          dispatch(logout());
+        }
+      }
+    };
+
+    fetchCurrentUser();
+  }, [token, user, isHydrated, dispatch]);
+
   const login = async (credentials: LoginForm) => {
     try {
       dispatch(loginStart());
-      const response = await authAPI.login(credentials);
-      dispatch(loginSuccess(response));
+      const response = await realAuthAPI.login(credentials);
+      dispatch(loginSuccess({ user: response.user, token: response.tokens.accessToken }));
       toast.success("Welcome back!");
       router.push("/");
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Login failed";
+    } catch (err: any) {
+      const errorMessage = err?.message || "Login failed";
       dispatch(loginFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -87,13 +56,12 @@ export function useAuth() {
   const register = async (userData: RegisterForm) => {
     try {
       dispatch(loginStart());
-      const response = await authAPI.register(userData);
-      dispatch(loginSuccess(response));
+      const response = await realAuthAPI.register(userData);
+      dispatch(loginSuccess({ user: response.user, token: response.tokens.accessToken }));
       toast.success("Account created successfully!");
       router.push("/");
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Registration failed";
+    } catch (err: any) {
+      const errorMessage = err?.message || "Registration failed";
       dispatch(loginFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -101,7 +69,7 @@ export function useAuth() {
 
   const signOut = async () => {
     try {
-      await authAPI.logout();
+      await realAuthAPI.logout();
       dispatch(logout());
       toast.success("Signed out successfully");
       router.push("/");
@@ -110,6 +78,16 @@ export function useAuth() {
       // Force logout even if API call fails
       dispatch(logout());
       router.push("/");
+    }
+  };
+
+  const refreshUser = async () => {
+    if (!token) return;
+    try {
+      const currentUser = await realAuthAPI.getCurrentUser();
+      dispatch(loginSuccess({ user: currentUser, token }));
+    } catch (err) {
+      console.error("Failed to refresh user:", err);
     }
   };
 
@@ -127,6 +105,7 @@ export function useAuth() {
     login,
     register,
     signOut,
+    refreshUser,
     clearAuthError,
   };
 }

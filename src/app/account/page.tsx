@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { motion } from "framer-motion";
 import { User, Mail, Phone, Calendar, Edit2, Save, X, Send } from "lucide-react";
@@ -9,7 +9,7 @@ import Input from "@/components/ui/Input";
 import { authAPI } from "@/lib/api";
 
 export default function ProfilePage() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, refreshUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [isSendingVerification, setIsSendingVerification] = useState(false);
   const [verificationMessage, setVerificationMessage] = useState<{
@@ -22,6 +22,13 @@ export default function ProfilePage() {
     phone: user?.phone || "",
     avatar: user?.avatar || "",
   });
+
+  // Refresh user data when component mounts to get latest verification status
+  useEffect(() => {
+    if (user) {
+      refreshUser();
+    }
+  }, []); // Only run on mount
 
   const handleInputChange = (field: string) => (value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -53,6 +60,8 @@ export default function ProfilePage() {
         type: "success",
         text: "Verification email sent! Please check your inbox.",
       });
+      // Refresh user data after sending
+      await refreshUser();
     } catch (error: any) {
       setVerificationMessage({
         type: "error",
