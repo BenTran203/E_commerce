@@ -338,11 +338,4 @@ This is a portfolio project, but suggestions are welcome!
 
 - GitHub: Ben Tran
 
-## Acknowledgments
-
-- Stripe for payment processing
-- Unsplash for product images
-- Next.js team for the amazing framework
-- Open source community
-
 **Note:** This is a demonstration project for portfolio purposes. Not intended for actual commercial use without proper modifications and security audits.
