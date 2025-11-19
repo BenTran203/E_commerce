@@ -402,26 +402,6 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Vendor Info */}
-            <div className="bg-white p-4 rounded-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-primary-600">Sold by</p>
-                  <p className="font-semibold text-primary-900">
-                    {product.vendor.name}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Star size={16} className="fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-semibold">
-                    {product.vendor.rating}
-                  </span>
-                  <span className="text-sm text-primary-600">
-                    ({product.vendor.reviewCount})
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
