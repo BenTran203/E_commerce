@@ -14,6 +14,9 @@ RUN npx prisma generate
 # Copy source code
 COPY backend/. .
 
+# Build the TypeScript project
+RUN npm run build
+
 EXPOSE 3001
 
 # Start with nodemon for hot reload
