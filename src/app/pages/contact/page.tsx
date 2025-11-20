@@ -11,6 +11,8 @@ import { RootState } from "@/store";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { useTranslation } from "react-i18next";
+import { contactAPI } from "@/lib/api";
+import toast from "react-hot-toast";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -107,14 +109,20 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await contactAPI.submit({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        subject: data.subject,
+        message: data.message,
+      });
 
-      console.log("Form submitted:", data);
+      toast.success("Message sent successfully! We'll get back to you soon.");
       setIsSubmitted(true);
       reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting form:", error);
+      toast.error(error.message || "Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

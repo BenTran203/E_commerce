@@ -15,6 +15,7 @@ import cartRoutes from "./routes/cart";
 import orderRoutes from "./routes/orders";
 import reviewRoutes from "./routes/reviews";
 import paymentRoutes from "./routes/payments";
+import contactRoutes from "./routes/contact";
 
 
 
@@ -137,6 +138,9 @@ app.use("/api/reviews", reviewRoutes);
 
 // Payment routes
 app.use("/api/payments", paymentRoutes);
+
+// Contact routes
+app.use("/api/contact", contactRoutes);
 
 /**
  * ERROR HANDLING MIDDLEWARE

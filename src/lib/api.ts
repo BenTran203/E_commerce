@@ -339,6 +339,23 @@ export const paymentsAPI = {
   },
 };
 
+// Contact API
+export const contactAPI = {
+  submit: async (contactData: {
+    name: string;
+    email: string;
+    phone?: string;
+    subject: string;
+    message: string;
+  }) => {
+    const response = await apiFetch("/contact", {
+      method: "POST",
+      body: JSON.stringify(contactData),
+    });
+    return response;
+  },
+};
+
 export default {
   auth: authAPI,
   products: productsAPI,
@@ -347,4 +364,5 @@ export default {
   user: userAPI,
   reviews: reviewsAPI,
   payments: paymentsAPI,
+  contact: contactAPI,
 };
