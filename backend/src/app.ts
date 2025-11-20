@@ -27,29 +27,29 @@ connectRedis();
 const app: Application = express();
 app.set("trust proxy", 1);
 
+// 2. CORS CONFIGURATION
+// Configure Cross-Origin Resource Sharing
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+  .split(",")
+  .map((origin) => origin.trim());
+
 // 1. SECURITY MIDDLEWARE
 // Helmet helps secure Express apps by setting various HTTP headers
 app.use(
   helmet({
-    crossOriginEmbedderPolicy: false, // Allow embedding for development
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         scriptSrc: ["'self'"],
         imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", ...allowedOrigins],
       },
     },
   }),
 );
-
-// 2. CORS CONFIGURATION
-// Configure Cross-Origin Resource Sharing
-// 2. CORS CONFIGURATION
-// Configure Cross-Origin Resource Sharing
-const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
-  .split(",")
-  .map((origin) => origin.trim());
 
 app.use(
   cors({
