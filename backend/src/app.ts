@@ -25,7 +25,7 @@ dotenv.config();
 connectRedis();
 
 const app: Application = express();
-
+app.set("trust proxy", 1);
 
 // 1. SECURITY MIDDLEWARE
 // Helmet helps secure Express apps by setting various HTTP headers
@@ -222,19 +222,3 @@ process.on("uncaughtException", (err: any) => {
 });
 
 export default app;
-
-/**
- * NEXT STEPS FOR IMPLEMENTATION:
- *
- * 1. Set up Prisma and database connection
- * 2. Create the database schema (prisma/schema.prisma)
- * 3. Implement authentication middleware
- * 4. Create user authentication routes
- * 5. Add product management routes
- * 6. Implement shopping cart functionality
- * 7. Add order processing
- * 8. Integrate payment gateway * 10. Implement review system
- * 11. Integrate AI features
- *
- * Remember to test each feature as you implement it!
- */
