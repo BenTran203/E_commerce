@@ -6,7 +6,6 @@ import { signIn } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
-import { authAPI } from "@/lib/api";
 import { Eye, EyeOff, Check, X } from "lucide-react";
 
 function RegisterForm() {
@@ -107,23 +106,33 @@ function RegisterForm() {
     }
 
     try {
-      // Use the API client instead of direct fetch
-      const data = await authAPI.register({
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+      const response = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
 
       // Dispatch to Redux store (this will also save to localStorage)
       dispatch(loginSuccess({
-        user: data.user,
-        token: data.tokens.accessToken,
+        user: data.data.user,
+        token: data.data.tokens.accessToken,
       }));
 
       // Show success message
       toast.success(
-        `Welcome, ${data.user.firstName}! Your account has been created.`,
+        `Welcome, ${data.data.user.firstName}! Your account has been created.`,
       );
 
       // Redirect to account page (or custom redirect if provided)

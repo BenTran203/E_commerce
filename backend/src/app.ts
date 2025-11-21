@@ -187,8 +187,8 @@ app.use("/api/contact", contactRoutes);
  * ERROR HANDLING MIDDLEWARE
  */
 
-// Handle 404 errors for undefined routes
-app.use("/*path", (req: Request, res: Response) => {
+// Handle 404 errors for undefined routes - must be AFTER all route definitions
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({
     status: "error",
     message: `Route ${req.originalUrl} not found`,
