@@ -19,7 +19,7 @@ import contactRoutes from "./routes/contact";
 
 // Load .env.local first (if exists), then fall back to .env
 dotenv.config({ path: ".env.local" });
-dotenv.config(); 
+dotenv.config();
 connectRedis();
 
 const app: Application = express();
@@ -30,17 +30,22 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim());
 
+console.log("--- CORS Configuration ---");
+console.log("Raw FRONTEND_URL env var:", process.env.FRONTEND_URL);
+console.log("Allowed Origins set to:", allowedOrigins);
+console.log("--------------------------");
+
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
-      
+
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
-        console.log("Blocked by CORS:", origin); // Log the blocked origin for debugging
-        return callback(new Error("Not allowed by CORS"));
+        console.log("Blocked by myyyyyy CORS:", origin); // Log the blocked origin for debugging
+        return callback(new Error("Not allowed by CORSSSSSS"));
       }
     },
     credentials: true,
@@ -80,8 +85,8 @@ const limiter = rateLimit({
   message: {
     error: "Too many requests from this IP, please try again later.",
   },
-  standardHeaders: true, 
-  legacyHeaders: false, 
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use("/api/", limiter);
 
