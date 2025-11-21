@@ -1,5 +1,3 @@
-
-
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -27,30 +25,15 @@ connectRedis();
 const app: Application = express();
 app.set("trust proxy", 1);
 
-// 2. CORS CONFIGURATION
 // Configure Cross-Origin Resource Sharing
 const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim());
 
-// 1. SECURITY MIDDLEWARE
-// Helmet helps secure Express apps by setting various HTTP headers
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", ...allowedOrigins],
-      },
-    },
-  }),
-);
+// --- MIDDLEWARE ORDER CORRECTION ---
 
+// 1. CORS CONFIGURATION - MUST be first
+// This ensures that the OPTIONS preflight request is handled correctly before any other middleware.
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -70,8 +53,36 @@ app.use(
   })
 );
 
-// 3. RATE LIMITING
-// Prevent abuse by limiting requests per IP
+// This is a preflight-catching route for all OPTIONS requests.
+// It should come after your CORS configuration and before other routes.
+app.options('*', cors()); // enable pre-flight
+
+// 2. BODY PARSING MIDDLEWARE
+// Parse JSON bodies (limit size for security) before they reach other handlers.
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+
+// 3. SECURITY MIDDLEWARE
+// Helmet helps secure Express apps by setting various HTTP headers
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", ...allowedOrigins],
+      },
+    },
+  }),
+);
+
+// 4. RATE LIMITING
+// Prevent abuse by limiting requests per IP. Apply this after CORS and parsing.
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
@@ -83,18 +94,13 @@ const limiter = rateLimit({
 });
 app.use("/api/", limiter);
 
-// 4. LOGGING MIDDLEWARE
+// 5. LOGGING MIDDLEWARE
 // Morgan logs HTTP requests for monitoring and debugging
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 } else {
   app.use(morgan("combined"));
 }
-
-// 5. BODY PARSING MIDDLEWARE
-// Parse JSON bodies (limit size for security)
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 // Health check endpoint
 app.get("/health", (req: Request, res: Response) => {
