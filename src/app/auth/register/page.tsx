@@ -123,7 +123,7 @@ function RegisterForm() {
 
       // Show success message
       toast.success(
-        `Welcome, ${data.data.user.firstName}! Your account has been created.`,
+        `Welcome, ${data.user.firstName}! Your account has been created.`,
       );
 
       // Redirect to account page (or custom redirect if provided)
