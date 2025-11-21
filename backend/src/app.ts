@@ -79,7 +79,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Handle preflight requests explicitly
-app.options('/{*any}', cors(corsOptions));
+app.options('/*path', cors(corsOptions));
 
 // 2. BODY PARSING MIDDLEWARE
 app.use(express.json({ limit: "10mb" }));
@@ -188,7 +188,7 @@ app.use("/api/contact", contactRoutes);
  */
 
 // Handle 404 errors for undefined routes
-app.use("*", (req: Request, res: Response) => {
+app.use("/*path", (req: Request, res: Response) => {
   res.status(404).json({
     status: "error",
     message: `Route ${req.originalUrl} not found`,
