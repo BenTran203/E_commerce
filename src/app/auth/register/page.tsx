@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "@/store/slices/authSlice";
 import toast from "react-hot-toast";
-import { setAuthToken } from "@/lib/api";
+import { authAPI } from "@/lib/api";
 import { Eye, EyeOff, Check, X } from "lucide-react";
 
 function RegisterForm() {
@@ -107,30 +107,18 @@ function RegisterForm() {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/auth/register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
+      // Use the API client instead of direct fetch
+      const data = await authAPI.register({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+      });
 
       // Dispatch to Redux store (this will also save to localStorage)
       dispatch(loginSuccess({
-        user: data.data.user,
-        token: data.data.tokens.accessToken,
+        user: data.user,
+        token: data.tokens.accessToken,
       }));
 
       // Show success message
