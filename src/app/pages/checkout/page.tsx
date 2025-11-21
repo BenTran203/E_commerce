@@ -113,7 +113,7 @@ function CheckoutPageContent() {
       // For simplicity, using the same address for shipping and billing
       // In production, you might want separate address forms
       const shippingAddressResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/users/addresses`,
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/api/users/addresses`,
         {
           method: "POST",
           headers: {
