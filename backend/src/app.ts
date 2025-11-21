@@ -39,41 +39,47 @@ console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("ALLOW_ALL_ORIGINS:", allowAllOrigins ? "YES (ALL ORIGINS ALLOWED)" : "NO");
 console.log("--------------------------");
 
-app.use(
-  cors({
-    origin: allowAllOrigins 
-      ? (origin, callback) => {
-          console.log("✓ CORS: Allowing ALL origins (ALLOW_ALL_ORIGINS=true). Origin:", origin || "no-origin");
-          callback(null, true);
-        }
-      : (origin, callback) => {
-          // Allow requests with no origin (like mobile apps or curl requests)
-          if (!origin) {
-            console.log("✓ CORS: Allowed (no origin header)");
-            return callback(null, true);
-          }
+// Vercel deployment pattern for this project
+const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
 
-          // Vercel deployment pattern for this project
-          const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
+// CORS configuration
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    // Allow requests with no origin (like mobile apps, Postman, curl)
+    if (!origin) {
+      console.log("✓ CORS: Allowed (no origin header)");
+      return callback(null, true);
+    }
 
-          // Check if origin is in allowed list or matches Vercel pattern
-          if (allowedOrigins.includes(origin) || vercelProjectRegex.test(origin)) {
-            console.log("✓ CORS: Allowed origin:", origin);
-            return callback(null, true);
-          } else {
-            console.log("✗ CORS: Blocked origin:", origin);
-            console.log("  Allowed origins:", allowedOrigins);
-            console.log("  Vercel pattern match:", vercelProjectRegex.test(origin));
-            return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
-          }
-        },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+    // If ALLOW_ALL_ORIGINS is true, allow everything
+    if (allowAllOrigins) {
+      console.log("✓ CORS: Allowing ALL origins (ALLOW_ALL_ORIGINS=true). Origin:", origin);
+      return callback(null, true);
+    }
 
-app.options('*', cors()); // enable pre-flight
+    // Check if origin is in allowed list or matches Vercel pattern
+    if (allowedOrigins.includes(origin) || vercelProjectRegex.test(origin)) {
+      console.log("✓ CORS: Allowed origin:", origin);
+      return callback(null, true);
+    } else {
+      console.log("✗ CORS: Blocked origin:", origin);
+      console.log("  Allowed origins:", allowedOrigins);
+      console.log("  Vercel pattern match:", vercelProjectRegex.test(origin));
+      return callback(null, false); // Don't throw error, just return false
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  exposedHeaders: ["Content-Range", "X-Content-Range"],
+  maxAge: 600, // Cache preflight for 10 minutes
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options('*', cors(corsOptions));
 
 // 2. BODY PARSING MIDDLEWARE
 app.use(express.json({ limit: "10mb" }));
