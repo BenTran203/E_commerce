@@ -30,35 +30,43 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim());
 
+const allowAllOrigins = process.env.ALLOW_ALL_ORIGINS === "true";
+
 console.log("--- CORS Configuration ---");
 console.log("Raw FRONTEND_URL env var:", process.env.FRONTEND_URL);
 console.log("Allowed Origins set to:", allowedOrigins);
 console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("ALLOW_ALL_ORIGINS:", allowAllOrigins ? "YES (ALL ORIGINS ALLOWED)" : "NO");
 console.log("--------------------------");
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) {
-        console.log("✓ CORS: Allowed (no origin header)");
-        return callback(null, true);
-      }
+    origin: allowAllOrigins 
+      ? (origin, callback) => {
+          console.log("✓ CORS: Allowing ALL origins (ALLOW_ALL_ORIGINS=true). Origin:", origin || "no-origin");
+          callback(null, true);
+        }
+      : (origin, callback) => {
+          // Allow requests with no origin (like mobile apps or curl requests)
+          if (!origin) {
+            console.log("✓ CORS: Allowed (no origin header)");
+            return callback(null, true);
+          }
 
-      // Vercel deployment pattern for this project
-      const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
+          // Vercel deployment pattern for this project
+          const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
 
-      // Check if origin is in allowed list or matches Vercel pattern
-      if (allowedOrigins.includes(origin) || vercelProjectRegex.test(origin)) {
-        console.log("✓ CORS: Allowed origin:", origin);
-        return callback(null, true);
-      } else {
-        console.log("✗ CORS: Blocked origin:", origin);
-        console.log("  Allowed origins:", allowedOrigins);
-        console.log("  Vercel pattern match:", vercelProjectRegex.test(origin));
-        return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
-      }
-    },
+          // Check if origin is in allowed list or matches Vercel pattern
+          if (allowedOrigins.includes(origin) || vercelProjectRegex.test(origin)) {
+            console.log("✓ CORS: Allowed origin:", origin);
+            return callback(null, true);
+          } else {
+            console.log("✗ CORS: Blocked origin:", origin);
+            console.log("  Allowed origins:", allowedOrigins);
+            console.log("  Vercel pattern match:", vercelProjectRegex.test(origin));
+            return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+          }
+        },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
