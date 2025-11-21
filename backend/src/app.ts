@@ -33,22 +33,30 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
 console.log("--- CORS Configuration ---");
 console.log("Raw FRONTEND_URL env var:", process.env.FRONTEND_URL);
 console.log("Allowed Origins set to:", allowedOrigins);
+console.log("NODE_ENV:", process.env.NODE_ENV);
 console.log("--------------------------");
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
+      if (!origin) {
+        console.log("✓ CORS: Allowed (no origin header)");
+        return callback(null, true);
+      }
 
+      // Vercel deployment pattern for this project
       const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
 
-      if (allowedOrigins.includes(origin) || vercelProjectRegex ) {
-        console.log("Allowed by CORS:", origin);
+      // Check if origin is in allowed list or matches Vercel pattern
+      if (allowedOrigins.includes(origin) || vercelProjectRegex.test(origin)) {
+        console.log("✓ CORS: Allowed origin:", origin);
         return callback(null, true);
       } else {
-        console.log("Blocked by myyyyyy CORS:", origin); // Log the blocked origin for debugging
-        return callback(new Error("Not allowed by CORSSSSSS"));
+        console.log("✗ CORS: Blocked origin:", origin);
+        console.log("  Allowed origins:", allowedOrigins);
+        console.log("  Vercel pattern match:", vercelProjectRegex.test(origin));
+        return callback(new Error(`Origin ${origin} not allowed by CORS policy`));
       }
     },
     credentials: true,
