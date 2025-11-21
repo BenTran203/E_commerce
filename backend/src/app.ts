@@ -41,7 +41,10 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
+      const vercelProjectRegex = /^https:\/\/e-commerce-.*\.vercel\.app$/;
+
+      if (allowedOrigins.includes(origin) || vercelProjectRegex ) {
+        console.log("Allowed by CORS:", origin);
         return callback(null, true);
       } else {
         console.log("Blocked by myyyyyy CORS:", origin); // Log the blocked origin for debugging
