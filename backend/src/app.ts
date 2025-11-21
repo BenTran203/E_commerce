@@ -30,10 +30,6 @@ const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim());
 
-// --- MIDDLEWARE ORDER CORRECTION ---
-
-// 1. CORS CONFIGURATION - MUST be first
-// This ensures that the OPTIONS preflight request is handled correctly before any other middleware.
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -53,18 +49,14 @@ app.use(
   })
 );
 
-// This is a preflight-catching route for all OPTIONS requests.
-// It should come after your CORS configuration and before other routes.
 app.options('*', cors()); // enable pre-flight
 
 // 2. BODY PARSING MIDDLEWARE
-// Parse JSON bodies (limit size for security) before they reach other handlers.
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 
 // 3. SECURITY MIDDLEWARE
-// Helmet helps secure Express apps by setting various HTTP headers
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
@@ -82,20 +74,18 @@ app.use(
 );
 
 // 4. RATE LIMITING
-// Prevent abuse by limiting requests per IP. Apply this after CORS and parsing.
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   message: {
     error: "Too many requests from this IP, please try again later.",
   },
-  standardHeaders: true, // Return rate limit info in the \`RateLimit-*\` headers
-  legacyHeaders: false, // Disable the \`X-RateLimit-*\` headers
+  standardHeaders: true, 
+  legacyHeaders: false, 
 });
 app.use("/api/", limiter);
 
 // 5. LOGGING MIDDLEWARE
-// Morgan logs HTTP requests for monitoring and debugging
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 } else {
@@ -134,7 +124,6 @@ app.get("/api", (req: Request, res: Response) => {
 /**
  * ROUTE MOUNTING
  *
- * Each route module handles a specific domain of functionality
  */
 
 // Authentication routes
@@ -166,9 +155,6 @@ app.use("/api/contact", contactRoutes);
 
 /**
  * ERROR HANDLING MIDDLEWARE
- *
- * These must be defined AFTER all routes
- * Express error handling middleware must have 4 parameters
  */
 
 // Handle 404 errors for undefined routes
