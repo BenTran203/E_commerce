@@ -7,6 +7,9 @@ WORKDIR /app
 COPY backend/package*.json ./
 RUN npm install
 
+# Copy tsconfig.json 
+COPY backend/tsconfig.json ./
+
 # Copy prisma schema for generation
 COPY backend/prisma ./prisma/
 RUN npx prisma generate
