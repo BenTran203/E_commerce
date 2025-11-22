@@ -74,7 +74,5 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
   },
-  "prisma": {
-    "seed": "ts-node prisma/seed-admin.ts && ts-node prisma/seed-products.ts"
-  }
+    "seed": "tsx prisma/seed-admin.ts && tsx prisma/seed-products.ts"
 }

@@ -29,10 +29,7 @@ WORKDIR /app
 
 # Copy package files
 COPY backend/package*.json ./
-RUN npm ci --only=production
-
-#Install ts-node
-RUN npm install -g ts-node typescript
+RUN npm ci --only=production && npm install -g tsx prisma
 
 # Copy prisma
 COPY backend/prisma ./prisma/
