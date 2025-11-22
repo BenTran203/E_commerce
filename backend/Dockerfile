@@ -37,15 +37,15 @@ RUN npm ci
 RUN npm install -g tsx prisma
 
 # Copy prisma
-COPY prisma ./prisma/
+COPY backend/prisma ./prisma/
 RUN npx prisma generate
 
 # Copy built files from development stage
 COPY --from=development /app/dist ./dist
 
 # Copy seed scripts (needed for seeding)
-COPY /backend/prisma/seed-admin.ts ./prisma/
-COPY /backend/prisma/seed-products.ts ./prisma/
+COPY backend/prisma/seed-admin.ts ./prisma/
+COPY backend/prisma/seed-products.ts ./prisma/
 COPY src/data/products.json ./src/data/
 
 EXPOSE 3001
