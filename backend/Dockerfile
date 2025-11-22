@@ -31,6 +31,9 @@ WORKDIR /app
 COPY backend/package*.json ./
 RUN npm ci --only=production
 
+#Install ts-node
+RUN npm install -g ts-node typescript
+
 # Copy prisma
 COPY backend/prisma ./prisma/
 RUN npx prisma generate
@@ -41,4 +44,4 @@ COPY --from=development /app/dist ./dist
 EXPOSE 3001
 
 # Run migrations and start the server
-CMD sh -c "npx prisma migrate deploy && npm start"
+CMD sh -c "npx prisma migrate deploy && npx prisma db seed && npm start"
