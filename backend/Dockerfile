@@ -4,11 +4,11 @@ FROM node:20-alpine AS development
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY backend/package*.json ./
 RUN npm install
 
 # Copy prisma schema for generation
-COPY prisma ./prisma/
+COPY backend/prisma ./prisma/
 RUN npx prisma generate
 
 # Copy source code
@@ -28,7 +28,7 @@ FROM node:20-alpine AS production
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY backend/package*.json ./
 
 # Install ALL dependencies (including devDependencies for tsx and ts-node)
 RUN npm ci
