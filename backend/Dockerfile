@@ -34,19 +34,17 @@ COPY package*.json ./
 RUN npm ci
 
 # Install tsx globally for seeding
-RUN npm install -g tsx prisma
+RUN npm install -g tsx
 
 # Copy prisma
 COPY prisma ./prisma/
 RUN npx prisma generate
 
+# Copy source directory (needed for seeding)
+COPY src ./src/
+
 # Copy built files from development stage
 COPY --from=development /app/dist ./dist
-
-# Copy seed scripts (needed for seeding)
-COPY prisma/seed-admin.ts ./prisma/
-COPY prisma/seed-products.ts ./prisma/
-COPY src/data/products.json ./src/data/
 
 EXPOSE 3001
 
