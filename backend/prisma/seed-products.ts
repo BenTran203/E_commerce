@@ -46,6 +46,12 @@ async function main() {
   console.log('📁 Creating categories...');
   const categoryMap = new Map<string, string>();
   
+  if (!fs.existsSync(jsonPath)) {
+    console.error(`❌ products.json not found at ${jsonPath}`);
+    console.error('Available files in directory:', fs.readdirSync(__dirname));
+    throw new Error('products.json not found');
+  }
+  
   for (const cat of jsonData.categories) {
     try {
       const category = await prisma.category.upsert({

@@ -12,7 +12,7 @@ COPY backend/prisma ./prisma/
 RUN npx prisma generate
 
 # Copy source code
-COPY backend/. .
+COPY backend/src ./src/
 
 # Build the TypeScript project
 RUN npm run build
@@ -36,15 +36,14 @@ RUN npm install -g tsx prisma
 
 # Copy prisma
 COPY backend/prisma ./prisma/
+COPY src/data/products.json ./prisma/products.json
+COPY backend/prisma/seed-admin.ts ./prisma/
+COPY backend/prisma/seed-products.ts ./prisma/
+
 RUN npx prisma generate
 
 # Copy built files from development stage
 COPY --from=development /app/dist ./dist
-
-# Copy seed scripts (needed for seeding)
-COPY backend/prisma/seed-admin.ts ./prisma/
-COPY backend/prisma/seed-products.ts ./prisma/
-COPY src/data/products.json ./src/data/
 
 EXPOSE 3001
 
