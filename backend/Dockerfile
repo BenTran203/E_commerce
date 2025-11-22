@@ -12,7 +12,7 @@ COPY backend/prisma ./prisma/
 RUN npx prisma generate
 
 # Copy source code
-COPY . .
+COPY backend/. .
 
 # Build the TypeScript project
 RUN npm run build
@@ -29,8 +29,6 @@ WORKDIR /app
 
 # Copy package files
 COPY backend/package*.json ./
-
-# Install ALL dependencies (including devDependencies for tsx and ts-node)
 RUN npm ci
 
 # Install tsx globally for seeding
@@ -51,4 +49,4 @@ COPY src/data/products.json ./src/data/
 EXPOSE 3001
 
 # Run migrations, seed database, then start the server
-CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && node dist/app.js"]
+CMD sh -c "npx prisma migrate deploy && npx prisma db seed && npm start"
