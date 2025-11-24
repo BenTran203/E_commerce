@@ -18,10 +18,12 @@ interface ProductData {
   category: {
     name: string;
     slug: string;
+    isActive: boolean;
   };
   brand?: {
     name: string;
     slug: string;
+    isActive: boolean;
   };
   care?: string[];
   features?: string[];
@@ -37,22 +39,27 @@ interface ProductData {
 async function main() {
   console.log('🌱 Seeding products from JSON...\n');
 
-  // Read the products.json file from same directory
   const jsonPath = path.join(__dirname, 'products.json');
-  console.log(`📄 Reading products from: ${jsonPath}`);
-  const jsonData = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-
-  // First, create all categories
-  console.log('📁 Creating categories...');
-  const categoryMap = new Map<string, string>();
-  
   if (!fs.existsSync(jsonPath)) {
     console.error(`❌ products.json not found at ${jsonPath}`);
     console.error('Available files in directory:', fs.readdirSync(__dirname));
     throw new Error('products.json not found');
   }
   
-  for (const cat of jsonData.categories) {
+  console.log(`📄 Reading products from: ${jsonPath}`);
+  const jsonData: { products: ProductData[] } = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  const products = jsonData.products;
+
+  // --- FIX START ---
+  // Extract unique categories and brands from the products data
+  const uniqueCategories = Array.from(new Map(products.map(p => [p.category.slug, p.category])).values());
+  const uniqueBrands = Array.from(new Map(products.filter(p => p.brand).map(p => [p.brand!.slug, p.brand!])).values());
+  // --- FIX END ---
+
+  console.log('📁 Creating categories...');
+  const categoryMap = new Map<string, string>();
+  
+  for (const cat of uniqueCategories) {
     try {
       const category = await prisma.category.upsert({
         where: { slug: cat.slug },
@@ -74,11 +81,10 @@ async function main() {
     }
   }
 
-  // Create all brands
   console.log('\n🏷️  Creating brands...');
   const brandMap = new Map<string, string>();
   
-  for (const brand of jsonData.brands) {
+  for (const brand of uniqueBrands) {
     try {
       const createdBrand = await prisma.brand.upsert({
         where: { slug: brand.slug },
@@ -100,12 +106,11 @@ async function main() {
     }
   }
 
-  // Create all products
   console.log('\n🛍️  Creating products...');
   let successCount = 0;
   let errorCount = 0;
 
-  for (const productData of jsonData.products as ProductData[]) {
+  for (const productData of products) {
     try {
       const categoryId = categoryMap.get(productData.category.slug);
       if (!categoryId) {
@@ -116,11 +121,10 @@ async function main() {
 
       const brandId = productData.brand ? brandMap.get(productData.brand.slug) : null;
 
-      // Create product with images using the JSON ID
       const product = await prisma.product.upsert({
         where: { sku: productData.sku },
         update: {
-          id: productData.id, // Use JSON ID
+          id: productData.id,
           name: productData.name,
           slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
           description: productData.description,
@@ -133,12 +137,12 @@ async function main() {
           tags: productData.tags,
           isActive: productData.isActive,
           isOnSale: productData.isOnSale,
-          isFeatured: productData.isOnSale, // Mark on-sale items as featured
+          isFeatured: productData.isOnSale,
           rating: productData.rating,
           reviewCount: productData.reviewCount,
         },
         create: {
-          id: productData.id, // Use JSON ID
+          id: productData.id,
           name: productData.name,
           slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
           description: productData.description,
@@ -166,7 +170,6 @@ async function main() {
         },
       });
 
-      // If images don't exist, create them
       const existingImages = await prisma.productImage.count({
         where: { productId: product.id },
       });
@@ -195,7 +198,6 @@ async function main() {
   console.log(`  ✅ Successfully created/updated: ${successCount} products`);
   console.log(`  ❌ Failed: ${errorCount} products`);
   
-  // Display final counts
   const totalCategories = await prisma.category.count();
   const totalBrands = await prisma.brand.count();
   const totalProducts = await prisma.product.count();
@@ -215,4 +217,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
