@@ -45,6 +45,9 @@ export async function main() {
       console.error(`❌ ERROR: products.json not found at path: ${jsonPath}`);
       return;
     }
+    console.log('⚡ Pinging the database with a raw query...');
+    const result = await prisma.$queryRaw`SELECT 1`;
+    console.log('✅ Database ping successful:', result);
 
     console.log('✅ Found products.json. Reading file...');
     const fileContent = fs.readFileSync(jsonPath, 'utf-8');

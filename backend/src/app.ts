@@ -195,6 +195,17 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+app.get('/debug-db-url', (req, res) => {
+  const dbUrl = process.env.DATABASE_URL;
+  if (dbUrl) {
+    // Obscure the password before sending it in the response
+    const obscuredUrl = dbUrl.replace(/:([^:@\s]+)@/, ':********@');
+    res.send(`DATABASE_URL in use: ${obscuredUrl}`);
+  } else {
+    res.send('DATABASE_URL is not set!');
+  }
+});
+
 // // Global error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("Error:", err);
