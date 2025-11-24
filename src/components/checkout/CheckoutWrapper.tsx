@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 // Initialize Stripe
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "",
+  process.env.STRIPE_PUBLISHABLE_KEY || "",
 );
 
 interface CheckoutWrapperProps {
