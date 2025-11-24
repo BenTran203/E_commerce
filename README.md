@@ -157,27 +157,65 @@ Visit http://localhost:3000
 
 ```
 E_commerce/
-├── backend/                 # Backend API
-│   ├── prisma/             # Database schema & migrations
+├── backend/                      # Backend Express API
+│   ├── prisma/
+│   │   ├── schema.prisma        # Database schema
+│   │   ├── seed-admin.ts        # Admin user seeding
+│   │   ├── seed-products.ts     # Product data seeding
+│   │   └── migrations/          # Database migrations
 │   ├── src/
-│   │   ├── controllers/    # Route controllers
-│   │   ├── middleware/     # Auth, validation
-│   │   ├── routes/         # API routes
-│   │   ├── services/       # Business logic
-│   │   └── utils/          # Helper functions
-│   └── Dockerfile
-├── src/                    # Frontend Next.js app
-│   ├── app/               # App router pages
-│   ├── components/        # React components
-│   ├── hooks/             # Custom hooks
-│   ├── lib/               # API client
-│   ├── store/             # Redux store
-│   ├── types/             # TypeScript types
-│   └── utils/             # Utility functions
-├── docs/                   # Documentation
-├── .env.example           # ALL environment variables template
-├── docker-compose.yml      # Docker services config
-└── README.md
+│   │   ├── controllers/         # Route controllers
+│   │   │   ├── auth.ts
+│   │   │   ├── cart.ts
+│   │   │   ├── orders.ts
+│   │   │   ├── payments.ts
+│   │   │   ├── products.ts
+│   │   │   └── users.ts
+│   │   ├── middleware/          # Auth, validation, rate limiting
+│   │   ├── routes/              # API route definitions
+│   │   ├── services/            # Business logic layer
+│   │   ├── utils/               # Helper functions
+│   │   └── app.ts               # Express server setup
+│   ├── Dockerfile               # Docker configuration
+│   ├── package.json
+│   └── tsconfig.json
+├── src/                          # Frontend Next.js 16 app
+│   ├── app/                     # App router pages
+│   │   ├── account/            # User account pages
+│   │   ├── admin/              # Admin dashboard
+│   │   ├── auth/               # Login, register, verify-email
+│   │   ├── pages/              # Static pages (about, contact)
+│   │   ├── product/            # Product detail pages
+│   │   ├── layout.tsx          # Root layout
+│   │   └── page.tsx            # Homepage
+│   ├── components/              # React components
+│   │   ├── checkout/           # Checkout flow components
+│   │   ├── sections/           # Homepage sections
+│   │   └── ui/                 # Reusable UI components
+│   ├── data/
+│   │   ├── products.json       # Product catalog data
+│   │   └── assest.json         # Asset mappings
+│   ├── hooks/                   # Custom React hooks
+│   │   ├── useAuth.ts
+│   │   ├── useCart.ts
+│   │   └── useProducts.ts
+│   ├── lib/
+│   │   └── api.ts              # API client wrapper
+│   ├── store/                   # Redux Toolkit store
+│   │   ├── slices/             # Redux slices (auth, cart, products, ui)
+│   │   └── index.ts            # Store configuration with persistence
+│   ├── types/
+│   │   └── index.ts            # TypeScript type definitions
+│   └── utils/                   # Utility functions
+├── docs/                         # Documentation files
+├── .env.example                 # Environment variables template
+├── .github/
+│   └── copilot-instructions.md  # AI agent guide
+├── docker-compose.yml           # Docker services (postgres, redis, backend, pgadmin)
+├── package.json                 # Frontend dependencies
+├── next.config.js               # Next.js configuration
+├── tailwind.config.ts           # Tailwind CSS config
+└── tsconfig.json                # TypeScript config
 ```
 
 ## Development
