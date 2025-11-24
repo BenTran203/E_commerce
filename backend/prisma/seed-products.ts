@@ -2,166 +2,114 @@ import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const prisma = new PrismaClient();
-
-interface ProductData {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  originalPrice: number;
-  images: Array<{
-    url: string;
-    alt: string;
-    isPrimary: boolean;
-  }>;
-  category: {
-    name: string;
-    slug: string;
-    isActive: boolean;
-  };
-  brand?: {
-    name: string;
-    slug: string;
-    isActive: boolean;
-  };
-  care?: string[];
-  features?: string[];
-  stock: number;
-  isOnSale: boolean;
-  rating: number;
-  reviewCount: number;
-  sku: string;
-  tags: string[];
-  isActive: boolean;
-}
-
-export async function main() {
+// The function now accepts a prisma client instance
+export async function seedProducts(prisma: PrismaClient) {
   console.log('🌱 Starting product seeding...');
 
   try {
+    console.log('⚡ Pinging the database...');
+    await prisma.$queryRaw`SELECT 1`;
+    console.log('✅ Database ping successful.');
+
     const jsonPath = path.join(__dirname, 'products.json');
     if (!fs.existsSync(jsonPath)) {
       console.error(`❌ ERROR: products.json not found at path: ${jsonPath}`);
       return;
     }
-    console.log('⚡ Pinging the database with a raw query...');
-    const result = await prisma.$queryRaw`SELECT 1`;
-    console.log('✅ Database ping successful:', result);
-
+    
     console.log('✅ Found products.json. Reading file...');
     const fileContent = fs.readFileSync(jsonPath, 'utf-8');
-    const jsonData: { products: ProductData[] } = JSON.parse(fileContent);
-    const products = jsonData.products;
+    const jsonData = JSON.parse(fileContent);
+    const products: any[] = jsonData.products;
     console.log(`📄 Successfully parsed ${products.length} products from JSON.`);
 
-    // Extract unique categories and brands from the products data
     const uniqueCategories = Array.from(new Map(products.map(p => [p.category.slug, p.category])).values());
     const uniqueBrands = Array.from(new Map(products.filter(p => p.brand).map(p => [p.brand!.slug, p.brand!])).values());
 
-    console.log(`📁 Found ${uniqueCategories.length} unique categories. Creating...`);
+    console.log(`📁 Creating ${uniqueCategories.length} unique categories...`);
     const categoryMap = new Map<string, string>();
     for (const cat of uniqueCategories) {
-      const category = await prisma.category.upsert({
+      // --- MANUAL UPSERT LOGIC ---
+      let dbCategory = await prisma.category.findUnique({
         where: { slug: cat.slug },
-        update: {},
-        create: { name: cat.name, slug: cat.slug, isActive: cat.isActive },
       });
-      categoryMap.set(cat.slug, category.id);
+      if (!dbCategory) {
+        console.log(`  - Creating category: ${cat.name}`);
+        dbCategory = await prisma.category.create({
+          data: { name: cat.name, slug: cat.slug, isActive: cat.isActive },
+        });
+      }
+      categoryMap.set(cat.slug, dbCategory.id);
+      // --- END MANUAL UPSERT ---
     }
-    console.log('✅ Categories created.');
+    console.log('✅ Categories seeded.');
 
-    console.log(`\n🏷️  Found ${uniqueBrands.length} unique brands. Creating...`);
+    console.log(`\n🏷️  Creating ${uniqueBrands.length} unique brands...`);
     const brandMap = new Map<string, string>();
     for (const brand of uniqueBrands) {
-      const createdBrand = await prisma.brand.upsert({
-        where: { slug: brand.slug },
-        update: {},
-        create: { name: brand.name, slug: brand.slug, isActive: brand.isActive },
-      });
-      brandMap.set(brand.slug, createdBrand.id);
+        // --- MANUAL UPSERT LOGIC ---
+        let dbBrand = await prisma.brand.findUnique({
+            where: { slug: brand.slug },
+        });
+        if (!dbBrand) {
+            console.log(`  - Creating brand: ${brand.name}`);
+            dbBrand = await prisma.brand.create({
+                data: { name: brand.name, slug: brand.slug, isActive: brand.isActive },
+            });
+        }
+        brandMap.set(brand.slug, dbBrand.id);
+        // --- END MANUAL UPSERT ---
     }
-    console.log('✅ Brands created.');
+    console.log('✅ Brands seeded.');
 
     console.log(`\n🛍️  Creating ${products.length} products...`);
     let successCount = 0;
-    let errorCount = 0;
-
     for (const productData of products) {
-      const categoryId = categoryMap.get(productData.category.slug);
-      if (!categoryId) {
-        console.log(`  ❌ Category slug "${productData.category.slug}" not found for product "${productData.name}"`);
-        errorCount++;
-        continue;
-      }
-
-      const brandId = productData.brand ? brandMap.get(productData.brand.slug) : undefined;
-
-      try {
-        await prisma.product.upsert({
-          where: { sku: productData.sku },
-          update: {
-            name: productData.name,
-            description: productData.description,
-            price: productData.price,
-            stock: productData.stock,
-            tags: productData.tags,
-          },
-          create: {
-            id: productData.id,
-            name: productData.name,
-            slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 50),
-            description: productData.description,
-            price: productData.price,
-            originalPrice: productData.originalPrice,
-            stock: productData.stock,
-            sku: productData.sku,
-            categoryId: categoryId,
-            brandId: brandId,
-            tags: productData.tags,
-            isActive: productData.isActive,
-            images: {
-              create: productData.images.map((img, index) => ({
-                url: img.url,
-                alt: img.alt,
-                isPrimary: img.isPrimary,
-                sortOrder: index,
-              })),
-            },
-          },
+        const categoryId = categoryMap.get(productData.category.slug);
+        const brandId = productData.brand ? brandMap.get(productData.brand.slug) : null;
+        
+        // --- MANUAL UPSERT LOGIC FOR PRODUCTS ---
+        const existingProduct = await prisma.product.findUnique({
+            where: { sku: productData.sku },
         });
-        successCount++;
-      } catch (error: any) {
-        console.log(`  ❌ Failed to create ${productData.name}: ${error.message}`);
-        errorCount++;
-      }
-    }
 
+        if (!existingProduct) {
+             console.log(`  - Creating product: ${productData.name}`);
+            await prisma.product.create({
+                data: {
+                    id: productData.id,
+                    name: productData.name,
+                    slug: productData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 50),
+                    description: productData.description,
+                    price: productData.price,
+                    originalPrice: productData.originalPrice,
+                    stock: productData.stock,
+                    sku: productData.sku,
+                    categoryId: categoryId!,
+                    brandId: brandId,
+                    tags: productData.tags,
+                    isActive: productData.isActive,
+                    images: {
+                      create: productData.images.map((img: any, index: number) => ({
+                        url: img.url,
+                        alt: img.alt,
+                        isPrimary: img.isPrimary,
+                        sortOrder: index,
+                      })),
+                    },
+                },
+            });
+            successCount++;
+        }
+        // --- END MANUAL UPSERT ---
+    }
+    console.log('✅ Products seeded.');
+    
     console.log('\n📊 Seeding Summary:');
-    console.log(`  ✅ Successfully created/updated: ${successCount} products`);
-    console.log(`  ❌ Failed: ${errorCount} products`);
+    console.log(`  ✅ Successfully created: ${successCount} products`);
+
   } catch (e: any) {
-    console.error('❌ An unexpected error occurred during product seeding:', e.message);
-    process.exit(1);
-  } finally {
-    if (require.main === module) {
-      main()
-        .catch((e) => {
-          console.error('❌ An unexpected error occurred during product seeding:', e);
-          process.exit(1);
-        })
-        .finally(async () => {
-          await prisma.$disconnect();
-        });
-    }
+    console.error('🔥 A critical error occurred during product seeding:', e);
+    process.exit(1); // Exit with failure code
   }
 }
-
-main()
-  .catch((e) => {
-    console.error('❌ Error seeding database:', e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
