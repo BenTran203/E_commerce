@@ -36,19 +36,14 @@ interface ProductData {
   isActive: boolean;
 }
 
-async function main() {
+export async function main() {
   console.log('🌱 Starting product seeding...');
 
   try {
     const jsonPath = path.join(__dirname, 'products.json');
-    console.log(`🔍 Attempting to read products from: ${jsonPath}`);
-
     if (!fs.existsSync(jsonPath)) {
       console.error(`❌ ERROR: products.json not found at path: ${jsonPath}`);
-      const parentDir = path.dirname(jsonPath);
-      const filesInDir = fs.readdirSync(parentDir);
-      console.error(`👉 Files in the seeding directory (${parentDir}):`, filesInDir);
-      throw new Error('products.json not found. Check Dockerfile COPY command.');
+      return;
     }
 
     console.log('✅ Found products.json. Reading file...');
@@ -146,9 +141,24 @@ async function main() {
     console.error('❌ An unexpected error occurred during product seeding:', e.message);
     process.exit(1);
   } finally {
-    await prisma.$disconnect();
-    console.log('🚪 Prisma client disconnected.');
+    if (require.main === module) {
+      main()
+        .catch((e) => {
+          console.error('❌ An unexpected error occurred during product seeding:', e);
+          process.exit(1);
+        })
+        .finally(async () => {
+          await prisma.$disconnect();
+        });
+    }
   }
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error('❌ Error seeding database:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

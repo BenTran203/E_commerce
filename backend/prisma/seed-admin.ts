@@ -3,7 +3,7 @@ import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-async function main() {
+export async function main2() {
   console.log('🌱 Seeding admin user...\n');
 
   const email = 'admin@timeless.com';
@@ -14,12 +14,9 @@ async function main() {
     where: { email: email.toLowerCase() }
   });
 
-  if (existingAdmin) {
-    console.log('❌ Admin user already exists!');
-    console.log(`📧 Email: ${email}`);
-    console.log(`🆔 ID: ${existingAdmin.id}`);
-    console.log(`👤 Role: ${existingAdmin.role}`);
-    return;
+    if (existingAdmin) {
+    console.log('✅ Admin user already exists. Skipping creation.');
+    return; 
   }
 
   // Hash password
@@ -41,17 +38,9 @@ async function main() {
   });
 
   console.log('✅ Admin user created successfully!\n');
-  console.log('📋 Admin Account Details:');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log(`📧 Email: ${email}`);
-  console.log(`🔑 Password: ${password}`);
-  console.log(`🆔 ID: ${admin.id}`);
-  console.log(`👤 Role: ${admin.role}`);
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-  console.log('🎉 You can now login to the admin panel!\n');
 }
 
-main()
+main2()
   .catch((e) => {
     console.error('❌ Error seeding admin user:', e);
     process.exit(1);
