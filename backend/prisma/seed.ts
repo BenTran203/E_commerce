@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log('🚀 Starting database seeding process...');
-  await main2();
+//   await main2();
   await seedProducts();
   console.log('🏁 Seeding process completed.');
 }
