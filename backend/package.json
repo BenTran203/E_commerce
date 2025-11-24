@@ -14,8 +14,11 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:reset": "prisma migrate reset",
-    "db:seed": "ts-node prisma/seed-admin.ts",
+    "db:seed": "tsx prisma/seed-admin.ts && tsx prisma/seed-products.ts",
     "db:studio": "prisma studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed-admin.ts && tsx prisma/seed-products.ts"
   },
   "keywords": [
     "ecommerce",
@@ -73,6 +76,5 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2"
-  },
-    "seed": "tsx prisma/seed-admin.ts && tsx prisma/seed-products.ts"
+  }
 }
