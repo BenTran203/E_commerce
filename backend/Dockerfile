@@ -39,8 +39,9 @@ RUN npm install -g tsx prisma
 
 # Copy prisma
 COPY backend/prisma ./prisma/
-COPY src/data/products.json ./prisma/products.json
-# COPY backend/prisma/seed-admin.ts ./prisma/
+# Copy products.json for seeding
+COPY backend/prisma/products.json ./prisma/products.json
+# COPY seed-admin
 COPY backend/prisma/seed-products.ts ./prisma/
 
 RUN npx prisma generate

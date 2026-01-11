@@ -135,7 +135,7 @@ export async function sendEmail(
       throw err;
     }
   } else {
-    console.warn("⚠️  RESEND_API_KEY not configured. Falling back to console logging.");
+    console.warn("RESEND_API_KEY not configured. Falling back to console logging.");
   }
 
   // Fallback: log the email to the console (development-friendly)

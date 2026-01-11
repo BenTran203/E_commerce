@@ -1,0 +1,823 @@
+{
+  "nav": {
+    "shop": "Shop",
+    "collections": "Collections",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "language": {
+    "switch": "Switch Language"
+  },
+  "header": {
+    "search": {
+      "open": "Open search",
+      "placeholder": "Search for products...",
+      "submit": "Search"
+    },
+    "userMenu": {
+      "open": "Open user menu"
+    },
+    "mobileMenu": {
+      "toggle": "Toggle menu"
+    }
+  },
+  "hero": {
+    "title": "Timeless",
+    "subtitle": "Elegance Redefined",
+    "description": "Discover curated collections of premium clothing that transcend seasonal trends. Each piece is carefully selected to embody sophistication and lasting style.",
+    "discover": "Discover More",
+    "cta": {
+      "explore": "Explore Collection",
+      "story": "Our Story"
+    }
+  },
+  "categories": {
+    "title": "Shop by Category",
+    "description": "Explore our carefully curated collections, each designed to complement your unique style and lifestyle.",
+    "viewAll": "View All Products",
+    "lookMore": "Look for more",
+    "items": "items",
+    "categories": {
+      "casual-everyday": {
+        "name": "Casual Everyday",
+        "description": "Comfortable and stylish pieces for daily wear"
+      },
+      "formal-excellence": {
+        "name": "Formal Excellence",
+        "description": "Sophisticated formal wear for business and special occasions"
+      },
+      "premium-accessories": {
+        "name": "Premium Accessories",
+        "description": "Luxury accessories that elevate any outfit"
+      },
+      "winter-warmth": {
+        "name": "Winter Warmth",
+        "description": "Stay warm and stylish during the colder months"
+      },
+      "street-style-culture": {
+        "name": "Street Style Culture",
+        "description": "Urban-inspired fashion for the modern city dweller"
+      }
+    }
+  },
+  "featured": {
+    "title": "Featured Collection",
+    "description": "Handpicked pieces that embody our commitment to quality, style, and timeless appeal.",
+    "quickView": "Quick View",
+    "colors": "Colors",
+    "viewAll": "View All Products",
+    "reviews": "reviews"
+  },
+  "newsletter": {
+    "title": "Stay Inspired",
+    "description": "Join our community of style enthusiasts. Get exclusive access to new collections, styling tips, and special offers delivered directly to your inbox.",
+    "benefits": {
+      "earlyAccess": {
+        "title": "Early Access",
+        "description": "Be first to shop new arrivals and limited collections"
+      },
+      "exclusiveOffers": {
+        "title": "Exclusive Offers",
+        "description": "Receive subscriber-only discounts and special promotions"
+      },
+      "styleGuide": {
+        "title": "Style Guide",
+        "description": "Expert styling tips and seasonal trend insights"
+      }
+    },
+    "placeholder": "Enter your email address",
+    "subscribe": "Subscribe Now",
+    "subscribing": "Subscribing...",
+    "success": {
+      "title": "Welcome to Timeless!",
+      "message": "You've been successfully subscribed to our newsletter.",
+      "another": "Subscribe another email"
+    },
+    "disclaimer": "By subscribing, you agree to receive marketing emails from Timeless. You can unsubscribe at any time. View our",
+    "privacy": "Privacy Policy"
+  },
+  "shop": {
+    "title": "Shop with us for the best quality",
+    "description": "Giving you the best experience with our products",
+    "search": "Search products...",
+    "filters": "Filters",
+    "showing": "Showing",
+    "products": "products",
+    "product": "product",
+    "noProducts": "No products found",
+    "noProductsDesc": "Try adjusting your filters or search query to find what you're looking for",
+    "clearFilters": "Clear All Filters",
+    "viewDetails": "View Details",
+    "addToCart": "Add to Cart",
+    "priceRange": "Price Range",
+    "brands": "Brands",
+    "colors": "Colors",
+    "sizes": "Sizes",
+    "applyInstantly": "✨ Filters apply instantly",
+    "sortBy": {
+      "newest": "Newest",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "name": "Name A-Z"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "collections": {
+    "title": "Our Collections",
+    "description": "Discover our carefully curated collections that blend timeless elegance with contemporary style. Each collection tells a unique story, crafted for the modern individual who appreciates quality and authenticity.",
+    "featured": {
+      "title": "Featured Collections",
+      "description": "Our most popular and seasonally relevant collections, handpicked for their exceptional design and quality",
+      "badge": "Featured"
+    },
+    "all": {
+      "title": "All Collections",
+      "description": "Explore our complete range of collections, each designed to cater to different styles and occasions"
+    },
+    "explore": "Explore",
+    "exploreCollection": "Explore Collection",
+    "items": "items",
+    "popular": "Popular",
+    "newsletter": {
+      "title": "Stay Updated",
+      "description": "Be the first to know about new collections, exclusive offers, and style inspiration. Join our community of fashion enthusiasts.",
+      "placeholder": "Enter your email",
+      "subscribe": "Subscribe"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Our Story",
+      "description": "Born from a passion for timeless elegance and authentic craftsmanship, Timeless represents more than fashion—it's a celebration of heritage, quality, and the art of thoughtful design."
+    },
+    "mission": {
+      "title": "Crafting Timeless Elegance",
+      "description1": "At Timeless, we believe that true style transcends seasonal trends. Our mission is to curate and create pieces that embody lasting elegance, superior quality, and authentic craftsmanship.",
+      "description2": "Each item in our collection tells a story—of skilled artisans, premium materials, and a commitment to excellence that spans generations. We're not just selling clothing; we're preserving traditions and celebrating the art of fine fashion.",
+      "cta": "Explore Our Collections",
+      "badge": {
+        "title": "Made with Love",
+        "since": "Since 2025"
+      }
+    },
+    "impact": {
+      "title": "Our Impact",
+      "description": "Numbers that reflect our commitment to excellence and the trust our customers place in us",
+      "stats": {
+        "customers": "Happy Customers",
+        "products": "Products Sold",
+        "countries": "Countries",
+        "years": "Years of Excellence"
+      }
+    },
+    "values": {
+      "title": "Our Values",
+      "description": "The principles that guide every decision we make and every product we create",
+      "passion": {
+        "title": "Passion for Quality",
+        "description": "Every piece in our collection is carefully selected for its exceptional quality, craftsmanship, and attention to detail."
+      },
+      "sustainable": {
+        "title": "Sustainable Fashion",
+        "description": "We believe in responsible fashion that respects both people and the planet, choosing eco-friendly materials and ethical practices."
+      },
+      "customer": {
+        "title": "Customer Focused",
+        "description": "Our customers are at the heart of everything we do. We strive to exceed expectations and build lasting relationships."
+      },
+      "global": {
+        "title": "Global Community",
+        "description": "Celebrating diversity and connecting fashion lovers worldwide through shared appreciation for timeless style."
+      }
+    },
+    "journey": {
+      "title": "Our Journey",
+      "description": "From humble beginnings to global recognition—the milestones that shaped our story",
+      "timeline": {
+        "2014": {
+          "title": "The Beginning",
+          "description": "Founded with a vision to make premium fashion accessible to everyone, starting from a small studio in Vietnam."
+        },
+        "2016": {
+          "title": "First Collection",
+          "description": "Launched our signature Vietnamese Heritage collection, blending traditional craftsmanship with modern design."
+        },
+        "2018": {
+          "title": "International Expansion",
+          "description": "Expanded to serve customers across Asia, bringing our unique aesthetic to a broader audience."
+        },
+        "2020": {
+          "title": "Digital Transformation",
+          "description": "Embraced e-commerce and digital innovation, making our collections available worldwide."
+        },
+        "2022": {
+          "title": "Sustainable Initiative",
+          "description": "Launched our sustainability program, partnering with eco-friendly suppliers and supporting local artisans."
+        },
+        "2024": {
+          "title": "Today",
+          "description": "Continuing to evolve and innovate while staying true to our core values of quality, authenticity, and style."
+        }
+      }
+    },
+    "team": {
+      "title": "The Team Behind Timeless",
+      "description": "Meet the passionate individuals who bring our vision to life every day"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Get in Touch",
+      "description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+    },
+    "info": {
+      "email": {
+        "title": "Email Us",
+        "description": "Send us an email and we'll respond within 24 hours",
+        "value": "hello@timeless.com"
+      },
+      "phone": {
+        "title": "Call Us",
+        "description": "Mon-Fri from 8am to 6pm (GMT+7)",
+        "value": "+84 123 456 789"
+      },
+      "visit": {
+        "title": "Visit Us",
+        "description": "Come visit our flagship store",
+        "value": "Ho Chi Minh City, Vietnam"
+      }
+    },
+    "form": {
+      "title": "Send us a Message",
+      "prefilled": "✨ We've pre-filled your information since you're logged in!",
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+84 123 456 789",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "subjects": {
+        "general": "General Inquiry",
+        "order": "Order Support",
+        "product": "Product Question",
+        "shipping": "Shipping Issue",
+        "return": "Return Request",
+        "partnership": "Partnership",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell us how we can help you...",
+      "terms": "I agree to the",
+      "termsService": "Terms of Service",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": {
+        "title": "Message Sent Successfully!",
+        "description": "Thank you for contacting us. We'll get back to you within 24 hours.",
+        "another": "Send Another Message"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "return": {
+          "question": "What is your return policy?",
+          "answer": "We offer a 30-day return policy for all unworn items with original tags. Items must be in original condition."
+        },
+        "shipping": {
+          "question": "How long does shipping take?",
+          "answer": "Domestic shipping takes 2-3 business days. International shipping takes 5-10 business days depending on location."
+        },
+        "international": {
+          "question": "Do you offer international shipping?",
+          "answer": "Yes, we ship worldwide. Shipping costs and delivery times vary by destination."
+        },
+        "tracking": {
+          "question": "How can I track my order?",
+          "answer": "Once your order ships, you'll receive a tracking number via email. You can track your package on our website or the carrier's site."
+        }
+      },
+      "help": {
+        "title": "Still have questions?",
+        "description": "Can't find the answer you're looking for? Please chat with us.",
+        "button": "Start Live Chat"
+      }
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Stay in the Know",
+      "description": "Subscribe to our newsletter for exclusive offers, style tips, and early access to new collections.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    },
+    "brand": {
+      "description": "Crafting timeless pieces that define modern elegance. Premium clothing for the discerning individual."
+    },
+    "sections": {
+      "shop": {
+        "title": "Shop",
+        "newArrivals": "New Arrivals",
+        "bestSellers": "Best Sellers",
+        "sale": "Sale",
+        "giftCards": "Gift Cards"
+      },
+      "customerCare": {
+        "title": "Customer Care",
+        "contact": "Contact Us",
+        "sizeGuide": "Size Guide",
+        "shipping": "Shipping & Returns",
+        "faq": "FAQ"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About Us",
+        "careers": "Careers",
+        "press": "Press",
+        "sustainability": "Sustainability"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "cookies": "Cookie Policy",
+        "accessibility": "Accessibility"
+      }
+    },
+    "bottom": {
+      "rights": "© {year} Timeless. All rights reserved.",
+      "secure": "Secure Payments",
+      "shipping": "Free Shipping Over $100",
+      "returns": "30-Day Returns"
+    }
+  },
+  "products": {
+    "1": {
+      "name": "Essential Cotton T-Shirt",
+      "description": "Premium cotton t-shirt with minimalist design"
+    },
+    "2": {
+      "name": "Insulated Puffer Jacket",
+      "description": "Lightweight, water-resistant puffer jacket with premium insulation for cold-weather comfort."
+    },
+    "3": {
+      "name": "Modern Tailored Suit",
+      "description": "Refined two-piece suit with a modern silhouette and breathable wool blend — perfect for formal occasions and office wear."
+    },
+    "4": {
+      "name": "Classic Heritage Watch",
+      "description": "Precision quartz movement with a minimalist dial and stainless steel case — a timeless accessory."
+    },
+    "5": {
+      "name": "Linen Summer Shirt",
+      "description": "Breathable linen shirt perfect for hot summer days. Lightweight and comfortable with a relaxed fit."
+    },
+    "6": {
+      "name": "Streetwear Cargo Pants",
+      "description": "Modern cargo pants with multiple pockets and adjustable straps. Perfect for urban street style."
+    },
+    "8": {
+      "name": "Minimalist Leather Bag",
+      "description": "Handcrafted leather messenger bag with clean lines and functional design."
+    },
+    "9": {
+      "name": "Business Casual Blazer",
+      "description": "Versatile blazer that bridges the gap between formal and casual. Perfect for modern professionals."
+    },
+    "10": {
+      "name": "Winter Wool Scarf",
+      "description": "Luxurious cashmere-wool blend scarf. Soft, warm, and stylish for cold weather."
+    },
+    "11": {
+      "name": "Formal White Shirt",
+      "description": "Classic white shirt with French cuffs and spread collar. Essential for formal occasions."
+    },
+    "12": {
+      "name": "Denim Jacket Vintage",
+      "description": "Classic denim jacket with vintage wash and modern fit. Perfect for layering and casual looks."
+    },
+    "13": {
+      "name": "Summer Floral Dress",
+      "description": "Light and airy summer dress with delicate floral print. Perfect for warm weather occasions."
+    },
+    "14": {
+      "name": "Urban Sneakers",
+      "description": "Modern urban sneakers with premium materials and comfortable sole. Perfect for street style."
+    },
+    "15": {
+      "name": "Silk Pocket Square",
+      "description": "Premium silk pocket square with elegant pattern. Essential formal accessory."
+    },
+    "16": {
+      "name": "Bamboo Fiber Socks",
+      "description": "Eco-friendly bamboo fiber socks. Antibacterial, moisture-wicking, and incredibly soft."
+    },
+    "18": {
+      "name": "Thermal Base Layer",
+      "description": "High-performance thermal base layer for extreme cold weather. Moisture-wicking and insulating."
+    },
+    "19": {
+      "name": "High-waisted Jeans",
+      "description": "Classic high-waisted jeans with stretch fabric for comfort and flattering fit."
+    },
+    "20": {
+      "name": "Tech-wear Crossbody Bag",
+      "description": "Futuristic crossbody bag with multiple compartments and weather-resistant materials."
+    }
+  },
+  "productCollections": {
+    "casual-everyday": {
+      "name": "Casual Everyday",
+      "description": "Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look."
+    },
+    "formal-excellence": {
+      "name": "Formal Excellence",
+      "description": "Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection."
+    },
+    "premium-accessories": {
+      "name": "Premium Accessories",
+      "description": "Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement."
+    },
+    "winter-warmth": {
+      "name": "Winter Warmth",
+      "description": "Stay warm and stylish during the colder months. Our winter collection features cozy layers and weather-resistant outerwear."
+    },
+    "street-style-culture": {
+      "name": "Street Style Culture",
+      "description": "Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics."
+    },
+    "summer-breeze": {
+      "name": "Summer Breeze",
+      "description": "Light, breathable pieces perfect for warm weather. From flowing dresses to linen shirts, embrace the sunshine in style."
+    }
+  },
+  "productCategories": {
+    "casual": "Casual",
+    "winter": "Winter",
+    "formal": "Formal",
+    "accessories": "Accessories",
+    "summer": "Summer",
+    "street-style": "Street Style"
+  },
+  "productBrands": {
+    "timeless": "Timeless",
+    "heritage": "Heritage",
+    "aurum": "Aurum Tailoring",
+    "aurum-time": "Aurum Timepieces",
+    "coastal": "Coastal",
+    "urban-edge": "Urban Edge",
+    "craftsmen": "Craftsmen Co.",
+    "professional": "Professional",
+    "nordic": "Nordic",
+    "executive": "Executive",
+    "vintage-co": "Vintage Co.",
+    "bloom": "Bloom",
+    "metro": "Metro",
+    "gentleman": "Gentleman",
+    "ecowear": "EcoWear",
+    "arctic-pro": "Arctic Pro",
+    "denim-dreams": "Denim Dreams",
+    "future-gear": "Future Gear"
+  },
+  "collectionPages": {
+    "backToCollections": "Back to Collections",
+    "products": "Products",
+    "luxuryItems": "Luxury Items",
+    "cozyEssentials": "Cozy Essentials",
+    "urbanEssentials": "Urban Essentials",
+    "trending": "Trending",
+    "addToCart": "Add to Cart",
+    "casualEveryday": {
+      "name": "Casual Everyday",
+      "description": "Comfortable and stylish pieces for daily wear. From basic tees to versatile jeans, everything you need for a relaxed yet put-together look.",
+      "features": {
+        "comfort": {
+          "title": "Everyday Comfort",
+          "description": "Designed for your daily routine with maximum comfort and style"
+        },
+        "versatile": {
+          "title": "Versatile Style",
+          "description": "Mix and match pieces that work for any casual occasion"
+        },
+        "quality": {
+          "title": "Quality Materials",
+          "description": "Premium fabrics that last through countless wears"
+        }
+      }
+    },
+    "formalExcellence": {
+      "name": "Formal Excellence",
+      "description": "Sophisticated formal wear for business meetings, special occasions, and professional events. Tailored to perfection.",
+      "features": {
+        "tailored": {
+          "title": "Tailored Perfection",
+          "description": "Precision-crafted formal wear for the most important occasions"
+        },
+        "fabrics": {
+          "title": "Premium Fabrics",
+          "description": "Finest materials selected for elegance and durability"
+        },
+        "design": {
+          "title": "Timeless Design",
+          "description": "Classic styles that never go out of fashion"
+        }
+      },
+      "cta": {
+        "title": "Need Custom Tailoring?",
+        "description": "Our expert tailors can customize any piece to fit you perfectly. Schedule a consultation today.",
+        "button": "Book Consultation"
+      }
+    },
+    "premiumAccessories": {
+      "name": "Premium Accessories",
+      "description": "Luxury accessories that elevate any outfit. From timepieces to leather goods, discover pieces that make a statement.",
+      "features": {
+        "craftsmanship": {
+          "title": "Luxury Craftsmanship",
+          "description": "Each piece is meticulously crafted with attention to every detail"
+        },
+        "statement": {
+          "title": "Statement Pieces",
+          "description": "Accessories that elevate any outfit and make a lasting impression"
+        },
+        "investment": {
+          "title": "Investment Quality",
+          "description": "Timeless accessories designed to last and retain their value"
+        }
+      },
+      "gift": {
+        "title": "Luxury Gift Packaging",
+        "description": "All premium accessories come with complimentary luxury gift packaging. Perfect for special occasions.",
+        "button": "Learn More"
+      }
+    },
+    "winterWarmth": {
+      "name": "Winter Warmth",
+      "description": "Stay warm and stylish during the colder months. Our winter collection features cozy layers and weather-resistant outerwear.",
+      "features": {
+        "protection": {
+          "title": "Cold Weather Protection",
+          "description": "Advanced insulation and weather-resistant materials keep you warm"
+        },
+        "warmth": {
+          "title": "Premium Warmth",
+          "description": "High-quality materials provide superior warmth without bulk"
+        },
+        "layering": {
+          "title": "Stylish Layering",
+          "description": "Versatile pieces that layer perfectly for any winter occasion"
+        }
+      },
+      "care": {
+        "title": "Winter Care Guide",
+        "description": "Learn how to properly care for your winter essentials to ensure they last for seasons to come.",
+        "button": "Download Guide",
+        "storage": {
+          "title": "Proper Storage",
+          "description": "Clean and store in breathable bags"
+        },
+        "cleaning": {
+          "title": "Cleaning Methods",
+          "description": "Follow care labels for best results"
+        }
+      }
+    },
+    "streetStyleCulture": {
+      "name": "Street Style Culture",
+      "description": "Urban-inspired fashion for the modern city dweller. Bold designs, functional details, and contemporary aesthetics.",
+      "features": {
+        "urban": {
+          "title": "Urban Edge",
+          "description": "Bold designs that make a statement on city streets"
+        },
+        "trending": {
+          "title": "Trend-Setting",
+          "description": "Stay ahead with the latest urban fashion movements"
+        },
+        "functional": {
+          "title": "Functional Design",
+          "description": "Practical features that meet the demands of urban life"
+        }
+      },
+      "styleGuide": {
+        "title": "Street Style Guide",
+        "description": "Master the art of urban fashion with our comprehensive styling tips and lookbook featuring the latest trends.",
+        "button": "View Lookbook",
+        "tips": {
+          "layering": {
+            "title": "Layering",
+            "description": "Mix textures & proportions"
+          },
+          "color": {
+            "title": "Color Play",
+            "description": "Bold & monochrome"
+          },
+          "accessories": {
+            "title": "Accessories",
+            "description": "Statement pieces"
+          },
+          "footwear": {
+            "title": "Footwear",
+            "description": "Comfort meets style"
+          }
+        }
+      },
+      "community": {
+        "title": "Join the Street Style Community",
+        "description": "Share your looks and get inspired by urban fashion enthusiasts worldwide.",
+        "share": "Share Your Style",
+        "browse": "Browse Community"
+      }
+    }
+  },
+  "legalPages": {
+    "lastUpdated": "Last Updated: {{date}}",
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.",
+      "intro": {
+        "title": "Introduction",
+        "p1": "Welcome to Timeless. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.",
+        "p2": "This policy applies to information we collect when you use our website, mobile application, or interact with us through other channels. By using our services, you agree to the collection and use of information in accordance with this policy."
+      },
+      "sections": {
+        "collect": {
+          "title": "Information We Collect",
+          "personal": "We collect information you provide directly to us, including your name, email address, postal address, phone number, and payment information when you create an account, make a purchase, or contact us.",
+          "automatic": "We automatically collect certain information about your device when you use our website, including IP address, browser type, operating system, referring URLs, and pages viewed.",
+          "cookies": "We use cookies, web beacons, and similar technologies to collect information about your browsing activities and preferences. See our Cookie Policy for more details."
+        },
+        "use": {
+          "title": "How We Use Your Information",
+          "orders": "We use your information to process and fulfill your orders, send order confirmations, and provide customer support.",
+          "communication": "With your consent, we may send you promotional emails about new products, special offers, or other information we think you may find interesting.",
+          "improvement": "We analyze usage data to improve our website, products, and services, and to understand how customers use our platform.",
+          "legal": "We may use your information to comply with legal obligations, enforce our terms of service, and protect our rights and property."
+        },
+        "security": {
+          "title": "Data Security",
+          "measures": "We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+          "payment": "All payment transactions are processed through secure payment gateways. We do not store complete credit card information on our servers.",
+          "employee": "Access to personal information is restricted to employees, contractors, and agents who need to know that information to operate, develop, or improve our services."
+        },
+        "rights": {
+          "title": "Your Rights",
+          "access": "You have the right to access, update, or correct your personal information at any time through your account settings or by contacting us.",
+          "deletion": "You may request deletion of your personal information, subject to certain legal exceptions. We will respond to your request within 30 days.",
+          "optout": "You can opt out of receiving promotional communications by clicking the unsubscribe link in our emails or updating your account preferences.",
+          "portability": "You have the right to request a copy of your personal information in a structured, commonly used, and machine-readable format."
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Services",
+        "description": "We may employ third-party companies and individuals to facilitate our service, provide service on our behalf, perform service-related services, or assist us in analyzing how our service is used. These third parties have access to your personal information only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose.",
+        "services": "Payment processors, shipping carriers, email service providers, analytics platforms, and customer support tools."
+      },
+      "contact": "If you have any questions about this privacy policy or our privacy practices, please contact our Data Protection Officer."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "subtitle": "Please read these terms carefully before using our services. By accessing or using our website, you agree to be bound by these terms.",
+      "agreement": {
+        "title": "Agreement to Terms",
+        "p1": "These Terms of Service (\"Terms\") govern your access to and use of Timeless's website, mobile application, and services (collectively, the \"Services\"). By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy.",
+        "p2": "If you do not agree to these Terms, you may not access or use our Services. We reserve the right to update these Terms at any time, and your continued use of the Services constitutes acceptance of any changes.",
+        "important": "These Terms include an arbitration clause and class action waiver that affects your legal rights. Please review them carefully."
+      },
+      "account": {
+        "title": "Account Terms",
+        "creation": "You must be at least 18 years old to use our services. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.",
+        "responsibilities": "You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate, current, and complete.",
+        "termination": "We reserve the right to suspend or terminate your account if you violate these terms or engage in fraudulent, illegal, or harmful activities."
+      },
+      "orders": {
+        "title": "Orders and Products",
+        "descriptions": "We strive to ensure that product descriptions, prices, and availability are accurate. However, we do not warrant that product descriptions or other content is accurate, complete, reliable, or error-free.",
+        "acceptance": "We reserve the right to refuse or cancel any order for any reason, including limitations on quantities available for purchase, inaccuracies in product or pricing information, or problems identified by our fraud detection systems.",
+        "pricing": "All prices are in USD and are subject to change without notice. We reserve the right to correct any pricing errors on our website or on pending orders."
+      },
+      "contact": "If you have any questions about these Terms of Service, please contact our legal team."
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "subtitle": "Learn about how we use cookies and similar technologies to provide, protect, and improve our services.",
+      "what": {
+        "title": "What Are Cookies?",
+        "p1": "Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners.",
+        "p2": "We use cookies and similar tracking technologies to track activity on our website and store certain information. These technologies help us understand how you interact with our services and allow us to improve your experience.",
+        "control": "You can control and manage cookies in various ways. Please note that removing or blocking cookies may impact your user experience and parts of our website may no longer be fully accessible."
+      },
+      "types": {
+        "title": "Types of Cookies We Use",
+        "essential": {
+          "name": "Essential Cookies",
+          "description": "These cookies are necessary for the website to function properly. They enable basic functions like page navigation, secure areas access, and shopping cart functionality. The website cannot function properly without these cookies.",
+          "required": "Required"
+        },
+        "analytics": {
+          "name": "Analytics Cookies",
+          "description": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. They help us improve our website and provide better user experiences."
+        },
+        "marketing": {
+          "name": "Marketing Cookies",
+          "description": "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for individual users, making them more valuable for publishers and third-party advertisers."
+        },
+        "preference": {
+          "name": "Preference Cookies",
+          "description": "These cookies enable the website to remember information that changes the way the website behaves or looks, like your preferred language, region, or theme settings."
+        }
+      },
+      "manage": {
+        "title": "Manage Your Cookie Preferences",
+        "description": "Customize which cookies you want to allow. Essential cookies cannot be disabled as they are required for the website to function.",
+        "acceptAll": "Accept All Cookies",
+        "savePreferences": "Save Preferences",
+        "rejectNonEssential": "Reject Non-Essential"
+      },
+      "contact": "If you have any questions about our use of cookies or other technologies, please contact us."
+    },
+    "accessibility": {
+      "title": "Accessibility Statement",
+      "subtitle": "We're committed to making our website accessible and usable for all people, regardless of their abilities or disabilities.",
+      "commitment": {
+        "title": "Our Commitment",
+        "p1": "At Timeless, we believe that everyone should have equal access to our products and services. We are committed to ensuring that our website is accessible to people with disabilities, including those who use assistive technologies.",
+        "p2": "We continuously work to improve the accessibility of our website and services, and we regularly review and update our practices to ensure we meet or exceed applicable accessibility standards.",
+        "feedback": "We welcome feedback on the accessibility of our website. If you encounter any barriers or have suggestions for improvement, please contact us."
+      },
+      "features": {
+        "title": "Accessibility Features",
+        "keyboard": {
+          "title": "Keyboard Navigation",
+          "description": "Our website is fully navigable using only a keyboard. All interactive elements can be accessed using Tab, Enter, and Arrow keys."
+        },
+        "screenReader": {
+          "title": "Screen Reader Support",
+          "description": "We ensure compatibility with popular screen readers like JAWS, NVDA, and VoiceOver by using semantic HTML and ARIA labels."
+        },
+        "visual": {
+          "title": "Visual Accessibility",
+          "description": "Our design considers various visual needs with high contrast ratios, resizable text, and clear visual indicators."
+        },
+        "audio": {
+          "title": "Audio & Video",
+          "description": "All multimedia content includes captions, transcripts, and audio descriptions where applicable."
+        }
+      },
+      "contact": {
+        "title": "Feedback & Assistance",
+        "description": "We welcome your feedback on the accessibility of our website. If you have difficulty accessing any content or feature, please let us know.",
+        "email": "Email:",
+        "phone": "Phone:",
+        "response": "Response Time: We aim to respond within 2 business days",
+        "reportIssue": "Report an Issue",
+        "contactSupport": "Contact Support"
+      },
+      "standards": {
+        "title": "Standards & Compliance",
+        "description": "We are committed to conforming to the following accessibility standards:",
+        "wcag": "We strive to meet Web Content Accessibility Guidelines 2.1 Level AA standards",
+        "ada": "Our website aims to comply with the Americans with Disabilities Act",
+        "section508": "We work to meet Section 508 standards for federal accessibility",
+        "inProgress": "In Progress"
+      },
+      "assistiveTech": {
+        "title": "Compatible Assistive Technologies",
+        "description": "Our website is designed to work with the following assistive technologies:",
+        "screenReaders": "Screen Readers",
+        "browserExtensions": "Browser Extensions",
+        "osFeatures": "Operating System Features"
+      },
+      "limitations": {
+        "title": "Known Limitations",
+        "description": "Despite our best efforts, some content on our website may not yet be fully accessible. We are actively working to address these issues:",
+        "alternativeTitle": "Need an alternative format?",
+        "alternativeText": "If you encounter content that is not accessible, please contact us. We will work with you to provide the information in an alternative format."
+      },
+      "browserSettings": {
+        "title": "Adjusting Your Browser Settings",
+        "description": "Most browsers allow you to adjust settings to improve accessibility:",
+        "textSize": "Text Size",
+        "highContrast": "High Contrast",
+        "readerMode": "Reader Mode",
+        "zoom": "Zoom"
+      },
+      "testing": {
+        "title": "Testing & Continuous Improvement",
+        "description": "We regularly evaluate our website's accessibility through:",
+        "automated": "Automated accessibility testing tools",
+        "manual": "Manual testing with screen readers and keyboard navigation",
+        "userFeedback": "User feedback from people with disabilities",
+        "audits": "Regular accessibility audits by third-party experts",
+        "training": "Ongoing training for our development and content teams"
+      }
+    }
+  }
+}

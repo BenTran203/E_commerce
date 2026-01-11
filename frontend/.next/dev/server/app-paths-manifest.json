@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/categories/page": "app/admin/categories/page.js",
+  "/admin/orders/page": "app/admin/orders/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/products/page": "app/admin/products/page.js",
+  "/admin/users/page": "app/admin/users/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/auth/page": "app/auth/page.js",
+  "/page": "app/page.js",
+  "/pages/cart/page": "app/pages/cart/page.js",
+  "/pages/collections/page": "app/pages/collections/page.js",
+  "/pages/shop/page": "app/pages/shop/page.js"
+}

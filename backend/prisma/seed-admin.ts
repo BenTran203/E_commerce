@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
-
-export async function main2() {
+export async function seedAdmin(prisma: PrismaClient) {
   console.log('🌱 Seeding admin user...\n');
 
   const email = 'admin@timeless.com';
@@ -39,13 +37,4 @@ export async function main2() {
 
   console.log('✅ Admin user created successfully!\n');
 }
-
-main2()
-  .catch((e) => {
-    console.error('❌ Error seeding admin user:', e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
 
