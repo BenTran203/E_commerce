@@ -11,6 +11,10 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
+import InteractiveStatCard from "@/components/admin/InteractiveStatCard";
+import DynamicGraphSection from "@/components/admin/DynamicGraphSection";
+import AIAnalysisSection from "@/components/admin/AIAnalysisSection";
+import AIChatbotSidebar from "@/components/admin/AIChatbotSidebar";
 
 /**
  * ADMIN DASHBOARD - OVERVIEW PAGE
@@ -61,6 +65,8 @@ export default function AdminDashboard() {
   });
   const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedMetric, setSelectedMetric] = useState<'sales' | 'orders' | 'products' | 'customers' | null>(null);
+  const [graphLoading, setGraphLoading] = useState(false);
 
   useEffect(() => {
     fetchDashboardData();
@@ -164,48 +170,74 @@ export default function AdminDashboard() {
     );
   }
 
-  return (
-    <div>
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-        <p className="text-gray-600 mt-2">
-          Welcome back! Here's what's happening with your store today.
-        </p>
-      </div>
+  const handleMetricClick = (metric: 'sales' | 'orders' | 'products' | 'customers') => {
+    setSelectedMetric(metric);
+    setGraphLoading(true);
+    // Loading will be handled by DynamicGraphSection component
+    setTimeout(() => setGraphLoading(false), 500);
+  };
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statsCards.map((card) => (
-          <div
-            key={card.title}
-            className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className={`${card.color} p-3 rounded-lg`}>
-                <card.icon className="text-white" size={24} />
-              </div>
-              <div
-                className={`flex items-center gap-1 text-sm font-medium ${
-                  card.change >= 0 ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {card.change >= 0 ? (
-                  <ArrowUpRight size={16} />
-                ) : (
-                  <ArrowDownRight size={16} />
-                )}
-                {Math.abs(card.change)}%
-              </div>
-            </div>
-            <h3 className="text-gray-600 text-sm font-medium">{card.title}</h3>
-            <p className="text-2xl font-bold text-gray-900 mt-1">
-              {card.value}
-            </p>
-            <p className="text-xs text-gray-500 mt-2">vs last month</p>
-          </div>
-        ))}
-      </div>
+  return (
+    <div className="relative">
+      {/* AI Chatbot Sidebar */}
+      <AIChatbotSidebar />
+
+      {/* Main Content - Add right margin for chatbot sidebar */}
+      <div className="mr-80">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
+          <p className="text-gray-600 mt-2">
+            Welcome back! Here's what's happening with your store today.
+          </p>
+        </div>
+
+        {/* Interactive Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <InteractiveStatCard
+            title="Total Sales"
+            value={`$${stats.totalSales.toLocaleString()}`}
+            change={stats.salesChange}
+            icon={DollarSign}
+            color="bg-green-500"
+            isActive={selectedMetric === 'sales'}
+            isLoading={selectedMetric === 'sales' && graphLoading}
+            onClick={() => handleMetricClick('sales')}
+          />
+          <InteractiveStatCard
+            title="Total Orders"
+            value={stats.totalOrders.toLocaleString()}
+            change={stats.ordersChange}
+            icon={ShoppingCart}
+            color="bg-blue-500"
+            isActive={selectedMetric === 'orders'}
+            isLoading={selectedMetric === 'orders' && graphLoading}
+            onClick={() => handleMetricClick('orders')}
+          />
+          <InteractiveStatCard
+            title="Products"
+            value={stats.totalProducts.toLocaleString()}
+            change={stats.productsChange}
+            icon={Package}
+            color="bg-purple-500"
+            isActive={selectedMetric === 'products'}
+            isLoading={selectedMetric === 'products' && graphLoading}
+            onClick={() => handleMetricClick('products')}
+          />
+          <InteractiveStatCard
+            title="Customers"
+            value={stats.totalUsers.toLocaleString()}
+            change={stats.usersChange}
+            icon={Users}
+            color="bg-orange-500"
+            isActive={selectedMetric === 'customers'}
+            isLoading={selectedMetric === 'customers' && graphLoading}
+            onClick={() => handleMetricClick('customers')}
+          />
+        </div>
+
+        {/* Dynamic Graph Section - Shows when metric is selected */}
+        <DynamicGraphSection selectedMetric={selectedMetric} />
 
       {/* Recent Orders */}
       <div className="bg-white rounded-lg shadow">
@@ -278,42 +310,48 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a
-          href="/admin/products/new"
-          className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
-        >
-          <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
-            <Package className="text-blue-600" size={24} />
-          </div>
-          <h3 className="font-semibold text-gray-900 mb-2">Add New Product</h3>
-          <p className="text-sm text-gray-600">
-            Create a new product listing
-          </p>
-        </a>
+        {/* AI Analysis Section - Below Recent Orders */}
+        <div className="mt-8">
+          <AIAnalysisSection />
+        </div>
 
-        <a
-          href="/admin/orders"
-          className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
-        >
-          <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
-            <ShoppingCart className="text-green-600" size={24} />
-          </div>
-          <h3 className="font-semibold text-gray-900 mb-2">Manage Orders</h3>
-          <p className="text-sm text-gray-600">View and process orders</p>
-        </a>
+        {/* Quick Actions */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <a
+            href="/admin/products/new"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
+          >
+            <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
+              <Package className="text-blue-600" size={24} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-2">Add New Product</h3>
+            <p className="text-sm text-gray-600">
+              Create a new product listing
+            </p>
+          </a>
 
-        <a
-          href="/admin/users"
-          className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
-        >
-          <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors">
-            <Users className="text-purple-600" size={24} />
-          </div>
-          <h3 className="font-semibold text-gray-900 mb-2">Manage Users</h3>
-          <p className="text-sm text-gray-600">View registered users</p>
-        </a>
+          <a
+            href="/admin/orders"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
+          >
+            <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors">
+              <ShoppingCart className="text-green-600" size={24} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-2">Manage Orders</h3>
+            <p className="text-sm text-gray-600">View and process orders</p>
+          </a>
+
+          <a
+            href="/admin/users"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow text-center group"
+          >
+            <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors">
+              <Users className="text-purple-600" size={24} />
+            </div>
+            <h3 className="font-semibold text-gray-900 mb-2">Manage Users</h3>
+            <p className="text-sm text-gray-600">View registered users</p>
+          </a>
+        </div>
       </div>
     </div>
   );

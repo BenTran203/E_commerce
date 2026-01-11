@@ -14,6 +14,8 @@ import orderRoutes from "./routes/orders";
 import reviewRoutes from "./routes/reviews";
 import paymentRoutes from "./routes/payments";
 import contactRoutes from "./routes/contact";
+import aiAnalysisRoutes from "./routes/aiAnalysis";
+import { errorHandler, notFoundHandler } from "./utils/errorHandler";
 
 
 
@@ -147,6 +149,8 @@ app.get("/api", (req: Request, res: Response) => {
       payments: "/api/payments",
       reviews: "/api/reviews",
       chatbot: "/api/chatbot",
+      aiAnalysis: "/api/admin/ai-analysis",
+      aiChatbot: "/api/admin/ai-chatbot",
     },
   });
 });
@@ -183,17 +187,16 @@ app.use("/api/payments", paymentRoutes);
 // Contact routes
 app.use("/api/contact", contactRoutes);
 
+// AI Analysis and Chatbot routes (Admin only)
+app.use("/api/admin/ai-analysis", aiAnalysisRoutes);
+app.use("/api/admin/ai-chatbot", aiAnalysisRoutes);
+
 /**
  * ERROR HANDLING MIDDLEWARE
  */
 
 // Handle 404 errors for undefined routes - must be AFTER all route definitions
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({
-    status: "error",
-    message: `Route ${req.originalUrl} not found`,
-  });
-});
+app.use(notFoundHandler);
 
 app.get('/debug-db-url', (req, res) => {
   const dbUrl = process.env.DATABASE_URL;
@@ -206,43 +209,8 @@ app.get('/debug-db-url', (req, res) => {
   }
 });
 
-// // Global error handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("Error:", err);
-
-  //   // Set default error values
-  let error = { ...err };
-  error.message = err.message;
-
-  //   // Log error for debugging
-  console.error("Error Stack:", err.stack);
-
-  //   // Mongoose bad ObjectId
-  if (err.name === "CastError") {
-    const message = "Resource not found";
-    error = { message, statusCode: 404 };
-  }
-
-  //   // Mongoose duplicate key
-  if (err.code === 11000) {
-    const message = "Duplicate field value entered";
-    error = { message, statusCode: 400 };
-  }
-
-  //   // Mongoose validation error
-  if (err.name === "ValidationError") {
-    const message = Object.values(err.errors)
-      .map((val: any) => val.message)
-      .join(", ");
-    error = { message, statusCode: 400 };
-  }
-
-  res.status(error.statusCode || 500).json({
-    status: "error",
-    message: error.message || "Internal Server Error",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
-  });
-});
+// Global error handler - MUST be last middleware
+app.use(errorHandler);
 
 // /**
 //  * SERVER STARTUP
