@@ -19,30 +19,40 @@ const FeaturedProducts: React.FC = () => {
   const { t } = useTranslation();
   const { featuredProducts, fetchFeaturedProducts, isLoading } = useProducts();
   const { addItem } = useCart();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [rotationIndex, setRotationIndex] = useState(0);
+  const [isInteracting, setIsInteracting] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const productsToShow = 4; // Number of products to show at once
 
   useEffect(() => {
     fetchFeaturedProducts();
   }, [fetchFeaturedProducts]);
 
-  // Auto-rotate products every 3 seconds
+  // Auto-rotate: move the first product to the end every 3 seconds (shift-left rotation)
   useEffect(() => {
-    if (featuredProducts.length > productsToShow) {
+    if (!isInteracting && featuredProducts.length > productsToShow) {
       const timer = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex + 1 >= featuredProducts.length ? 0 : prevIndex + 1,
+        setRotationIndex((prev) =>
+          featuredProducts.length === 0 ? 0 : (prev + 1) % featuredProducts.length,
         );
-      }, 5000);
+      }, 3000);
       return () => clearInterval(timer);
     }
-  }, [featuredProducts.length]);
+  }, [featuredProducts.length, productsToShow, isInteracting]);
+
+  // Derive a rotated list from the original array so we don't mutate `featuredProducts`.
+  const rotatedProducts = useMemo(() => {
+    const len = featuredProducts.length;
+    if (len === 0) return [];
+    const safeIndex = ((rotationIndex % len) + len) % len;
+    return [
+      ...featuredProducts.slice(safeIndex),
+      ...featuredProducts.slice(0, safeIndex),
+    ];
+  }, [featuredProducts, rotationIndex]);
 
   // Get current visible products
-  const visibleProducts = featuredProducts.slice(
-    currentIndex,
-    currentIndex + productsToShow,
-  );
+  const visibleProducts = rotatedProducts.slice(0, productsToShow);
   const edgeVariants = {
     initial: (edge: "left" | "right" | "middle") =>
       edge === "right" ? { x: 40, opacity: 0 } : {}, // only the new right card slides in
@@ -55,16 +65,6 @@ const FeaturedProducts: React.FC = () => {
       edge === "left"
         ? { x: -40, opacity: 0, transition: { duration: 0.18, type: "tween" } }
         : {},
-  };
-
-  const slideVariants = {
-    initial: { x: 40, opacity: 0 },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: { type: "tween", duration: 0.25 },
-    },
-    exit: { x: -40, opacity: 0, transition: { type: "tween", duration: 0.15 } },
   };
 
   if (isLoading) {
@@ -103,7 +103,24 @@ const FeaturedProducts: React.FC = () => {
 
         {/* Products Grid with Animation */}
         <div className="relative overflow-hidden">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            ref={containerRef}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            onMouseEnter={() => setIsInteracting(true)}
+            onMouseLeave={() => setIsInteracting(false)}
+            onFocusCapture={() => setIsInteracting(true)}
+            onBlurCapture={(e) => {
+              const next = e.relatedTarget;
+              if (
+                next instanceof Node &&
+                containerRef.current &&
+                containerRef.current.contains(next)
+              ) {
+                return;
+              }
+              setIsInteracting(false);
+            }}
+          >
             <AnimatePresence initial={false} mode="popLayout">
               {visibleProducts.map((product, idx) => {
                 const isFirst = idx === 0;
@@ -145,15 +162,29 @@ const FeaturedProducts: React.FC = () => {
 
                         {/* Quick Actions */}
                         <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                          <button className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow">
+                          <button
+                            type="button"
+                            className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                            aria-label={`Add to wishlist: ${getProductName(
+                              product.id,
+                              product.name,
+                              t,
+                            )}`}
+                          >
                             <Heart
                               size={18}
                               className="text-primary-700 hover:text-red-500 transition-colors"
                             />
                           </button>
                           <button
+                            type="button"
                             onClick={() => addItem(product)}
-                            className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow"
+                            className="bg-white p-2 shadow-luxury hover:shadow-luxury-lg transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                            aria-label={`${t("shop.addToCart")}: ${getProductName(
+                              product.id,
+                              product.name,
+                              t,
+                            )}`}
                           >
                             <ShoppingBag
                               size={18}
@@ -257,15 +288,28 @@ const FeaturedProducts: React.FC = () => {
             {Array.from({
               length: Math.ceil(featuredProducts.length / productsToShow),
             }).map((_, idx) => (
+              (() => {
+                const currentPage = Math.floor(
+                  (featuredProducts.length === 0
+                    ? 0
+                    : rotationIndex % featuredProducts.length) / productsToShow,
+                );
+                const isCurrent = currentPage === idx;
+                return (
               <button
                 key={idx}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  Math.floor(currentIndex / productsToShow) === idx
+                  isCurrent
                     ? "bg-primary-900"
                     : "bg-primary-300"
-                }`}
-                onClick={() => setCurrentIndex(idx * productsToShow)}
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500`}
+                onClick={() => setRotationIndex(idx * productsToShow)}
+                type="button"
+                aria-label={`Go to page ${idx + 1}`}
+                aria-current={isCurrent ? "true" : undefined}
               />
+                );
+              })()
             ))}
           </div>
 

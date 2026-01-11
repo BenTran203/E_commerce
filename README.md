@@ -89,23 +89,20 @@ cd E_commerce
 
 ### 2. Environment Setup
 
-We use **ONE `.env.example` file** for all configurations. Copy it to create your environment files:
+We use **separate `.env.example` files** for frontend and backend configurations:
 
 ```bash
 # Frontend environment
-cp .env.example .env.local
+cp frontend/.env.example frontend/.env.local
 
 # Backend environment
-cp .env.example backend/.env
+cp backend/.env.example backend/.env
 ```
 
-Then edit each file and **keep only the relevant sections**:
+Then edit each file and fill in your actual values:
 
-- **`.env.local`** - Keep FRONTEND section only
-- **`backend/.env`** - Keep BACKEND section only
-- **`.env`** (optional) - Keep DOCKER section only if using docker-compose
-
-**Tip:** The `.env.example` file has all variables with clear sections. Just copy what you need!
+- **`frontend/.env.local`** - Frontend environment variables
+- **`backend/.env`** - Backend environment variables
 
 ### 3. Start Docker Services
 
@@ -134,6 +131,7 @@ docker-compose exec backend npx ts-node prisma/seed-products.ts
 ### 5. Start Frontend Development Server
 
 ```bash
+cd frontend
 npm install
 npm run dev
 ```
@@ -177,45 +175,48 @@ E_commerce/
 │   │   ├── utils/               # Helper functions
 │   │   └── app.ts               # Express server setup
 │   ├── Dockerfile               # Docker configuration
+│   ├── .env.example             # Backend environment template
 │   ├── package.json
 │   └── tsconfig.json
-├── src/                          # Frontend Next.js 16 app
-│   ├── app/                     # App router pages
-│   │   ├── account/            # User account pages
-│   │   ├── admin/              # Admin dashboard
-│   │   ├── auth/               # Login, register, verify-email
-│   │   ├── pages/              # Static pages (about, contact)
-│   │   ├── product/            # Product detail pages
-│   │   ├── layout.tsx          # Root layout
-│   │   └── page.tsx            # Homepage
-│   ├── components/              # React components
-│   │   ├── checkout/           # Checkout flow components
-│   │   ├── sections/           # Homepage sections
-│   │   └── ui/                 # Reusable UI components
-│   ├── data/
-│   │   ├── products.json       # Product catalog data
-│   │   └── assest.json         # Asset mappings
-│   ├── hooks/                   # Custom React hooks
-│   │   ├── useAuth.ts
-│   │   ├── useCart.ts
-│   │   └── useProducts.ts
-│   ├── lib/
-│   │   └── api.ts              # API client wrapper
-│   ├── store/                   # Redux Toolkit store
-│   │   ├── slices/             # Redux slices (auth, cart, products, ui)
-│   │   └── index.ts            # Store configuration with persistence
-│   ├── types/
-│   │   └── index.ts            # TypeScript type definitions
-│   └── utils/                   # Utility functions
+├── frontend/                     # Frontend Next.js 16 app
+│   ├── src/
+│   │   ├── app/                 # App router pages
+│   │   │   ├── account/        # User account pages
+│   │   │   ├── admin/          # Admin dashboard
+│   │   │   ├── auth/           # Login, register, verify-email
+│   │   │   ├── pages/          # Static pages (about, contact)
+│   │   │   ├── product/        # Product detail pages
+│   │   │   ├── layout.tsx      # Root layout
+│   │   │   └── page.tsx        # Homepage
+│   │   ├── components/          # React components
+│   │   │   ├── checkout/       # Checkout flow components
+│   │   │   ├── sections/       # Homepage sections
+│   │   │   └── ui/             # Reusable UI components
+│   │   ├── data/
+│   │   │   ├── products.json   # Product catalog data
+│   │   │   └── assest.json     # Asset mappings
+│   │   ├── hooks/               # Custom React hooks
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useCart.ts
+│   │   │   └── useProducts.ts
+│   │   ├── lib/
+│   │   │   └── api.ts          # API client wrapper
+│   │   ├── store/               # Redux Toolkit store
+│   │   │   ├── slices/         # Redux slices (auth, cart, products, ui)
+│   │   │   └── index.ts        # Store configuration with persistence
+│   │   ├── types/
+│   │   │   └── index.ts        # TypeScript type definitions
+│   │   └── utils/               # Utility functions
+│   ├── .env.example             # Frontend environment template
+│   ├── package.json             # Frontend dependencies
+│   ├── next.config.js           # Next.js configuration
+│   ├── tailwind.config.ts       # Tailwind CSS config
+│   ├── tsconfig.json            # TypeScript config
+│   └── eslint.config.mjs        # ESLint configuration
 ├── docs/                         # Documentation files
-├── .env.example                 # Environment variables template
 ├── .github/
 │   └── copilot-instructions.md  # AI agent guide
-├── docker-compose.yml           # Docker services (postgres, redis, backend, pgadmin)
-├── package.json                 # Frontend dependencies
-├── next.config.js               # Next.js configuration
-├── tailwind.config.ts           # Tailwind CSS config
-└── tsconfig.json                # TypeScript config
+└── docker-compose.yml           # Docker services (postgres, redis, backend, pgadmin)
 ```
 
 ## Development
@@ -225,6 +226,7 @@ E_commerce/
 #### Frontend
 
 ```bash
+cd frontend
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server

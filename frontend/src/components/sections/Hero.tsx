@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-luxury-cream">
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <div
           className="w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {t("hero.title")} <br></br>
+            {t("hero.title")} <br />
             <span className="block font-normal text-3xl md:text-4xl lg:text-5xl mt-3 text-primary-800">
               {t("hero.subtitle")}
             </span>
@@ -80,8 +80,14 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 border border-primary-200 opacity-50 hidden lg:block" />
-      <div className="absolute bottom-20 right-10 w-24 h-24 border border-primary-200 opacity-50 hidden lg:block" />
+      <div
+        className="absolute top-20 left-10 w-32 h-32 border border-primary-200 opacity-50 hidden lg:block"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-20 right-10 w-24 h-24 border border-primary-200 opacity-50 hidden lg:block"
+        aria-hidden="true"
+      />
     </section>
   );
 };

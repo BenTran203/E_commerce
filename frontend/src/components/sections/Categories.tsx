@@ -73,19 +73,22 @@ const Categories: React.FC = () => {
               variants={itemVariants}
               className="group"
             >
-              <Link href={`/pages/collections/${category.slug}`}>
+              <Link
+                href={`/pages/collections/${category.slug}`}
+                className="block rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
                 <div className="relative overflow-hidden bg-primary-50 aspect-[3/4] mb-4 rounded-md">
                   {/* Category Image */}
                   <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110 group-focus-within:scale-110"
                     style={{ backgroundImage: `url(${category.image})` }}
                   />
 
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-black opacity-0  group-hover:opacity-20 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 group-focus-within:opacity-20 transition-opacity duration-300" />
 
                   {/* Hover text */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 group-focus-within:translate-x-0">
                     <div className="text-primary-600 p-2 shadow-luxury bg-white/80 rounded">
                       <span>{t("categories.lookMore")}</span>
                     </div>

@@ -5,7 +5,7 @@ import Newsletter from "@/components/sections/Newsletter";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main id="main-content" className="min-h-screen">
       <Hero />
       <Categories />
       <FeaturedProducts />

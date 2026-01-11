@@ -1,27 +1,4 @@
-/**
- * AUTHENTICATION CONTROLLER
- *
- * This controller handles user authentication operations including:
- * - User registration
- * - User login
- * - Password reset
- * - Email verification
- * - Token refresh
- *
- * LEARNING OBJECTIVES:
- * - Implement secure user registration and login
- * - Learn password hashing with bcrypt
- * - Understand JWT token management
- * - Handle email verification workflow
- * - Implement password reset functionality
- *
- * IMPLEMENTATION STEPS:
- * 1. Install required dependencies: bcryptjs, jsonwebtoken
- * 2. Set up email service (nodemailer)
- * 3. Implement each authentication method
- * 4. Add proper validation and error handling
- * 5. Test each endpoint thoroughly
- */
+
 
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
@@ -157,24 +134,20 @@ export const register = async (req: Request, res: Response) => {
 
 /**
  * USER LOGIN
- *
- * POST /api/auth/login
- *
- * Authenticate user and return access token
  */
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password, rememberMe = false } = req.body;
 
-    // TODO: Implement validation
-    // const validation = validateLogin(req.body)
-    // if (!validation.isValid) {
-    //   return res.status(400).json({
-    //     status: 'error',
-    //     message: 'Validation failed',
-    //     errors: validation.errors
-    //   })
-    // }
+
+    const validation = loginValidator.safeParse(req.body)
+    if (!validation.success) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Validation failed',
+        errors: validation.error
+      })
+    }
 
     // Basic validation
     if (!email || !password) {

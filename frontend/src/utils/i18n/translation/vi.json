@@ -8,6 +8,19 @@
   "language": {
     "switch": "Đổi Ngôn Ngữ"
   },
+  "header": {
+    "search": {
+      "open": "Mở tìm kiếm",
+      "placeholder": "Tìm kiếm sản phẩm...",
+      "submit": "Tìm kiếm"
+    },
+    "userMenu": {
+      "open": "Mở menu người dùng"
+    },
+    "mobileMenu": {
+      "toggle": "Bật/tắt menu"
+    }
+  },
   "hero": {
     "title": "Timeless",
     "subtitle": "Định Nghĩa Lại Sự Thanh Lịch",

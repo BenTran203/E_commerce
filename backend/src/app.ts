@@ -20,7 +20,7 @@ import contactRoutes from "./routes/contact";
 // Load .env.local first (if exists), then fall back to .env
 dotenv.config({ path: ".env.local" });
 dotenv.config();
-connectRedis();
+// connectRedis();
 
 const app: Application = express();
 app.set("trust proxy", 1);

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -26,10 +25,10 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { itemCount, toggle: toggleCart } = useCart();
+  const { itemCount } = useCart();
   const { user, isAuthenticated, signOut } = useAuth();
   const { t } = useTranslation();
-  const router = useRouter();
+  const userMenuContainerRef = useRef<HTMLDivElement | null>(null);
 
   const navigationItems = [
     { name: t("nav.shop"), href: "/pages/shop" },
@@ -43,6 +42,31 @@ const Header: React.FC = () => {
     // Handle search logic here
     setIsSearchOpen(false);
   };
+
+  // Close overlays on ESC, and close user menu on outside-click.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setIsSearchOpen(false);
+      setIsUserMenuOpen(false);
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (!isUserMenuOpen) return;
+      const el = userMenuContainerRef.current;
+      if (!el) return;
+      if (e.target instanceof Node && !el.contains(e.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [isUserMenuOpen]);
 
   return (
     <header className="sticky top-0 z-50 bg-luxury-cream border-b border-primary-200 backdrop-blur-luxury">
@@ -72,9 +96,12 @@ const Header: React.FC = () => {
           <div className="flex items-center space-x-4">
             {/* Search */}
             <button
-              onClick={() => setIsSearchOpen(true)}
-              className="p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
-              aria-label="Search"
+              onClick={() => {
+                setIsSearchOpen(true);
+                setIsUserMenuOpen(false);
+              }}
+              className="p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              aria-label={t("header.search.open")}
             >
               <Search size={20} />
             </button>
@@ -97,11 +124,11 @@ const Header: React.FC = () => {
             </Link>
 
             {/* User Menu */}
-            <div className="relative">
+            <div className="relative" ref={userMenuContainerRef}>
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
-                aria-label="User menu"
+                className="p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                aria-label={t("header.userMenu.open")}
               >
                 <User size={20} />
               </button>
@@ -190,8 +217,8 @@ const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200"
-              aria-label="Menu"
+              className="md:hidden p-2 text-primary-700 hover:text-primary-900 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              aria-label={t("header.mobileMenu.toggle")}
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -242,12 +269,12 @@ const Header: React.FC = () => {
               <form onSubmit={handleSearch} className="flex items-center">
                 <input
                   type="text"
-                  placeholder="Search for products..."
+                  placeholder={t("header.search.placeholder")}
                   className="flex-1 px-4 py-3 border-b-2 border-primary-200 focus:border-primary-500 outline-none text-lg"
                   autoFocus
                 />
                 <Button type="submit" variant="ghost" className="ml-4">
-                  Search
+                  {t("header.search.submit")}
                 </Button>
               </form>
             </motion.div>

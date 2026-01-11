@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Instagram, Twitter, Facebook } from "lucide-react";
+import { Camera, X, Users, type LucideIcon } from "lucide-react";
 import { withTranslation } from "@/utils/i18n/withTranslation";
 import type { WithTranslationProps } from "@/utils/i18n/types";
 
@@ -21,13 +21,13 @@ interface FooterSection {
 interface SocialLink {
   name: string;
   href: string;
-  icon: (props: { size?: number }) => JSX.Element;
+  icon: LucideIcon;
 }
 
 const SOCIAL_LINKS: SocialLink[] = [
-  { name: "Instagram", icon: Instagram as any, href: "https://instagram.com" },
-  { name: "Twitter", icon: Twitter as any, href: "https://twitter.com" },
-  { name: "Facebook", icon: Facebook as any, href: "https://facebook.com" },
+  { name: "Instagram", icon: Camera, href: "https://instagram.com" },
+  { name: "X", icon: X, href: "https://x.com" },
+  { name: "Facebook", icon: Users, href: "https://facebook.com" },
 ];
 
 function buildFooterSections(t: TFunction): FooterSection[] {
@@ -98,7 +98,10 @@ function buildFooterSections(t: TFunction): FooterSection[] {
 function BrandSection({ t, links }: { t: TFunction; links: SocialLink[] }) {
   return (
     <div className="lg:col-span-1">
-      <Link href="/" className="inline-block mb-6">
+      <Link
+        href="/"
+        className="inline-block mb-6 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+      >
         <span className="text-3xl font-serif font-bold">Timeless</span>
       </Link>
       <p className="text-primary-300 mb-6 leading-relaxed">
@@ -113,7 +116,7 @@ function BrandSection({ t, links }: { t: TFunction; links: SocialLink[] }) {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 border border-primary-600 hover:border-primary-400 transition-colors duration-300"
+              className="p-2 border border-primary-600 rounded-md hover:border-primary-400 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
               aria-label={link.name}
             >
               <Icon size={20} />
@@ -136,7 +139,7 @@ function LinksGrid({ sections }: { sections: FooterSection[] }) {
               <li key={`${section.title}-${link.href}`}>
                 <Link
                   href={link.href}
-                  className="text-primary-300 hover:text-white transition-colors duration-200"
+                  className="text-primary-300 hover:text-white transition-colors duration-200 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
                 >
                   {link.name}
                 </Link>

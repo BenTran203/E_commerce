@@ -8,6 +8,19 @@
   "language": {
     "switch": "Switch Language"
   },
+  "header": {
+    "search": {
+      "open": "Open search",
+      "placeholder": "Search for products...",
+      "submit": "Search"
+    },
+    "userMenu": {
+      "open": "Open user menu"
+    },
+    "mobileMenu": {
+      "toggle": "Toggle menu"
+    }
+  },
   "hero": {
     "title": "Timeless",
     "subtitle": "Elegance Redefined",
