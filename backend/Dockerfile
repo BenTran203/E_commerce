@@ -38,7 +38,7 @@ RUN npm ci
 RUN npx tsx prisma/seed.ts
 
 # Copy prisma
-COPY backend/prisma ./prisma/
+COPY prisma ./prisma/
 
 RUN npx prisma generate
 
