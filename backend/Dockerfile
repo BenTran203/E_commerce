@@ -18,7 +18,7 @@ RUN npx prisma generate
 COPY src ./src/
 
 # Build the TypeScript project
-RUN npm run dev
+RUN npm run build
 
 EXPOSE 3001
 
