@@ -4,18 +4,18 @@ FROM node:20-alpine AS development
 WORKDIR /app
 
 # Copy package files
-COPY backend/package*.json ./
+COPY package*.json ./
 RUN npm install
 
 # Copy tsconfig.json 
-COPY backend/tsconfig.json ./
+COPY tsconfig.json ./
 
 # Copy prisma schema for generation
-COPY backend/prisma ./prisma/
+COPY prisma ./prisma/
 RUN npx prisma generate
 
 # Copy source code
-COPY backend/src ./src/
+COPY src ./src/
 
 # Build the TypeScript project
 RUN npm run dev
@@ -31,7 +31,7 @@ FROM node:20-alpine AS production
 WORKDIR /app
 
 # Copy package files
-COPY backend/package*.json ./
+COPY package*.json ./
 RUN npm ci
 
 # Install tsx globally for seeding
