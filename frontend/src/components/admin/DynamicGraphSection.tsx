@@ -22,6 +22,17 @@ export default function DynamicGraphSection({ selectedMetric }: DynamicGraphSect
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Get label based on metric type
+  const getMetricLabel = (metric: string) => {
+    const labels: Record<string, string> = {
+      sales: 'Number of sales',
+      orders: 'Number of orders',
+      products: 'Number of products',
+      customers: 'Number of customers',
+    };
+    return labels[metric] || 'Value';
+  };
+
   useEffect(() => {
     if (selectedMetric) {
       fetchGraphData(selectedMetric);
@@ -132,46 +143,51 @@ export default function DynamicGraphSection({ selectedMetric }: DynamicGraphSect
             </div>
           )}
 
-          {/* Line Chart - Trend Tracking */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="text-gray-700" size={20} />
-              <h3 className="text-lg font-semibold text-gray-900">Trend Over Time</h3>
+          {/* Line Chart - Trend Tracking (only if data exists) */}
+          {graphData.chartData.lineData && graphData.chartData.lineData.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="text-gray-700" size={20} />
+                <h3 className="text-lg font-semibold text-gray-900">Trend Over Time</h3>
+              </div>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={graphData.chartData.lineData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis
+                    dataKey="date"
+                    stroke="#6b7280"
+                    fontSize={12}
+                    tick={{ fill: '#6b7280' }}
+                  />
+                  <YAxis
+                    stroke="#6b7280"
+                    fontSize={12}
+                    tick={{ fill: '#6b7280' }}
+                    domain={[0, 'auto']}
+                    allowDecimals={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#fff',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '8px',
+                      padding: '8px 12px',
+                    }}
+                  />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    name={getMetricLabel(selectedMetric)}
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    dot={{ fill: '#3b82f6', r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={graphData.chartData.lineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis
-                  dataKey="date"
-                  stroke="#6b7280"
-                  fontSize={12}
-                  tick={{ fill: '#6b7280' }}
-                />
-                <YAxis
-                  stroke="#6b7280"
-                  fontSize={12}
-                  tick={{ fill: '#6b7280' }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#fff',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    padding: '8px 12px',
-                  }}
-                />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                  dot={{ fill: '#3b82f6', r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          )}
 
           {/* Column Chart - Comparative Analysis */}
           <div>
@@ -192,6 +208,8 @@ export default function DynamicGraphSection({ selectedMetric }: DynamicGraphSect
                   stroke="#6b7280"
                   fontSize={12}
                   tick={{ fill: '#6b7280' }}
+                  domain={[0, 'auto']}
+                  allowDecimals={false}
                 />
                 <Tooltip
                   contentStyle={{
@@ -204,6 +222,7 @@ export default function DynamicGraphSection({ selectedMetric }: DynamicGraphSect
                 <Legend />
                 <Bar
                   dataKey="value"
+                  name={getMetricLabel(selectedMetric)}
                   fill="#10b981"
                   radius={[8, 8, 0, 0]}
                 />

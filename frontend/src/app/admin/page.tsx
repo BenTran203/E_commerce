@@ -2,14 +2,10 @@
 
 import { useEffect, useState } from "react";
 import {
-  TrendingUp,
-  TrendingDown,
   DollarSign,
   ShoppingCart,
   Package,
   Users,
-  ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react";
 import InteractiveStatCard from "@/components/admin/InteractiveStatCard";
 import DynamicGraphSection from "@/components/admin/DynamicGraphSection";
@@ -76,43 +72,30 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       
-      // TODO: Replace with actual API calls
-      // For now, using mock data for demonstration
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Fetch real data from API
+      const { default: api } = await import("@/lib/api");
+      const data = await api.dashboard.getStats();
       
       setStats({
-        totalSales: 45231.89,
-        salesChange: 12.5,
-        totalOrders: 234,
-        ordersChange: 8.3,
-        totalProducts: 145,
-        productsChange: 3.2,
-        totalUsers: 892,
-        usersChange: 15.8,
+        totalSales: data.stats.totalSales,
+        salesChange: data.stats.salesChange,
+        totalOrders: data.stats.totalOrders,
+        ordersChange: data.stats.ordersChange,
+        totalProducts: data.stats.totalProducts,
+        productsChange: data.stats.productsChange,
+        totalUsers: data.stats.totalUsers,
+        usersChange: data.stats.usersChange,
       });
 
-      setRecentOrders([
-        {
-          id: "1",
-          orderNumber: "ORD-001",
-          customer: "John Doe",
-          total: 299.99,
-          status: "CONFIRMED",
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: "2",
-          orderNumber: "ORD-002",
-          customer: "Jane Smith",
-          total: 149.99,
-          status: "PENDING",
-          createdAt: new Date().toISOString(),
-        },
-      ]);
-    } catch (error) {
+      setRecentOrders(data.recentOrders || []);
+    } catch (error: any) {
       console.error("Error fetching dashboard data:", error);
+      
+      // Check if it's a token expiration error (already handled by redirect in api.ts)
+      // Just log it here, the redirect will happen automatically
+      if (error.message?.includes("session has expired") || error.message?.includes("Token")) {
+        console.log("Session expired. Redirecting to login...");
+      }
     } finally {
       setLoading(false);
     }

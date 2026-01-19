@@ -1,4 +1,4 @@
-# Development stage
+########################### DEVELOPEMENT STAGE########################################################
 FROM node:20-alpine AS development
 
 WORKDIR /app
@@ -18,14 +18,14 @@ RUN npx prisma generate
 COPY backend/src ./src/
 
 # Build the TypeScript project
-RUN npm run build
+RUN npm run dev
 
 EXPOSE 3001
 
 # Start with nodemon for hot reload
 CMD ["npm", "run", "dev"]
 
-# Production stage
+########################### PRODUCTION STAGE########################################################
 FROM node:20-alpine AS production
 
 WORKDIR /app
@@ -35,14 +35,10 @@ COPY backend/package*.json ./
 RUN npm ci
 
 # Install tsx globally for seeding
-RUN npm install -g tsx prisma
+RUN npx tsx prisma/seed.ts
 
 # Copy prisma
 COPY backend/prisma ./prisma/
-# Copy products.json for seeding
-COPY backend/prisma/products.json ./prisma/products.json
-# COPY seed-admin
-COPY backend/prisma/seed-products.ts ./prisma/
 
 RUN npx prisma generate
 

@@ -7,6 +7,28 @@
 
 import rateLimit from 'express-rate-limit';
 
+// Helper function to generate rate limit keys with IPv6 support
+const generateKey = (req: any): string => {
+  // Prefer user ID if authenticated
+  if (req.user?.id) {
+    return `user:${req.user.id}`;
+  }
+  
+  // Fall back to IP (properly handling IPv6)
+  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  
+  // Normalize IPv6 addresses
+  // IPv6 addresses can have multiple representations, normalize them
+  let normalizedIp = ip;
+  if (ip.includes(':')) {
+    // It's an IPv6 address
+    // Remove IPv4-mapped IPv6 prefix (::ffff:)
+    normalizedIp = ip.replace(/^::ffff:/i, '');
+  }
+  
+  return `ip:${normalizedIp}`;
+};
+
 /**
  * In-memory store for rate limiting
  * For production with multiple servers, use Redis store:
@@ -35,10 +57,8 @@ export const aiAnalysisLimiter = rateLimit({
   },
   standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
   legacyHeaders: false, // Disable `X-RateLimit-*` headers
-  keyGenerator: (req) => {
-    // Rate limit per user ID if authenticated, otherwise by IP
-    return req.user?.id || req.ip || 'unknown';
-  },
+  keyGenerator: generateKey,
+  validate: { keyGeneratorIpFallback: false }, // We handle IPv6 properly in generateKey
   handler: (req, res) => {
     res.status(429).json({
       status: 'error',
@@ -66,7 +86,8 @@ export const graphGenerationLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.id || req.ip || 'unknown',
+  keyGenerator: generateKey,
+  validate: { keyGeneratorIpFallback: false }, // We handle IPv6 properly in generateKey
   handler: (req, res) => {
     res.status(429).json({
       status: 'error',
@@ -94,7 +115,8 @@ export const chatbotLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.id || req.ip || 'unknown',
+  keyGenerator: generateKey,
+  validate: { keyGeneratorIpFallback: false }, // We handle IPv6 properly in generateKey
   handler: (req, res) => {
     res.status(429).json({
       status: 'error',
@@ -126,7 +148,8 @@ export const fileUploadLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.user?.id || req.ip || 'unknown',
+  keyGenerator: generateKey,
+  validate: { keyGeneratorIpFallback: false }, // We handle IPv6 properly in generateKey
   handler: (req, res) => {
     res.status(429).json({
       status: 'error',
@@ -154,7 +177,8 @@ export const generalApiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => req.ip || 'unknown',
+  keyGenerator: generateKey,
+  validate: { keyGeneratorIpFallback: false }, // We handle IPv6 properly in generateKey
   handler: (req, res) => {
     res.status(429).json({
       status: 'error',

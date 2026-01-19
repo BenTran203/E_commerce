@@ -78,14 +78,6 @@ export default function AIAnalysisSection() {
     },
   ] : [];
 
-  const getPriorityBadge = (priority: string) => {
-    const colors = {
-      high: 'bg-red-100 text-red-800',
-      medium: 'bg-yellow-100 text-yellow-800',
-      low: 'bg-green-100 text-green-800',
-    };
-    return colors[priority as keyof typeof colors] || colors.medium;
-  };
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
@@ -151,30 +143,30 @@ export default function AIAnalysisSection() {
             const data = analysis[category.key as keyof DashboardAnalysis];
             const Icon = category.icon;
 
+            // Skip if data is not available for this category
+            if (!data || typeof data !== 'object') {
+              return null;
+            }
+
             return (
               <div
                 key={category.key}
                 className={`${category.bgColor} border border-gray-200 rounded-lg p-5`}
               >
                 {/* Category Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Icon className={category.color} size={24} />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {category.title}
-                    </h3>
-                  </div>
-                  <span
-                    className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityBadge(data.priority)}`}
-                  >
-                    {data.priority.toUpperCase()}
-                  </span>
+                <div className="flex items-center gap-2 mb-4">
+                  <Icon className={category.color} size={24} />
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {category.title}
+                  </h3>
                 </div>
 
                 {/* Summary */}
-                <p className="text-sm text-gray-700 mb-4 leading-relaxed">
-                  {data.summary}
-                </p>
+                {data.summary && (
+                  <p className="text-sm text-gray-700 mb-4 leading-relaxed">
+                    {data.summary}
+                  </p>
+                )}
 
                 {/* Insights */}
                 {data.insights && data.insights.length > 0 && (

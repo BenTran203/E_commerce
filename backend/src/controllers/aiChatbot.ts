@@ -1,16 +1,16 @@
 /**
  * AI CHATBOT CONTROLLER
- * 
+ *
  * Handles AI chatbot interactions with context awareness
  * Supports file upload and analysis
  */
 
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { openai, OPENAI_CONFIG } from '../config/openai';
-import { asyncHandler, AppError } from '../utils/errorHandler';
-import pdf from 'pdf-parse';
-import ExcelJS from 'exceljs';
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { openai, OPENAI_CONFIG } from "../config/openai";
+import { asyncHandler, AppError } from "../utils/errorHandler";
+const pdfParse = require("pdf-parse");
+import ExcelJS from "exceljs";
 
 const prisma = new PrismaClient();
 
@@ -20,7 +20,7 @@ const conversationHistory: Map<string, any[]> = new Map();
 /**
  * Send Message to AI Chatbot
  * POST /api/admin/ai-chatbot/message
- * 
+ *
  * Context-aware chatbot that can answer questions about dashboard data
  */
 export const sendChatbotMessage = asyncHandler(
@@ -29,11 +29,13 @@ export const sendChatbotMessage = asyncHandler(
     const userId = req.user?.id;
 
     if (!userId) {
-      throw new AppError('Authentication required', 401, 'UNAUTHORIZED');
+      throw new AppError("Authentication required", 401, "UNAUTHORIZED");
     }
 
     try {
-      console.log(`💬 Chatbot message from ${req.user?.email}: ${message.substring(0, 50)}...`);
+      console.log(
+        ` Chatbot message from ${req.user?.email}: ${message.substring(0, 50)}...`
+      );
 
       // Get conversation history for this user
       const history = conversationHistory.get(userId) || [];
@@ -44,7 +46,7 @@ export const sendChatbotMessage = asyncHandler(
       // Build messages for OpenAI
       const messages: any[] = [
         {
-          role: 'system',
+          role: "system",
           content: `You are a helpful e-commerce business assistant. You have access to the admin's dashboard data.
           
 Current dashboard data:
@@ -55,7 +57,7 @@ Be concise, friendly, and data-driven. If asked about specific numbers, refer to
         },
         ...history,
         {
-          role: 'user',
+          role: "user",
           content: message,
         },
       ];
@@ -68,12 +70,14 @@ Be concise, friendly, and data-driven. If asked about specific numbers, refer to
         messages,
       });
 
-      const aiResponse = completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
+      const aiResponse =
+        completion.choices[0]?.message?.content ||
+        "Sorry, I could not generate a response.";
 
       // Update conversation history (keep last 10 messages)
       history.push(
-        { role: 'user', content: message },
-        { role: 'assistant', content: aiResponse }
+        { role: "user", content: message },
+        { role: "assistant", content: aiResponse }
       );
 
       if (history.length > 20) {
@@ -83,29 +87,28 @@ Be concise, friendly, and data-driven. If asked about specific numbers, refer to
       conversationHistory.set(userId, history);
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: {
           message: aiResponse,
           conversationId: userId,
           timestamp: new Date().toISOString(),
         },
       });
-
     } catch (error: any) {
-      console.error('❌ Chatbot error:', error);
+      console.error(" Chatbot error:", error);
 
       if (error.status === 429) {
         throw new AppError(
-          'Chat service temporarily busy. Please try again in a moment.',
+          "Chat service temporarily busy. Please try again in a moment.",
           429,
-          'OPENAI_RATE_LIMIT'
+          "OPENAI_RATE_LIMIT"
         );
       }
 
       throw new AppError(
-        'Failed to process chat message',
+        "Failed to process chat message",
         500,
-        'CHATBOT_ERROR',
+        "CHATBOT_ERROR",
         { originalError: error.message }
       );
     }
@@ -115,7 +118,7 @@ Be concise, friendly, and data-driven. If asked about specific numbers, refer to
 /**
  * Analyze Uploaded File
  * POST /api/admin/ai-chatbot/analyze-file
- * 
+ *
  * Accepts CSV, PDF, Excel files and provides AI analysis
  */
 export const analyzeUploadedFile = asyncHandler(
@@ -123,7 +126,7 @@ export const analyzeUploadedFile = asyncHandler(
     const file = req.file;
 
     if (!file) {
-      throw new AppError('No file uploaded', 400, 'NO_FILE');
+      throw new AppError("No file uploaded", 400, "NO_FILE");
     }
 
     try {
@@ -133,47 +136,58 @@ export const analyzeUploadedFile = asyncHandler(
       let fileContent: string;
 
       switch (file.mimetype) {
-        case 'text/csv':
-        case 'text/plain':
-          fileContent = file.buffer.toString('utf-8');
+        case "text/csv":
+        case "text/plain":
+          fileContent = file.buffer.toString("utf-8");
           break;
 
-        case 'application/pdf':
-          const pdfData = await pdf(file.buffer);
+        case "application/pdf":
+          const pdfData = await pdfParse(file.buffer);
           fileContent = pdfData.text;
           break;
 
-        case 'application/vnd.ms-excel':
-        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        case "application/vnd.ms-excel":
+        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+          // Normalize to Node Buffer for ExcelJS
           const workbook = new ExcelJS.Workbook();
-          await workbook.xlsx.load(file.buffer);
+          const excelArrayBuffer: ArrayBuffer = file.buffer.buffer.slice(
+            file.buffer.byteOffset,
+            file.buffer.byteOffset + file.buffer.byteLength
+          ) as ArrayBuffer;
+          await workbook.xlsx.load(excelArrayBuffer);
           const worksheet = workbook.worksheets[0];
-          
+
           // Convert worksheet to CSV format
           const rows: string[] = [];
           worksheet.eachRow((row) => {
             const values = row.values as any[];
             // Skip the first undefined element and convert to CSV
-            rows.push(values.slice(1).join(','));
+            rows.push(values.slice(1).join(","));
           });
-          fileContent = rows.join('\n');
+          fileContent = rows.join("\n");
           break;
 
-        case 'application/json':
-          fileContent = file.buffer.toString('utf-8');
+        case "application/json":
+          fileContent = file.buffer.toString("utf-8");
           break;
 
         default:
-          throw new AppError('Unsupported file type', 400, 'UNSUPPORTED_FILE_TYPE');
+          throw new AppError(
+            "Unsupported file type",
+            400,
+            "UNSUPPORTED_FILE_TYPE"
+          );
       }
 
       // Limit content size for OpenAI (max ~8000 tokens)
       const MAX_CONTENT_LENGTH = 20000; // characters
       if (fileContent.length > MAX_CONTENT_LENGTH) {
-        fileContent = fileContent.substring(0, MAX_CONTENT_LENGTH) + '\n\n[Content truncated due to size...]';
+        fileContent =
+          fileContent.substring(0, MAX_CONTENT_LENGTH) +
+          "\n\n[Content truncated due to size...]";
       }
 
-      console.log(`📊 Extracted ${fileContent.length} characters from file`);
+      console.log(` Extracted ${fileContent.length} characters from file`);
 
       // Send to OpenAI for analysis
       const completion = await openai.chat.completions.create({
@@ -182,7 +196,7 @@ export const analyzeUploadedFile = asyncHandler(
         temperature: 0.7,
         messages: [
           {
-            role: 'system',
+            role: "system",
             content: `You are a data analyst. Analyze the uploaded file and provide:
 1. Summary of what the file contains
 2. Key insights and patterns
@@ -191,16 +205,17 @@ export const analyzeUploadedFile = asyncHandler(
 Be specific and data-driven.`,
           },
           {
-            role: 'user',
+            role: "user",
             content: `Analyze this file (${file.originalname}):\n\n${fileContent}`,
           },
         ],
       });
 
-      const analysis = completion.choices[0]?.message?.content || 'Could not analyze file.';
+      const analysis =
+        completion.choices[0]?.message?.content || "Could not analyze file.";
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: {
           filename: file.originalname,
           fileType: file.mimetype,
@@ -209,22 +224,21 @@ Be specific and data-driven.`,
           timestamp: new Date().toISOString(),
         },
       });
-
     } catch (error: any) {
-      console.error('❌ File analysis error:', error);
+      console.error(" File analysis error:", error);
 
-      if (error.code === 'context_length_exceeded') {
+      if (error.code === "context_length_exceeded") {
         throw new AppError(
-          'File too large or complex to analyze. Please try a smaller file.',
+          "File too large or complex to analyze. Please try a smaller file.",
           400,
-          'FILE_TOO_COMPLEX'
+          "FILE_TOO_COMPLEX"
         );
       }
 
       throw new AppError(
-        'Failed to analyze uploaded file',
+        "Failed to analyze uploaded file",
         500,
-        'FILE_ANALYSIS_ERROR',
+        "FILE_ANALYSIS_ERROR",
         { originalError: error.message }
       );
     }
@@ -234,7 +248,7 @@ Be specific and data-driven.`,
 /**
  * Clear Chat History
  * DELETE /api/admin/ai-chatbot/history
- * 
+ *
  * Clears conversation history for current user
  */
 export const clearChatHistory = asyncHandler(
@@ -242,14 +256,14 @@ export const clearChatHistory = asyncHandler(
     const userId = req.user?.id;
 
     if (!userId) {
-      throw new AppError('Authentication required', 401, 'UNAUTHORIZED');
+      throw new AppError("Authentication required", 401, "UNAUTHORIZED");
     }
 
     conversationHistory.delete(userId);
 
     res.status(200).json({
-      status: 'success',
-      message: 'Chat history cleared',
+      status: "success",
+      message: "Chat history cleared",
     });
   }
 );
@@ -257,7 +271,7 @@ export const clearChatHistory = asyncHandler(
 /**
  * Get Chat History
  * GET /api/admin/ai-chatbot/history
- * 
+ *
  * Retrieves conversation history for current user
  */
 export const getChatHistory = asyncHandler(
@@ -265,13 +279,13 @@ export const getChatHistory = asyncHandler(
     const userId = req.user?.id;
 
     if (!userId) {
-      throw new AppError('Authentication required', 401, 'UNAUTHORIZED');
+      throw new AppError("Authentication required", 401, "UNAUTHORIZED");
     }
 
     const history = conversationHistory.get(userId) || [];
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         history,
         messageCount: history.length,
@@ -304,7 +318,7 @@ async function fetchDashboardContext() {
       }),
 
       prisma.user.aggregate({
-        where: { role: 'CUSTOMER' },
+        where: { role: "CUSTOMER" },
         _count: { id: true },
       }),
     ]);
@@ -313,9 +327,10 @@ async function fetchDashboardContext() {
       sales: {
         total: orders._sum.total || 0,
         ordersCount: orders._count.id,
-        averageOrderValue: orders._count.id > 0 
-          ? (orders._sum.total || 0) / orders._count.id 
-          : 0,
+        averageOrderValue:
+          orders._count.id > 0
+            ? (orders._sum.total || 0) / orders._count.id
+            : 0,
       },
       products: {
         total: products._count.id,
@@ -323,15 +338,15 @@ async function fetchDashboardContext() {
       customers: {
         total: users._count.id,
       },
-      period: 'last 30 days',
+      period: "last 30 days",
     };
   } catch (error) {
-    console.error('Error fetching dashboard context:', error);
+    console.error("Error fetching dashboard context:", error);
     return {
       sales: { total: 0, ordersCount: 0, averageOrderValue: 0 },
       products: { total: 0 },
       customers: { total: 0 },
-      period: 'last 30 days',
+      period: "last 30 days",
     };
   }
 }

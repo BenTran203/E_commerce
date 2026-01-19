@@ -15,6 +15,7 @@ import reviewRoutes from "./routes/reviews";
 import paymentRoutes from "./routes/payments";
 import contactRoutes from "./routes/contact";
 import aiAnalysisRoutes from "./routes/aiAnalysis";
+import dashboardRoutes from "./routes/dashboard";
 import { errorHandler, notFoundHandler } from "./utils/errorHandler";
 
 
@@ -187,9 +188,11 @@ app.use("/api/payments", paymentRoutes);
 // Contact routes
 app.use("/api/contact", contactRoutes);
 
+// Dashboard routes (Admin only)
+app.use("/api/admin/dashboard", dashboardRoutes);
+
 // AI Analysis and Chatbot routes (Admin only)
 app.use("/api/admin/ai-analysis", aiAnalysisRoutes);
-app.use("/api/admin/ai-chatbot", aiAnalysisRoutes);
 
 /**
  * ERROR HANDLING MIDDLEWARE

@@ -9,7 +9,7 @@ import OpenAI from 'openai';
 
 // Validate that API key is set
 if (!process.env.OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY is not set in environment variables');
+  console.error('OPENAI_API_KEY is not set in environment variables');
   throw new Error('OPENAI_API_KEY is required. Please add it to your .env file');
 }
 
@@ -64,7 +64,7 @@ export const estimateCost = (tokens: number, model: string = OPENAI_CONFIG.model
  * Validate OpenAI configuration on startup
  */
 export const validateOpenAIConfig = () => {
-  console.log('✅ OpenAI Configuration:');
+  console.log('OpenAI Configuration:');
   console.log(`   - Model: ${OPENAI_CONFIG.model}`);
   console.log(`   - Max Tokens: ${OPENAI_CONFIG.maxTokens}`);
   console.log(`   - Temperature: ${OPENAI_CONFIG.temperature}`);

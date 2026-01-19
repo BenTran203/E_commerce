@@ -12,6 +12,29 @@ import toast from 'react-hot-toast';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 /**
+ * Helper function to get auth token from Redux persisted state
+ */
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  
+  try {
+    // Get from redux-persist store (same as api.ts)
+    const persistedState = localStorage.getItem('persist:timeless-root');
+    if (persistedState) {
+      const parsed = JSON.parse(persistedState);
+      if (parsed.auth) {
+        const authState = JSON.parse(parsed.auth);
+        return authState.token;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to get auth token:', error);
+  }
+  
+  return null;
+}
+
+/**
  * Create AI API client with interceptors
  */
 const createAIApiClient = (): AxiosInstance => {
@@ -27,8 +50,8 @@ const createAIApiClient = (): AxiosInstance => {
   // Request interceptor - add auth token
   client.interceptors.request.use(
     (config) => {
-      // If token exists in localStorage, add to headers
-      const token = localStorage.getItem('token');
+      // Get token from Redux persist store
+      const token = getAuthToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -189,7 +212,7 @@ export async function generateGraphData(
  */
 export async function sendChatMessage(message: string): Promise<ChatResponse> {
   try {
-    const response = await aiApiClient.post('/ai-chatbot/message', { message });
+    const response = await aiApiClient.post('/ai-analysis/chatbot/message', { message });
     return response.data.data;
   } catch (error) {
     throw error;
@@ -204,7 +227,7 @@ export async function analyzeFile(file: File): Promise<FileAnalysisResponse> {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await aiApiClient.post('/ai-chatbot/analyze-file', formData, {
+    const response = await aiApiClient.post('/ai-analysis/chatbot/analyze-file', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -221,7 +244,7 @@ export async function analyzeFile(file: File): Promise<FileAnalysisResponse> {
  */
 export async function getChatHistory(): Promise<ChatMessage[]> {
   try {
-    const response = await aiApiClient.get('/ai-chatbot/history');
+    const response = await aiApiClient.get('/ai-analysis/chatbot/history');
     return response.data.data.history;
   } catch (error) {
     throw error;
@@ -233,7 +256,7 @@ export async function getChatHistory(): Promise<ChatMessage[]> {
  */
 export async function clearChatHistory(): Promise<void> {
   try {
-    await aiApiClient.delete('/ai-chatbot/history');
+    await aiApiClient.delete('/ai-analysis/chatbot/history');
     toast.success('Chat history cleared');
   } catch (error) {
     throw error;

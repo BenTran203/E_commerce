@@ -6,7 +6,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import OpenAI from 'openai';
+import OpenAI, {APIError} from 'openai';
 
 /**
  * Custom Application Error Class
@@ -64,7 +64,7 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   // Log error details (in production, use proper logging service like Winston)
-  console.error('❌ Error occurred:', {
+  console.error(' Error occurred:', {
     timestamp: new Date().toISOString(),
     name: error.name,
     message: error.message,
@@ -196,7 +196,7 @@ export const errorHandler = (
 /**
  * Helper: Get user-friendly OpenAI error message
  */
-function getOpenAIErrorMessage(error: OpenAI.APIError): string {
+function getOpenAIErrorMessage(error: APIError): string {
   switch (error.code) {
     case 'insufficient_quota':
       return 'AI service quota exceeded. Please contact administrator.';
@@ -275,7 +275,7 @@ export const notFoundHandler = (
  */
 export const handleUnhandledRejection = () => {
   process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
-    console.error('❌ Unhandled Rejection at:', promise);
+    console.error(' Unhandled Rejection at:', promise);
     console.error('Reason:', reason);
     
     // In production, you might want to:
@@ -295,7 +295,7 @@ export const handleUnhandledRejection = () => {
  */
 export const handleUncaughtException = () => {
   process.on('uncaughtException', (error: Error) => {
-    console.error('❌ Uncaught Exception:', error);
+    console.error(' Uncaught Exception:', error);
     console.error('Stack:', error.stack);
     
     // Always exit on uncaught exception

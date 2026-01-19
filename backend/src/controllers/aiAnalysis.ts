@@ -38,7 +38,7 @@ export const generateDashboardAnalysis = asyncHandler(
     }
 
     try {
-      console.log(`🤖 Generating AI dashboard analysis for user: ${req.user.email}`);
+      console.log(`Generating AI dashboard analysis for user: ${req.user.email}`);
 
       // Step 1: Fetch dashboard data with timeout protection
       const timeoutMs = 30000; // 30 seconds
@@ -53,7 +53,7 @@ export const generateDashboardAnalysis = asyncHandler(
         timeoutPromise,
       ]) as Awaited<ReturnType<typeof fetchDashboardData>>;
 
-      console.log('✅ Dashboard data fetched successfully');
+      console.log('Dashboard data fetched successfully');
 
       // Step 2: Prepare data context for OpenAI
       const dataContext = prepareDashboardContext(dashboardData);
@@ -66,7 +66,7 @@ export const generateDashboardAnalysis = asyncHandler(
       const estimatedTokens = JSON.stringify(dataContext).length + JSON.stringify(analysis).length;
       const cost = estimateCost(estimatedTokens);
 
-      console.log(`✅ AI analysis completed in ${duration}ms (Est. cost: $${cost.toFixed(4)})`);
+      console.log(`AI analysis completed in ${duration}ms (Est. cost: $${cost.toFixed(4)})`);
 
       // Step 5: Return response
       res.status(200).json({
@@ -84,7 +84,7 @@ export const generateDashboardAnalysis = asyncHandler(
       });
 
     } catch (error: any) {
-      console.error('❌ Dashboard analysis error:', error);
+      console.error(' Dashboard analysis error:', error);
 
       // Handle specific error types
       if (error.message === 'Data fetch timeout') {
@@ -184,7 +184,7 @@ export const generateGraphData = asyncHandler(
       });
 
     } catch (error: any) {
-      console.error(`❌ Graph generation error for ${metric}:`, error);
+      console.error(`Graph generation error for ${metric}:`, error);
 
       if (error instanceof AppError) {
         throw error;
@@ -388,10 +388,41 @@ async function generateAIAnalysis(context: any) {
 5. Seasonal Patterns - Time-based trends, seasonality detection
 6. Risk Alerts - Declining metrics, potential issues
 
-Format your response as a JSON object with these keys. Each category should have:
-- summary: Brief 1-sentence overview
-- insights: Array of 2-3 specific, actionable insights
-- priority: "high", "medium", or "low"
+IMPORTANT: Return ONLY a valid JSON object, no markdown formatting, no code blocks, no explanations.
+
+Format your response exactly like this:
+{
+  "salesTrendsAndAnomalies": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2", "Insight 3"],
+    "priority": "high"
+  },
+  "customerBehaviorPatterns": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2"],
+    "priority": "medium"
+  },
+  "productPerformanceInsights": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2", "Insight 3"],
+    "priority": "high"
+  },
+  "inventoryRecommendations": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2"],
+    "priority": "medium"
+  },
+  "seasonalPatterns": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2"],
+    "priority": "low"
+  },
+  "riskAlerts": {
+    "summary": "Brief 1-sentence overview",
+    "insights": ["Insight 1", "Insight 2"],
+    "priority": "medium"
+  }
+}
 
 Be specific, data-driven, and actionable in your recommendations.`,
         },
@@ -408,13 +439,46 @@ Be specific, data-driven, and actionable in your recommendations.`,
       throw new AppError('AI generated empty response', 500, 'AI_EMPTY_RESPONSE');
     }
 
-    // Parse JSON response
+    // Clean and parse JSON response
     try {
-      return JSON.parse(content);
+      // Remove markdown code blocks if present (```json ... ``` or ``` ... ```)
+      let cleanedContent = content.trim();
+      
+      // Remove markdown code fences
+      if (cleanedContent.startsWith('```')) {
+        // Remove opening fence (```json or ```)
+        cleanedContent = cleanedContent.replace(/^```(?:json)?\s*\n?/, '');
+        // Remove closing fence
+        cleanedContent = cleanedContent.replace(/\n?```\s*$/, '');
+      }
+      
+      // Parse the cleaned JSON
+      const parsed = JSON.parse(cleanedContent.trim());
+      
+      console.log(' Successfully parsed AI response');
+      return parsed;
+      
     } catch (parseError) {
-      // If JSON parsing fails, return as plain text
+      console.error(' Failed to parse AI response as JSON:', parseError);
+      console.log('Raw content:', content.substring(0, 200) + '...');
+      
+      // If JSON parsing fails, try to extract any JSON-like structure
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          return JSON.parse(jsonMatch[0]);
+        } catch {
+          // Fall through to default response
+        }
+      }
+      
+      // Return a structured error response
       return {
-        salesTrendsAndAnomalies: { summary: content, insights: [], priority: 'medium' },
+        salesTrendsAndAnomalies: {
+          summary: 'Unable to parse AI response. Please try again.',
+          insights: ['The AI response format was invalid', 'Click analyze to retry'],
+          priority: 'low'
+        },
       };
     }
 
@@ -450,55 +514,100 @@ Be specific, data-driven, and actionable in your recommendations.`,
 async function generateSalesGraph() {
   const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
 
-  const salesByDay = await prisma.order.groupBy({
-    by: ['createdAt'],
-    _sum: { total: true },
-    _count: { id: true },
+  // Fetch all orders (can't groupBy date directly in Prisma, need to aggregate manually)
+  const orders = await prisma.order.findMany({
     where: { createdAt: { gte: sixtyDaysAgo } },
+    select: { createdAt: true, total: true, id: true },
     orderBy: { createdAt: 'asc' },
   });
 
-  // Format for line chart (trend over time)
-  const lineData = salesByDay.map(day => ({
-    date: day.createdAt.toISOString().split('T')[0],
-    value: day._sum.total || 0,
-    orders: day._count.id,
-  }));
+  // Group orders by date manually
+  const salesByDate = new Map<string, { total: number; count: number }>();
+  
+  orders.forEach(order => {
+    const dateKey = order.createdAt.toISOString().split('T')[0];
+    const existing = salesByDate.get(dateKey) || { total: 0, count: 0 };
+    salesByDate.set(dateKey, {
+      total: existing.total + order.total,
+      count: existing.count + 1,
+    });
+  });
+
+  // Convert to array and sort by date
+  const lineData = Array.from(salesByDate.entries())
+    .map(([date, data]) => ({
+      date,
+      value: data.total,
+      orders: data.count,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 
   // Format for column chart (week-by-week comparison)
-  const columnData = groupByWeek(salesByDay);
+  const columnData = groupByWeekFromLineData(lineData);
 
   return { lineData, columnData };
+}
+
+/**
+ * Helper to group line data by week
+ */
+function groupByWeekFromLineData(lineData: Array<{ date: string; value: number }>) {
+  const weeklyData = new Map<string, number>();
+  
+  lineData.forEach(item => {
+    const date = new Date(item.date);
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
+    const weekKey = `Week of ${weekStart.toISOString().split('T')[0]}`;
+    
+    weeklyData.set(weekKey, (weeklyData.get(weekKey) || 0) + item.value);
+  });
+
+  return Array.from(weeklyData.entries()).map(([category, value]) => ({
+    category,
+    value,
+  }));
 }
 
 /**
  * Generate orders graph data
  */
 async function generateOrdersGraph() {
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  // Extended to 60 days to match sales data range
+  const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
 
-  const ordersByDay = await prisma.order.groupBy({
-    by: ['createdAt'],
-    _count: { id: true },
-    where: { createdAt: { gte: thirtyDaysAgo } },
+  // Fetch all orders (can't groupBy date directly in Prisma, need to aggregate manually)
+  const orders = await prisma.order.findMany({
+    where: { createdAt: { gte: sixtyDaysAgo } },
+    select: { createdAt: true, id: true, status: true },
     orderBy: { createdAt: 'asc' },
   });
 
-  const lineData = ordersByDay.map(day => ({
-    date: day.createdAt.toISOString().split('T')[0],
-    value: day._count.id,
-  }));
-
-  // Orders by status for column chart
-  const ordersByStatus = await prisma.order.groupBy({
-    by: ['status'],
-    _count: { id: true },
-    where: { createdAt: { gte: thirtyDaysAgo } },
+  // Group orders by date manually
+  const ordersByDate = new Map<string, number>();
+  
+  orders.forEach(order => {
+    const dateKey = order.createdAt.toISOString().split('T')[0];
+    ordersByDate.set(dateKey, (ordersByDate.get(dateKey) || 0) + 1);
   });
 
-  const columnData = ordersByStatus.map(status => ({
-    category: status.status,
-    value: status._count.id,
+  // Convert to array and sort by date
+  const lineData = Array.from(ordersByDate.entries())
+    .map(([date, count]) => ({
+      date,
+      value: count,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  // Orders by status for column chart (also using 60 days)
+  const statusCounts = new Map<string, number>();
+  orders.forEach(order => {
+    statusCounts.set(order.status, (statusCounts.get(order.status) || 0) + 1);
+  });
+
+  const columnData = Array.from(statusCounts.entries()).map(([status, count]) => ({
+    category: status,
+    value: count,
   }));
 
   return { lineData, columnData };
@@ -516,16 +625,15 @@ async function generateProductsGraph() {
     orderBy: { createdAt: 'desc' },
   });
 
-  // Product additions over time (line chart)
-  const productsByMonth = groupProductsByMonth(products);
-  const lineData = productsByMonth;
+  // Skip line chart - return empty array
+  const lineData: Array<{ date: string; value: number }> = [];
 
-  // Top 10 products by sales (column chart)
+  // Top 10 products by total orders (column chart)
   const columnData = products
     .sort((a, b) => b._count.orderItems - a._count.orderItems)
     .slice(0, 10)
     .map(p => ({
-      category: p.name.substring(0, 20), // Truncate long names
+      category: p.name.length > 25 ? p.name.substring(0, 25) + '...' : p.name,
       value: p._count.orderItems,
     }));
 
@@ -536,34 +644,52 @@ async function generateProductsGraph() {
  * Generate customers graph data
  */
 async function generateCustomersGraph() {
-  const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+  const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
 
-  const usersByDay = await prisma.user.groupBy({
-    by: ['createdAt'],
-    _count: { id: true },
+  // Fetch all customer signups (can't groupBy date directly, need manual aggregation)
+  const customers = await prisma.user.findMany({
     where: {
-      createdAt: { gte: ninetyDaysAgo },
+      createdAt: { gte: sixtyDaysAgo },
       role: 'CUSTOMER',
     },
+    select: { createdAt: true, id: true },
     orderBy: { createdAt: 'asc' },
   });
 
-  const lineData = usersByDay.map(day => ({
-    date: day.createdAt.toISOString().split('T')[0],
-    value: day._count.id,
-  }));
-
-  // User distribution (column chart)
-  const users = await prisma.user.findMany({
-    select: { role: true, isEmailVerified: true },
+  // Group customer signups by date manually
+  const signupsByDate = new Map<string, number>();
+  
+  customers.forEach(customer => {
+    const dateKey = customer.createdAt.toISOString().split('T')[0];
+    signupsByDate.set(dateKey, (signupsByDate.get(dateKey) || 0) + 1);
   });
 
-  const columnData = [
-    { category: 'Verified', value: users.filter(u => u.isEmailVerified).length },
-    { category: 'Unverified', value: users.filter(u => !u.isEmailVerified).length },
-    { category: 'Admins', value: users.filter(u => u.role === 'ADMIN').length },
-    { category: 'Customers', value: users.filter(u => u.role === 'CUSTOMER').length },
-  ];
+  // Convert to array and sort by date
+  const lineData = Array.from(signupsByDate.entries())
+    .map(([date, count]) => ({
+      date,
+      value: count,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  // Weekly signup totals for column chart
+  const weeklySignups = new Map<string, number>();
+  
+  customers.forEach(customer => {
+    const date = new Date(customer.createdAt);
+    const weekStart = new Date(date);
+    weekStart.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
+    const weekKey = `Week of ${weekStart.toISOString().split('T')[0]}`;
+    
+    weeklySignups.set(weekKey, (weeklySignups.get(weekKey) || 0) + 1);
+  });
+
+  const columnData = Array.from(weeklySignups.entries())
+    .map(([category, value]) => ({
+      category,
+      value,
+    }))
+    .sort((a, b) => a.category.localeCompare(b.category));
 
   return { lineData, columnData };
 }
@@ -596,20 +722,3 @@ async function generateGraphInsight(metric: string, chartData: any) {
   }
 }
 
-/**
- * Helper: Group data by week
- */
-function groupByWeek(data: any[]) {
-  // Implementation for grouping by week
-  // Returns array of { week: string, value: number }
-  return [];
-}
-
-/**
- * Helper: Group products by month
- */
-function groupProductsByMonth(products: any[]) {
-  // Implementation for grouping products by month
-  // Returns array of { date: string, value: number }
-  return [];
-}

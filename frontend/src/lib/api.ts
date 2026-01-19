@@ -4,7 +4,7 @@
  */
 
 const API_BASE_URL =
-  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001") + "/api";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 // Helper function to get auth token from Redux persisted state
 function getAuthToken(): string | null {
@@ -61,6 +61,38 @@ async function apiFetch(endpoint: string, options: RequestInit = {}) {
     const error = await response
       .json()
       .catch(() => ({ message: "Network error" }));
+    
+    // Handle token expiration or unauthorized access
+    if (response.status === 401) {
+      // Clear persisted auth state
+      if (typeof window !== "undefined") {
+        try {
+          const persistedState = localStorage.getItem("persist:timeless-root");
+          if (persistedState) {
+            const parsed = JSON.parse(persistedState);
+            // Clear auth but keep other state
+            parsed.auth = JSON.stringify({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+              loading: false,
+              error: null
+            });
+            localStorage.setItem("persist:timeless-root", JSON.stringify(parsed));
+          }
+        } catch (e) {
+          console.error("Failed to clear auth state:", e);
+        }
+        
+        // Redirect to login page
+        if (!window.location.pathname.includes("/auth/login")) {
+          window.location.href = "/auth/login";
+        }
+      }
+      
+      throw new Error("Your session has expired. Please login again.");
+    }
+    
     throw new Error(error.message || "API request failed");
   }
 
@@ -356,6 +388,20 @@ export const contactAPI = {
   },
 };
 
+// Dashboard API (Admin only)
+export const dashboardAPI = {
+  getStats: async () => {
+    const response = await apiFetch("/admin/dashboard/stats");
+    return response.data;
+  },
+
+  getActivity: async (limit?: number) => {
+    const queryString = limit ? `?limit=${limit}` : "";
+    const response = await apiFetch(`/admin/dashboard/activity${queryString}`);
+    return response.data;
+  },
+};
+
 export default {
   auth: authAPI,
   products: productsAPI,
@@ -365,4 +411,5 @@ export default {
   reviews: reviewsAPI,
   payments: paymentsAPI,
   contact: contactAPI,
+  dashboard: dashboardAPI,
 };
