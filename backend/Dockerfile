@@ -34,9 +34,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# Install tsx globally for seeding
-RUN npx tsx prisma/seed.ts
-
 # Copy prisma
 COPY prisma ./prisma/
 
