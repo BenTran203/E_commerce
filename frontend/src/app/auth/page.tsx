@@ -19,6 +19,18 @@ function AuthSwitcher() {
           'url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1920&h=1080&fit=crop")',
       }}
     >
+      <div className="absolute top-20 left-10 bg-white border-2 border-gray-300 rounded-xl p-10 shadow-lg">
+        <p className="font-pixel text-m text-black leading-relaxed">
+          <span className="block text-m">Admin Account</span>
+          <span className="block">Email: admin@timeless.com</span>
+          <span className="block">Password: Admin@123456</span>
+        </p>
+        <p className="font-pixel text-m text-black leading-relaxed">
+          <span className="block mt-5 text-m">Customer Account</span>
+          <span className="block">Email: customer@timeless.com</span>
+          <span className="block">Password: Customer@123456</span>
+        </p>
+      </div>
       <div className="relative w-full max-w-md bg-white bg-opacity-90 p-8 rounded shadow-md">
         <AnimatePresence initial={false} mode="wait">
           {isLogin ? (
@@ -50,11 +62,13 @@ function AuthSwitcher() {
 
 export default function AuthPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      }
+    >
       <AuthSwitcher />
     </Suspense>
   );

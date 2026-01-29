@@ -7,7 +7,7 @@ export async function CustomerSeed(prisma: PrismaClient) {
   const email = 'customer@timeless.com';
   const password = 'Customer@123456';
 
-  // Check if admin already exists
+  // Check if already exists
   const existingCustomer = await prisma.user.findUnique({
     where: { email: email.toLowerCase() }
   });

@@ -13,7 +13,7 @@ export async function seedAdmin(prisma: PrismaClient) {
   });
 
     if (existingAdmin) {
-    console.log('✅ Admin user already exists. Skipping creation.');
+    console.log('Admin user already exists. Skipping creation.');
     return; 
   }
 
@@ -35,6 +35,6 @@ export async function seedAdmin(prisma: PrismaClient) {
     }
   });
 
-  console.log('✅ Admin user created successfully!\n');
+  console.log('Admin user created successfully!\n');
 }
 
